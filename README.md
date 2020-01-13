@@ -1,4 +1,5 @@
 # HACK-A-WEEK
+
 ## Django Rest API with Reactjs
 
 ## Backend
@@ -48,6 +49,3 @@ export default '%{IP Address of your computer + :8000}'
 ```sh  
 npm run android         (only for android)
 ```
-
-
-
