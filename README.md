@@ -18,11 +18,9 @@ In backend > backend > settings.py, add the line
 
 ALLOWED_HOSTS = [
 
-    .......
-     
-     '%{IP Address of your computer}',
-
-    .......
+    'localhost',
+    '%{IP Address of your computer}',
+    '127.0.0.1'.
 ]
 
 ### Run the Django Server
