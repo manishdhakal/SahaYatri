@@ -43,7 +43,7 @@ python manage.py runserver 0.0.0.0.8000
 cd frontend
 npm install
 ```
-In frontend > src > djangoURL.js, make the code
+In frontend > src > djangoURL.js, make the code:
 export default '%{IP Address of your computer + :8000}'
 
 ### Script to run for debug
