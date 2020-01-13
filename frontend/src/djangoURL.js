@@ -1,0 +1,1 @@
+export default ' http://10.100.56.166:8000/'
