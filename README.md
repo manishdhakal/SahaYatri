@@ -17,8 +17,11 @@ pip install -r requirement.txt
 In backend > backend > settings.py, add the line
 
 ALLOWED_HOSTS = [
+
     .......
-    '%{IP Address of your computer}',
+     
+     '%{IP Address of your computer}',
+
     .......
 ]
 
