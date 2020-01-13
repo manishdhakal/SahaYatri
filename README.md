@@ -44,8 +44,9 @@ cd frontend
 npm install
 ```
 In frontend > src > djangoURL.js, make the code:
+```sh
 export default '%{IP Address of your computer + :8000}'
-
+```
 ### Script to run for debug
 ```sh  
 npm run android         (only for android)
