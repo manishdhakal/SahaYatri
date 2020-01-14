@@ -17,7 +17,7 @@ pip install -r requirement.txt
 
 ### Run the Django Server
 ```sh
-python manage.py runserver 0.0.0.0.8000
+python manage.py runserver
 ```
 
 ## Frontend
@@ -27,10 +27,7 @@ python manage.py runserver 0.0.0.0.8000
 cd frontend
 npm install
 ```
-In frontend > src > djangoURL.js, make the code:
-```sh
-export default '%{IP Address of your computer + :8000}'
-```
+
 ### Script to run for debug
 ```sh  
 npm  start
