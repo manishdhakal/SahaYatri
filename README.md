@@ -29,14 +29,6 @@ python manage.py runserver 0.0.0.0.8000
 
 ## Frontend (Preferrably linux environment)
 
-### Set up the laptop
-- Set up Android SDK environment variable by downloading from [SDK](https://developer.android.com/studio/index.html#command-tools)
-- Set up JDK environment variable
-
-### Set up the phone
-- Activate the developers tools and enable USB debugging (Enable USB transfer files)
-- Connect the mobile and computer by USB cable
-
 ### Install all of the packages
 ```sh
 cd frontend
@@ -47,5 +39,5 @@ export default '%{IP Address of your computer + :8000}'
 
 ### Script to run for debug
 ```sh  
-npm run android         (only for android)
+npm  start
 ```
