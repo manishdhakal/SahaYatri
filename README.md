@@ -20,7 +20,7 @@ pip install -r requirement.txt
 python manage.py runserver 0.0.0.0.8000
 ```
 
-## Frontend (Preferrably linux environment)
+## Frontend
 
 ### Install all of the packages
 ```sh
