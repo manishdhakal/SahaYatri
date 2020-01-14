@@ -13,5 +13,5 @@ from django.db import models
     # hire_interval = models.IntegerField(blank=True)
 
 class User(models.Model):
-    first_name =  models.CharField(max_length=30, default=None)
+    name =  models.CharField(max_length=30, default=None)
 
