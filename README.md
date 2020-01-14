@@ -14,14 +14,6 @@ virtualenv  venv
 source venv/bin/activate
 pip install -r requirement.txt
 ```
-In backend > backend > settings.py, add the line
-
-ALLOWED_HOSTS = [
-
-    'localhost',
-    '%{IP Address of your computer}',
-    '127.0.0.1'.
-]
 
 ### Run the Django Server
 ```sh
