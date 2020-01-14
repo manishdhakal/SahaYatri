@@ -17,9 +17,10 @@ pip install -r requirement.txt
 In backend > backend > settings.py, add the line
 
 ALLOWED_HOSTS = [
-    .......
+
+    'localhost',
     '%{IP Address of your computer}',
-    .......
+    '127.0.0.1'.
 ]
 
 ### Run the Django Server
@@ -34,9 +35,10 @@ python manage.py runserver 0.0.0.0.8000
 cd frontend
 npm install
 ```
-In frontend > src > djangoURL.js, make the code
+In frontend > src > djangoURL.js, make the code:
+```sh
 export default '%{IP Address of your computer + :8000}'
-
+```
 ### Script to run for debug
 ```sh  
 npm  start
