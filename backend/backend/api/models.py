@@ -15,3 +15,27 @@ from django.db import models
 class User(models.Model):
     first_name =  models.CharField(max_length=30, default=None)
 
+class Sathi(models.Model):
+    name =  models.CharField(max_length=30, default=None)
+    email = models.EmailField()
+    phone = models.BigIntegerField()
+    description = models.TextField(max_length = 500)
+    available = models.BooleanField()
+    Afrom = models.DateField(auto_now_add=True)
+    to = models.DateField(auto_now_add=True)
+    languages = models.CharField(max_length=50)
+    interests = models.CharField(max_length=250)
+    places = models.CharField(max_length=300)
+  
+    def __str__(self):
+        return self.name
+
+class Photo(models.Model):
+    image = models.ImageField(upload_to="resources/images",default ="")
+    sathi = models.ForeignKey(Sathi,on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.sathi.name
+
+

@@ -1,29 +1,42 @@
 {
   "name": "frontend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint ."
-  },
   "dependencies": {
-    "react": "16.9.0",
-    "react-native": "0.61.5"
+    "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.5.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.1",
+    "install": "^0.13.0",
+    "npm": "^6.13.6",
+    "react": "^16.12.0",
+    "react-blur": "^0.6.0",
+    "react-cookies": "^0.1.1",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0",
+    "reactstrap": "^8.2.0"
   },
-  "devDependencies": {
-    "@babel/core": "^7.8.0",
-    "@babel/runtime": "^7.8.0",
-    "@react-native-community/eslint-config": "^0.0.6",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.8.0",
-    "jest": "^24.9.0",
-    "metro-react-native-babel-preset": "^0.56.4",
-    "react-test-renderer": "16.9.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "jest": {
-    "preset": "react-native"
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
