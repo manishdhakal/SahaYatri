@@ -1,8 +1,5 @@
 from rest_framework import serializers
 from api.models import User, Sathi,Photo
-
-
-
 class UserSerialiser(serializers.HyperlinkedModelSerializer):
     class Meta:
         abstract = True

@@ -6,7 +6,12 @@ from django.db import models
 #     interval_hrs = models.IntegerField()
 
 class User(models.Model):
-    first_name =  models.CharField(max_length=30, default=None)
+    username = models.CharField(max_length=15, unique=True, default=None, primary_key=True)
+    name =  models.CharField(max_length=30, default=None)
+
+class Post(models.Model):
+    message = models.CharField(max_length=100)
+    posted_by = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
 
 class Sathi(models.Model):
     name =  models.CharField(max_length=30, default=None)

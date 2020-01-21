@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -22,3 +23,18 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+=======
+from rest_framework import routers
+from api.views import  UserViewSet, newUser, PostViewSet
+
+router = routers.DefaultRouter()
+router.register('user',UserViewSet)
+router.register('post', PostViewSet)
+
+
+urlpatterns = [
+    path('admin',admin.site.urls),
+    path('',include(router.urls)),
+    path('new-user', newUser)
+]
+>>>>>>> 25d1c4b6986dc581e4e5682fa1b0fa9544657acb

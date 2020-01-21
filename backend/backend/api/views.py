@@ -3,14 +3,11 @@ from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from django.http import HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view 
 
+from api.models import User,Sathi,Photo,Post
 
-
-from api.models import User,Sathi,Photo
-
-from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer
+from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer,PostSerialiser
 # Create your views here.
 
 
@@ -46,15 +43,18 @@ def SathiUpdater(request,pk):
     data["success"]="fail to update"
     return Response(data=data)
 
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerialiser
 
 
 
 def newUser(request):
     if request.method == 'POST':
-        print('Post request')
-    # usr = User(first_name=)
-    # usr.save()
-    print(request.method)
-    return HttpResponse("added the name Manish")
+        data = json.loads(request.body)
+        # print(data)
+        usr = User(first_name=data['name'])
+        usr.save()
+    return HttpResponse("added the name " + usr.name)
 
 
