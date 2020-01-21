@@ -133,7 +133,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_URL = '/static/'
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'resources')
+MEDIA_URL = '/resources/'
 #rest api pagination
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
