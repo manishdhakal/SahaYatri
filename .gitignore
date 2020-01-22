@@ -4,6 +4,7 @@
 frontend/node_modules
 /.pnp
 .pnp.js
+frontend/package-lock.json
 
 # testing
 frontend/coverage
@@ -25,3 +26,6 @@ yarn-error.log*
 
 # backend
 backend/venv
+
+package-lock.json
+yarn.lock
