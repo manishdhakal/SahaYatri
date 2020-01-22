@@ -1,10 +1,17 @@
 from rest_framework import serializers
-from api.models import User, Sathi,Photo
+from api.models import User, Sathi,Photo,Post,FoodProvider,FoodPhoto
 class UserSerialiser(serializers.HyperlinkedModelSerializer):
     class Meta:
         abstract = True
         model = User
         fields = ['url','first_name',]
+
+
+class PostSerialiser(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        abstract = True
+        model = Post
+        fields = ['url','post_id', 'message', 'posted_by']
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,11 +24,16 @@ class SathiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sathi
         fields = ('id','name','email','phone','description','available','time','duration','languages','interests','places',)
+class FoodProviderSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = FoodProvider
+            fields =['id','name','place','dishes','cook']
 
-    # def create(self, validated_data):
-    #     images_data = self.context.get('view').request.FILES
-    #     sathi = Sathi.objects.create(name=validated_data.get('name'),email=validated_data.get('email'),phone=validated_data.get('phone'),description=validated_data.get('description'),available=validated_data.get('available'),Afrom=validated_data.get('Afrom'),to=validated_data.get('to'),languages=validated_data.get('languages'),interests=validated_data.get('interests'),places=validated_data.get('places'))
-    #     for image_data in images_data:
-    #         Photo.objects.create(**image_data,sathi=sathi)
-    #     return  sathi
+       
+
+class FoodPhotoSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = FoodPhoto
+            fields =['image']
+
 

@@ -24,6 +24,7 @@ class Sathi(models.Model):
     languages = models.CharField(max_length=50)
     interests = models.CharField(max_length=250)
     places = models.CharField(max_length=300)
+    price = models.IntegerField(default = 200)
   
     def __str__(self):
         return self.name
@@ -37,3 +38,18 @@ class Photo(models.Model):
         return self.sathi.name
 
 
+class FoodProvider(models.Model):
+    name = models.CharField(max_length=100)
+    place =  models.CharField(max_length=100)
+    dishes =  models.CharField(max_length=100)
+    cook = models.BooleanField()
+    price = models.IntegerField(default=200)
+    def __str__(self):
+        return self.name
+
+
+class FoodPhoto(models.Model):
+    image = models.ImageField(upload_to="foodimages",default ="")
+    food =  models.ForeignKey(FoodProvider,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.food.name

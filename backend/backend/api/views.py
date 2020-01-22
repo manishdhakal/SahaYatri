@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.decorators import api_view 
 
-from api.models import User,Sathi,Photo,Post
+from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider
 
-from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer,PostSerialiser
+from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer,PostSerialiser,FoodProviderSerializer,FoodPhotoSerializer
 # Create your views here.
 
 
@@ -20,11 +20,37 @@ class SathiListView(ListAPIView):
     queryset = Sathi.objects.all()
     serializer_class = SathiSerializer
 
+        
+@api_view(['GET',])
+def FoodProviderView(request):
+    foods = FoodProvider.objects.all()
+    # print(foods[0])
+    foodslist=FoodProviderSerializer(foods,many=True)
+    if len(foodslist.data)==0:
+        return Response({"msg":"Unable to get data from database"})
+    i=0
+    for food in foods:
+        photos = FoodPhoto.objects.filter(food=food)
+        photo = FoodPhotoSerializer(photos,many=True)
+        foodslist.data[i]["image"]=photo.data
+        print(i)
+        i=i+1
+        # else:
+        #     return Response(photo.errors)
+    # 
+    # print(foodslist.data)
+    # foods.data.append=photosdata
+    return Response(foodslist.data)
+
+    
+
+    
+
 @api_view(['GET',])
 def PhotoShow(request,pk):
     sathi = Sathi.objects.get(id=pk)
-    reqphoto = Photo.objects.get(sathi=sathi)
-    photos= PhotoSerializer(reqphoto)
+    reqphoto = Photo.objects.filter(sathi=sathi)
+    photos= PhotoSerializer(reqphoto,many=True)
     print(photos.data)
     return Response(photos.data)
 
