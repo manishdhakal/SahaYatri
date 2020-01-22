@@ -1,6 +1,7 @@
 import React from 'react'
 import {Footer, Navigator} from './Common'
 import guideImg from '../assets/dp.jpg'
+import backImg from '../assets/city.jpeg'
 import Rating from 'react-star-ratings'
 import {Paper, Typography,Table, TableCell,TableRow, TableBody,TableContainer} from '@material-ui/core'
 
@@ -14,11 +15,11 @@ let rows = [
 ]
 const Profile = (props)=> {
     const {setComp } = props
-    console.log(rows)
     return(
         <div>
-            <Navigator />
-            <div style={{marginTop:80, display:'flex'}}>
+            <Navigator setComp={setComp} />
+            <div style={{ width:'100%', backgroundImage:`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${backImg})`, height:600, filter:'blur(3px)'}}></div>
+            <div style={{position:'absolute', top:100, left:0, display:'flex'}}>
                 <div style={{flex:1}}>
                     <img alt='' src={guideImg}  style={CSS.circleImage} />
                 </div>

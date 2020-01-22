@@ -1,11 +1,14 @@
 import React,{useState} from 'react'
-import {AppBar,Toolbar, Button, Link, IconButton,Typography,InputBase, Divider, List, ListItem, SvgIcon} from '@material-ui/core'
+import {AppBar,Toolbar, Button, Link, IconButton,Typography,InputBase, Divider, List, ListItem, SvgIcon, Drawer,} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import Media from 'react-media'
 
-
-const Navigator = (props) => {
+const DeskNav = (props) => {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+    const {setComp} = props
     return(
       <div style={{fontFamily:'Roboto'}}>
           <AppBar position='fixed' style={{backgroundColor:'white',}}>
@@ -18,11 +21,9 @@ const Navigator = (props) => {
               styles
               { !isSearchOpen &&
                 LINK.map((page) => (
-                  <Link href={page.link} style={{textDecoration:'none', flexGrow:1 ,}}>
-                    <Button style={{}}>
+                    <Button style={{textDecoration:'none', flexGrow:1 ,}} onClick={()=> setComp(page.comp)}>
                       {page.name}
                     </Button>
-                  </Link>
                 ))
               }
   
@@ -45,8 +46,73 @@ const Navigator = (props) => {
         </div>
     )
 }
-  
-const Footer = (props)=> { 
+
+const MobNav = (props) => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const {setComp} = props
+  return (
+    <div>
+      <AppBar position="fixed" style={{backgroundColor:'white'}}>
+        <Toolbar>
+          <IconButton edge="start" style={styles.menuButton} color="inherit" aria-label="Menu" onClick ={() => setIsDrawerOpen(!isDrawerOpen)}>
+            <MenuIcon />
+          </IconButton>
+          {!isSearchOpen && 
+          <div style={{flexGrow:1,}}>
+            <Button style={{ color:'black', fontFamily:'Cursive', fontSize: 20,fontWeight: 'bold', }} href="/">
+              SAHAYATRI
+            </Button>
+          </div>
+          }
+          <IconButton color="inherit" aria-label="" onClick={() => setIsSearchOpen(!isSearchOpen)} >
+            <SearchIcon style={{color:'#000'}} />
+          </IconButton>
+            {isSearchOpen && 
+              <InputBase
+              placeholder="Search…"
+              fullWidth ={true}
+              />
+            }
+            {isSearchOpen &&
+              <IconButton color="inherit" aria-label="" onClick={() => setIsSearchOpen(!isSearchOpen)} >
+                <CloseIcon style={{color:'#000'}} />
+              </IconButton>
+            }
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        style={styles.drawer}
+        variant="persistent"
+        anchor="left"
+        open={isDrawerOpen}
+      >
+        <div style={styles.drawerHeader}>
+          <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
+            {isDrawerOpen && <ChevronLeftIcon />}
+          </IconButton>
+        </div>
+      <Divider />
+        <List>
+          {LINK.map((page) => (
+              <ListItem button key={page.name}>
+                <Button style={{width:'100%',alignItems:'left'}} onClick={() => {
+                  setComp(page.comp)
+                  setIsDrawerOpen(!isDrawerOpen)
+                  }}
+                  >
+                    {page.name}
+                </Button>
+              </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
+  </div>
+  )
+} 
+
+const DeskFooter = (props)=> { 
     return(
         <div style={{backgroundColor:'#1d1e21', height:250, marginTop:-50}}>
             <div style={{margin:50}}>
@@ -99,33 +165,107 @@ const Footer = (props)=> {
     )
 }
 
+const MobFooter = (props) =>{
+
+  return(
+      <div style={{backgroundColor:'#1d1e21'}}>
+      <div style={{margin:50}}>
+          <Typography style={{color:"#ccc",paddingTop:50}}>
+              TEAM
+          </Typography>
+          <Typography style={{color:"#ccc",}}>
+              SAHAYATRI
+          </Typography>
+          <Divider style={{backgroundColor:'#ccc', height:0.5}}  />
+
+          <List style={{display:'flex', flexDirection:'column', width:'30%', margin:'auto'}}>
+              <ListItem style={{flex:1}}>
+                  <Typography style={{color:"#ccc", fontSize:14}}>
+                      ABOUT
+                  </Typography>
+              </ListItem>
+              <ListItem style={{flex:1}}>
+                  <Typography style={{color:"#ccc", fontSize:14}}>
+                      TEAM
+                  </Typography>
+              </ListItem>
+              <ListItem style={{flex:1, }}>
+                  <Typography style={{color:"#ccc", fontSize:14}}>
+                      CONTACT
+                  </Typography>
+              </ListItem>
+          </List>
+          <List style={{display:'flex',  margin:'0% 20% '}}>
+              <ListItem>
+                  <SvgIcon style={{color:"#ccc"}}>
+                      <path d={path.facebook}/>
+                  </SvgIcon>
+              </ListItem >
+
+              <ListItem>
+                  <SvgIcon style={{color:"#ccc"}}>
+                      <path d={path.instagram}/>
+                  </SvgIcon>  
+              </ListItem>
+              
+              <ListItem>
+                  <SvgIcon style={{color:"#ccc"}}>
+                      <path d={path.twitter}/>
+                  </SvgIcon>
+              </ListItem>
+          </List>
+      </div>
+  </div>
+  )
+}
+
+const Navigator = (props)=>{
+  const {setComp} = props
+  return (
+    <Media query={{ maxWidth: 800 }}>
+      {(matches) =>
+        matches ? (
+          <MobNav setComp={setComp} />
+        ) : (
+          <DeskNav setComp={setComp} />
+        )
+      }
+    </Media>
+  )
+}
+
+const Footer = (props)=>{
+  const {setComp} = props
+  return (
+    <Media query={{ maxWidth: 800 }}>
+      {(matches) =>
+        matches ? (
+          <MobFooter  />
+        ) : (
+          <DeskFooter  />
+        )
+      }
+    </Media>
+  )
+}
 
 const LINK =[
     {
-        link: "/",
-        name: "profile"
+        comp: "home",
+        name: "HOME"
     },
     {
-        link: "/",
-        name: "Host"
+        comp: "guides",
+        name: "LOCAL COMPANION"
     },
     {
-        link: "/",
-        name: "Travel With me"
+        comp: "guides",
+        name: "EVENTS"
     },
     {
-        link: "/",
-        name: "COOK with me"
+        comp: "guides",
+        name: "COOK & DINE"
     },
-    {
-        link: "/",
-        name: "Local Programs"
-    },
-    {
-        link: "/",
-        name: "get companion"
-    },
-    
 ]
   
   const path =
@@ -135,4 +275,33 @@ const LINK =[
     twitter:"M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"
 }
 
-export {Footer, Navigator}
+const styles ={
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: 8*2,
+    color: 'black',
+  },
+  title: {
+      flexGrow: 1,
+      color: '#000',
+      fontFamily:'Cursive',
+      fontWeight:'bold',
+  },
+  drawer: {
+    width: 240,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 240,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 8px',
+    justifyContent: 'flex-end',
+  },
+} 
+
+export { Footer,Navigator}
