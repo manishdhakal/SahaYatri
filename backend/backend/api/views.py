@@ -4,8 +4,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.decorators import api_view 
-
-from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider
+from backend.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider,Host
 
 from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer,PostSerialiser,FoodProviderSerializer,FoodPhotoSerializer
 # Create your views here.
@@ -74,6 +75,19 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerialiser
 
 
+@api_view(['POST',])
+def SendMail(request):
+    hos=Host(name=request.data["name"],email=request.data["mailto"],phone=request.data["phone"],category=request.data["category"])
+    hos.save()
+    name=request.data["name"]
+    receipent=request.data["mailto"]
+    category = request.data["category"]
+    print(receipent)
+    subject="Thanks for application"
+    message = f"Dear, {name} Thank you for applying for {category}. We will get to you soon."
+    # send_mail(subject,message,EMAIL_HOST_USER,[receipent],fail_silently=False)
+    msg=f"Mail sent to {name}"
+    return Response({"msg":msg})
 
 def newUser(request):
     if request.method == 'POST':

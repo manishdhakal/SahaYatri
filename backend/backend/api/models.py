@@ -53,3 +53,13 @@ class FoodPhoto(models.Model):
     food =  models.ForeignKey(FoodProvider,on_delete=models.CASCADE)
     def __str__(self):
         return self.food.name
+
+class Host(models.Model):
+    name =  models.CharField(max_length=30, default=None)
+    email = models.EmailField()
+    phone = models.BigIntegerField()
+    category=models.CharField(max_length=30, default=None)
+    def __str__(self):
+        return self.name
+
+
