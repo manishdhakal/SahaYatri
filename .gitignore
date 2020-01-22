@@ -24,3 +24,6 @@ yarn-error.log*
 
 # backend
 backend/venv
+
+package-lock.json
+yarn.lock
