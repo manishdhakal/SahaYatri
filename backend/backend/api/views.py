@@ -16,10 +16,25 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerialiser
     
-
-class SathiListView(ListAPIView):
-    queryset = Sathi.objects.all()
-    serializer_class = SathiSerializer
+@api_view(['GET',])
+def SathiListView(request):
+    # queryset = Sathi.objects.all()
+    # serializer_class = SathiSerializer
+    sathis = Sathi.objects.all()
+    # print(foods[0])
+    sathislist=SathiSerializer(sathis,many=True)
+    if len(sathislist.data)==0:
+        return Response({"msg":"Unable to get data from database"})
+    i=0
+    for sathi in sathis:
+        photos = Photo.objects.filter(sathi=sathi)
+        photo = PhotoSerializer(photos,many=True)
+        data =[]
+        for p in photo.data:
+            data.append(p["image"])
+        sathislist.data[i]["image"]=data
+        i=i+1
+    return Response(sathislist.data)
 
         
 @api_view(['GET',])
@@ -33,14 +48,11 @@ def FoodProviderView(request):
     for food in foods:
         photos = FoodPhoto.objects.filter(food=food)
         photo = FoodPhotoSerializer(photos,many=True)
-        foodslist.data[i]["image"]=photo.data
-        print(i)
+        data =[]
+        for p in photo.data:
+            data.append(p["image"])
+        foodslist.data[i]["image"]=data
         i=i+1
-        # else:
-        #     return Response(photo.errors)
-    # 
-    # print(foodslist.data)
-    # foods.data.append=photosdata
     return Response(foodslist.data)
 
     
