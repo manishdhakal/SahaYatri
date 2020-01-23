@@ -1,6 +1,7 @@
 
 import React from "react";
-
+import axios from 'axios'
+import url from 'url.js'
 // reactstrap components
 import {
   Button,
@@ -26,11 +27,17 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
-    document.body.classList.add("profile-page");
+
+    axios.get(url+'sathi/').then(resp => setSathis(resp.data.results))
+    
+    document.body.classList.add("profile");
     return function cleanup() {
-      document.body.classList.remove("profile-page");
+      document.body.classList.remove("profile");
     };
-  });
+  },[]);
+
+  const [sathis, setSathis] = React.useState([])
+  console.log(sathis)
   return (
     <>
       <ExamplesNavbar />
@@ -69,7 +76,7 @@ function LandingPage() {
                     <p className="description text-dark">
                       Get a companion for you around the new places.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    <Button onClick={_ => console.log('nothing') } className="btn-link" color="info" href="#pablo">
                       See more
                     </Button>
                   </div>
@@ -131,6 +138,7 @@ function LandingPage() {
           <Container>
             <h2 className="title">Companions around you</h2>
             <Row>
+              {sathis.map( sathi => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
@@ -144,14 +152,11 @@ function LandingPage() {
                   <CardBody>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       <div className="author">
-                        <CardTitle tag="h4">Aman Gupta</CardTitle>
+                        <CardTitle tag="h4">{sathi.name}</CardTitle>
                       </div>
                     </a>
                     <p className="card-description text-center">
-                      The strength of the team is each individual member. The
-                      strength of each member is the team. If you can laugh
-                      together, you can work together, silence isn’t golden,
-                      it’s deadly.
+                      {sathi.description}
                     </p>
                   </CardBody>
                   <CardFooter className="text-center">
@@ -174,7 +179,8 @@ function LandingPage() {
                   </CardFooter>
                 </Card>
               </Col>
-              <Col md="4">
+              )}
+              {/* <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href="#pablo" onClick={e => e.preventDefault()}>
@@ -257,7 +263,7 @@ function LandingPage() {
                     </Button>
                   </CardFooter>
                 </Card>
-              </Col>
+              </Col> */}
             </Row>
           </Container>
         </div>
