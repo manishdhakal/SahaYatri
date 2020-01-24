@@ -30,4 +30,4 @@ backend/virtual
 
 package-lock.json
 yarn.lock
-.sqlite
+.sqlite3
