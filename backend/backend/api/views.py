@@ -54,10 +54,7 @@ def FoodProviderView(request):
         foodslist.data[i]["image"]=data
         i=i+1
     return Response(foodslist.data)
-
-    
-
-    
+  
 
 @api_view(['GET',])
 def PhotoShow(request,pk):
