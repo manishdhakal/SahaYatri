@@ -73,10 +73,20 @@ def FoodProviderView(request):
         foodslist.data[i]["image"]=data
         i=i+1
     return Response(foodslist.data)
+  
 
-    
-
-    
+@api_view(['GET',])
+def SathiView(request,pk):
+    sathi = Sathi.objects.get(id=pk)
+    photos = Photo.objects.filter(sathi=sathi)
+    photo = PhotoSerializer(photos)
+    data =[]
+    for p in photo.data:
+        data.append(p["image"])
+    sathilist = SathiSerializer(sathi)
+    print(photo)
+    sathilist.data["image"]=data
+    return Response(sathilist.data)
 
 @api_view(['GET',])
 def PhotoShow(request,pk):

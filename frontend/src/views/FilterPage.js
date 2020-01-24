@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import url from 'url.js'
 import {
 	Button,
 	CustomInput,
@@ -11,16 +11,20 @@ import {
 	Container,
 	Input,
 	InputGroup,
-	InputGroupAddon
+	InputGroupAddon,
+	InputGroupText,
 } from "reactstrap";
 
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 
 import ProfileCard from "../components/ProfileCard";
+import axios from "axios";
 
-function FilterPage() {
+function FilterPage(props) {
+	const [searchType, setSearchType] = useState(props.history.location.type)
 	let [searchKey, setSearchKey] = useState("");
+	let [searchItems, setSearchItems] = useState([])
 	let [minPrice, setMinPrice] = useState(0);
 	let [maxPrice, setMaxPrice] = useState(0);
 
@@ -54,13 +58,16 @@ function FilterPage() {
 			})
 		);
 	};
-
+	useEffect(() =>{
+		axios.get(url+'/api/'+props.history.location.type).then(resp => setSearchItems(resp.data))
+	},[])
+	console.log(searchItems)
 	return (
 		<div>
 			<div
 				className="page-header section-dark"
 				style={{
-					background: "#42b3f5",
+					backgroundImage: "linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(" + require("assets/img/village.jpg") + ") ",
 					height: "100px",
 					width: "100%"
 				}}
@@ -69,7 +76,7 @@ function FilterPage() {
 				<Container>
 					<Form>
 						<FormGroup>
-							<Label for="Search">Search</Label>
+							<Label for="Search" tag="h4" className="text-white font-weight-bold">Search</Label>
 							<Input
 								bsSize="lg"
 								type="text"
@@ -82,7 +89,20 @@ function FilterPage() {
 						</FormGroup>
 						<Container>
 							<FormGroup>
-								<Label for="minPrice">Minimum Price</Label>
+								<Label for="minPrice" tag="h4" className="text-white font-weight-bold">Location</Label>
+								<InputGroup> 
+									<Input
+										placeholder="places"
+										type="select"
+										onChange={e => console.log(e.target.value)}
+									>
+										<option value=''>--Select--</option>
+										{searchItems.map(item=> <option value={item.location}>{item.location}</option>)										}
+									</Input>
+								</InputGroup>
+							</FormGroup>
+							{/* <FormGroup>
+								<Label for="minPrice" tag="h4" className="text-white font-weight-bold">Minimum Price (Rs.)</Label>
 								<CustomInput
 									type="range"
 									id="minPrice"
@@ -93,7 +113,7 @@ function FilterPage() {
 								<InputGroup>
 									<InputGroupAddon addonType="prepend">
 										Rs
-									</InputGroupAddon>
+									</InputGroupAddon> 
 									<Input
 										placeholder="Minimum"
 										min={0}
@@ -105,7 +125,7 @@ function FilterPage() {
 								</InputGroup>
 							</FormGroup>
 							<FormGroup>
-								<Label for="maxPrice">Maximum Price</Label>
+								<Label for="maxPrice" tag="h4" className="text-white font-weight-bold">Maximum Price (Rs.)</Label>
 								<CustomInput
 									type="range"
 									id="maxPrice"
@@ -114,8 +134,8 @@ function FilterPage() {
 									defaultValue="0"
 								/>
 								<InputGroup>
-									<InputGroupAddon addonType="prepend">
-										Rs
+									<InputGroupAddon addonType="prepend" >
+										<InputGroupText style={{paddingBottom:-10}} >rs</InputGroupText>
 									</InputGroupAddon>
 									<Input
 										placeholder="Maximum"
@@ -126,9 +146,10 @@ function FilterPage() {
 										value={maxPrice}
 									/>
 								</InputGroup>
-							</FormGroup>
+							</FormGroup> */}
 						</Container>
-						<Button className="info" size="lg" onClick={search}>
+						<Button className="btn-round" color="neutral" type="button" outline>
+							<i className="fa fa-search" />
 							Search
 						</Button>
 					</Form>

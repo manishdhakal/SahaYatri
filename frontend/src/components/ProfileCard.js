@@ -14,7 +14,7 @@ export default function ProfileCard(props) {
 								<img src="" /**host.imgurl */ alt="Profile" />
 							</Container>
 						</Col>
-						<Col>
+						<Col className='text-white'>
 							<p>Name of the host</p>
 							<p>The category of the hosting</p>
 							<p>Pricing</p>

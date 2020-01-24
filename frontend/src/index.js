@@ -23,7 +23,7 @@ ReactDOM.render(
 				render={props => <LandingPage {...props} />}
 			/>
 			<Route
-				path="/profile"
+				path="/user/:id"
 				render={props => <ProfilePage {...props} />}
 			/>
 			<Route

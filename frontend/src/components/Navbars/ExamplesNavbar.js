@@ -83,13 +83,13 @@ function ExamplesNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink to="/" tag={Link}>
+              <NavLink to={{pathname:'/filter', type:'sathi'}} tag={Link}>
                 <i className="fa fa-male" /> Companion
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                to='/register'
+                to={{pathname:'/filter', type:'event'}}
                 // target="_blank"
                 tag={Link}
               >
@@ -98,7 +98,7 @@ function ExamplesNavbar() {
             </NavItem>
             <NavItem>
               <NavLink
-                href="/"
+                to={{pathname:'/filter', type:'food'}}
                 // target="_blank"
               >
                 <i className="fa fa-coffee" /> Cook {'&'} Dine

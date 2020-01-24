@@ -145,7 +145,7 @@ function LandingPage() {
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href=" " onClick={e => e.preventDefault()}>
-                      <Link to={{pathname:'/profile', data:sathi}} >
+                      <Link to={{pathname:'/user/'+ sathi.id, id:sathi.id}} >
                       <img
                         alt="..."
                         src={url+sathi.image[0]}
