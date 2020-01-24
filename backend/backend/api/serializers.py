@@ -41,7 +41,7 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         abstract = True
         model = Event
-        fields = ['name', 'datetime', 'description' , 'host', 'id', 'location', 'pricing']
+        fields = ['id','name', 'datetime', 'description' , 'host',  'location', 'pricing']
 
 class EventThumbnailSeralizer(serializers.ModelSerializer):
     class Meta:
