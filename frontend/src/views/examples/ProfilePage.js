@@ -1,6 +1,7 @@
 
 import React from "react";
 
+import url from 'url.js'
 // reactstrap components
 import {
   Button,
@@ -22,7 +23,9 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 
-function ProfilePage() {
+function ProfilePage(props) {
+  const user = props.history.location.data
+  const image = user.image.slice(0,3)
   const [activeTab, setActiveTab] = React.useState("1");
 
   const toggle = tab => {
@@ -38,6 +41,7 @@ function ProfilePage() {
       document.body.classList.remove("/");
     };
   });
+
   return (
     <>
       <ExamplesNavbar />
@@ -49,12 +53,12 @@ function ProfilePage() {
               <img
                 alt="..."
                 className="img-circle img-no-padding img-responsive"
-                src={require("assets/img/faces/joe-gardner-2.jpg")}
+                src={url+user.image[0]}
               />
             </div>
             <div className="name">
               <h4 className="title text-dark">
-                Arman Chhetri <br />
+                {user.name} <br />
               </h4>
               <h6 className="description text-dark">Companion</h6>
             </div>
@@ -62,9 +66,7 @@ function ProfilePage() {
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis.
+                {user.description}
               </p>
               <br />
               {/* <Button className="btn-round" color="default" outline>
@@ -93,7 +95,7 @@ function ProfilePage() {
                       toggle("2");
                     }}
                   >
-                    <h5><b>History</b></h5>
+                    <h5><b>Photos</b></h5>
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -108,7 +110,7 @@ function ProfilePage() {
                   <i className='fa fa-user-circle' />
                 </Col>  
                 <Col className='text-dark text-left'>
-                  <b>Manish Dhakal</b>
+                  <b>{user.name}</b>
                 </Col>
               </Row>
               <Row className='mx-auto'>
@@ -117,7 +119,7 @@ function ProfilePage() {
                   <i className='fa fa-phone' />
                 </Col>  
                 <Col className='text-dark text-left'>
-                  <b>9860687860</b>
+                  <b>{user.phone}</b>
                 </Col>
               </Row>
               <Row className='mx-auto'>
@@ -125,8 +127,8 @@ function ProfilePage() {
                   {/* <h6>Email</h6> */}
                   <i className='nc-icon nc-email-85' />
                 </Col>  
-                <Col className='text-dark text-left'>
-                  <b>mns.dkl19@gmail.com</b>
+                <Col className='text-dark text-left'> 
+                    <b>{user.email}</b>
                 </Col>
               </Row>
               <Row className='mx-auto'>
@@ -135,14 +137,33 @@ function ProfilePage() {
                   <i className='nc-icon nc-pin-3' />
                 </Col>  
                 <Col className='text-dark text-left'>
-                  <b>Lalitpur</b>
+                  <b>{user.places}</b>
                 </Col>
               </Row>
+              <Button className="btn-round w-25 h5 font-weight-bold" color="primary">
+                Hire Now
+              </Button>
             </TabPane>
-            <TabPane className="text-center" tabId="2" id="following">
-              <h3 className="text-muted">No History Yet !!</h3>
-              <Button className="btn-round" color="warning">
-                Find artists
+            <TabPane className="text-center" tabId="2">
+              <Container >
+              <Row>
+                {image.map(img =>
+                  <Col md="4">
+                <div className="info">
+                  <div className="description  text-dark">
+                    <img
+                      alt="..."
+                      className="img-circle img-no-padding img-responsive"
+                      src={url+img}
+                    />
+                  </div>
+                </div>
+              </Col>
+                )}
+              </Row>
+              </Container>
+              <Button className="btn-round w-25 h5 font-weight-bold" color="primary">
+                Hire Now
               </Button>
             </TabPane>
           </TabContent>

@@ -23,12 +23,13 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
 
-    axios.get(url+'sathi/').then(resp => setSathis(resp.data.results))
+    axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
     
     document.body.classList.add("profile");
     return function cleanup() {
@@ -38,6 +39,7 @@ function LandingPage() {
 
   const [sathis, setSathis] = React.useState([])
   console.log(sathis)
+  const slicedsathis = sathis.slice(0,3)
   return (
     <>
       <ExamplesNavbar />
@@ -66,7 +68,7 @@ function LandingPage() {
             <br />
             <br />
             <Row>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="fa fa-male" />
@@ -82,7 +84,7 @@ function LandingPage() {
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="nc-icon nc-pin-3" />
@@ -98,7 +100,7 @@ function LandingPage() {
                   </div>
                 </div>
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <div className="info">
                   <div className="icon icon-info">
                     <i className="fa fa-coffee" />
@@ -134,23 +136,25 @@ function LandingPage() {
             </Row>
           </Container>
         </div>
-        <div className="section section-dark text-center">
-          <Container>
+        <div className="section section-dark text-center" >
+          <Container  >
             <h2 className="title">Companions around you</h2>
             <Row>
-              {sathis.map( sathi => 
+              {slicedsathis.map( sathi => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href=" " onClick={e => e.preventDefault()}>
+                      <Link to={{pathname:'/profile', data:sathi}} >
                       <img
                         alt="..."
-                        src={require("assets/img/faces/clem-onojeghuo-3.jpg")}
+                        src={url+sathi.image[0]}
                       />
+                      </Link>
                     </a>
                   </div>
                   <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href=" " onClick={e => e.preventDefault()}>
                       <div className="author">
                         <CardTitle tag="h4">{sathi.name}</CardTitle>
                       </div>
