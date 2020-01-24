@@ -8,7 +8,7 @@ frontend/package-lock.json
 
 # testing
 frontend/coverage
-
+frontend/.firebase
 # production
 frontend/build
 

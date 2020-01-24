@@ -6,6 +6,8 @@ import {
 	Form,
 	FormGroup,
 	Label,
+	ListGroup,
+	ListGroupItem,
 	Container,
 	Input,
 	InputGroup,
@@ -15,10 +17,14 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 
+import ProfileCard from "../components/ProfileCard";
+
 function FilterPage() {
 	let [searchKey, setSearchKey] = useState("");
 	let [minPrice, setMinPrice] = useState(0);
 	let [maxPrice, setMaxPrice] = useState(0);
+
+	let [hosts, setHosts] = useState([1, 6, 4]);
 
 	let handleSearchKeyChange = e => {
 		setSearchKey(e.target.value);
@@ -40,12 +46,23 @@ function FilterPage() {
 		setMaxPrice(e.target.value * 100);
 	};
 
+	let search = e => {
+		e.preventDefault();
+		setHosts(
+			hosts.sort((a, b) => {
+				return a - b;
+			})
+		);
+	};
+
 	return (
 		<div>
 			<div
 				className="page-header section-dark"
 				style={{
-					background: "#42b3f5"
+					background: "#42b3f5",
+					height: "100px",
+					width: "100%"
 				}}
 			>
 				<ExamplesNavbar />
@@ -111,12 +128,27 @@ function FilterPage() {
 								</InputGroup>
 							</FormGroup>
 						</Container>
-						<Button className="info" size="lg">
-							Sort
+						<Button className="info" size="lg" onClick={search}>
+							Search
 						</Button>
 					</Form>
 				</Container>
 			</div>
+			<br />
+			<Container>
+				<ListGroup>
+					{hosts.map(host => {
+						return (
+							<ListGroupItem className="justify-content-between">
+								<ProfileCard
+									key={host} /**key={hostid}  info=host*/
+								/>
+							</ListGroupItem>
+						);
+					})}
+				</ListGroup>
+			</Container>
+
 			<DemoFooter />
 		</div>
 	);

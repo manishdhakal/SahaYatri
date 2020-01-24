@@ -83,7 +83,7 @@ function ExamplesNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink to="/profile" tag={Link}>
+              <NavLink to="/" tag={Link}>
                 <i className="fa fa-male" /> Companion
               </NavLink>
             </NavItem>
