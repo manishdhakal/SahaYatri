@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 # Create your models here.
 
 # class FreeTime(models.Model):
@@ -63,3 +64,51 @@ class Host(models.Model):
         return self.name
 
 
+def get_event_thumbnail(instance, filename):
+    id = instance.event.id
+    return "thuhmbnail_images/%s" % (id)
+
+def get_event_image(instance, filename):
+    id = instance.event.id
+    return "display_images/%s" % (id)
+
+class Event(models.Model):
+    name = models.CharField(max_length=50, blank=False)
+    location = models.CharField(max_length=50, default="Kathmandu")
+    datetime = models.DateTimeField(default = datetime.now())
+    host = models.CharField(max_length=50)
+    pricing = models.CharField(max_length=50, blank=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+class EventThumbnail(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.DO_NOTHING)
+    thumbnail = models.ImageField(upload_to="thumbnail/", verbose_name='Image')
+
+    def __str__(self):
+        return self.event.name
+
+class EventImages(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.DO_NOTHING)
+    image = models.ImageField(upload_to="images/", verbose_name='Image')
+    describe = models.TextField(blank=False)
+
+    def __str__(self):
+        return self.event.name
+
+class BookingData(models.Model):
+    CHOICES_FIELD = (
+        ('passport', 'PASSPORT'),
+        ('license', 'LICENSE'),
+        ('citizen', 'CITIZENSHIP')
+    )
+    fname = models.CharField(max_length=50, blank=False)
+    lname = models.CharField(max_length=50, blank=False)
+    docType = models.CharField(max_length=10, choices=CHOICES_FIELD, default='')
+    docID = models.CharField(max_length=50, blank=False)
+    phone = models.CharField(max_length=15, blank=False)
+
+    def __str__(self):
+        return self.fname

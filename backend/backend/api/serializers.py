@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import User, Sathi,Photo,Post,FoodProvider,FoodPhoto
+from api.models import User, Sathi,Photo,Post,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
 class UserSerialiser(serializers.HyperlinkedModelSerializer):
     class Meta:
         abstract = True
@@ -24,16 +24,39 @@ class SathiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sathi
         fields = ('id','name','email','phone','description','available','time','duration','languages','interests','places',)
+
 class FoodProviderSerializer(serializers.ModelSerializer):
         class Meta:
             model = FoodProvider
             fields =['id','name','place','dishes','cook']
 
        
-
 class FoodPhotoSerializer(serializers.ModelSerializer):
         class Meta:
             model = FoodPhoto
             fields =['image']
 
 
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        abstract = True
+        model = Event
+        fields = ['name', 'datetime', 'description' , 'host', 'id', 'location', 'pricing']
+
+class EventThumbnailSeralizer(serializers.ModelSerializer):
+    class Meta:
+        abstract = True
+        model = EventThumbnail
+        fields = ['thumbnail','event_id']
+
+class EventImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        abstract = True
+        model = EventImages
+        fields = '__all__'
+
+class BookingDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        abstract = True
+        model = BookingData
+        fields = ['fname','lname','docType','docID','phone']

@@ -6,9 +6,10 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view 
 from backend.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
-from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider,Host
+from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider,Host, Event, EventImages, BookingData
 
 from api.serializers import UserSerialiser,SathiSerializer, PhotoSerializer,PostSerialiser,FoodProviderSerializer,FoodPhotoSerializer
+from api.serializers import EventSerializer, EventImagesSerializer, BookingDataSerializer
 # Create your views here.
 
 
@@ -35,6 +36,24 @@ def SathiListView(request):
         sathislist.data[i]["image"]=data
         i=i+1
     return Response(sathislist.data)
+
+
+@api_view(['GET',])
+def EventListView(request):
+    events = Event.objects.all()
+    eventslist=EventSerializer(events,many=True)
+    if len(eventslist.data)==0:
+        return Response({"msg":"Unable to get data from database"})
+    i=0
+    for event in events:
+        photos = EventImages.objects.filter(event=event)
+        photo = EventImagesSerializer(photos,many=True)
+        data =[]
+        for p in photo.data:
+            data.append(p["image"])
+        eventslist.data[i]["image"]=data
+        i=i+1
+    return Response(eventslist.data)
 
         
 @api_view(['GET',])
@@ -83,6 +102,11 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerialiser
 
+@api_view(['POST',])
+def BookData(request):
+    book=BookingData(fname=request.data["fname"], lname=request.data["lname"], docType = request.data["docType"], docID=request.data["docID"], phone=request.data["phone"])
+    book.save()
+    return Response("Success")
 
 @api_view(['POST',])
 def SendMail(request):
