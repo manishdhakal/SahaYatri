@@ -29,19 +29,10 @@ import axios from 'axios'
 
 function ProfilePage(props) {
   const [user, setUser] = React.useState({});
-  // if (user !== {}){
-  //   var image = user.image.slice(0, 3)
-  //   var items = image.map(img => {
-  //     return {
-  //       src: url + img,
-  //       width: 4,
-  //       height: 3
-  //     }
-  //   })
-  // }
+
 
   const [activeTab, setActiveTab] = React.useState("1");
-  
+
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -50,91 +41,107 @@ function ProfilePage(props) {
   };
 
   document.documentElement.classList.remove("nav-open");
-
+var items=[]
   React.useEffect(() => {
     const id = props.match.params.id
-    axios.get(url+'/api/sathi/'+id).then(e => setUser(e.data))
+    axios.get(url + '/api/sathi/' + id).then(e => {
+      setUser(e.data[0],()=>{
+        if (user !== {}) {
+          var image = user.image.slice(0,3)
+          var items = image.map(img => {
+            return {
+              src: url + img,
+              width: 4,
+              height: 3
+            }
+          })
+        }
+      })
+     
+    })
     document.body.classList.add("/");
     return function cleanup() {
       document.body.classList.remove("/");
     };
-  },[]);
-  
-    return (
-      <div>
-        <ExamplesNavbar />
-        <ProfilePageHeader />
-        <div className="section profile-content">
-          <Container>
-            <div className="owner">
-              <div className="avatar">
-                <img
-                  alt="..."
-                  className="img-circle img-no-padding img-responsive"
-                  // src={url + user.image[0]}
-                />
-              </div>
-              <div className="name">
-                <h2 className="title text-dark">
-                  {user.name} <br />
-                </h2>
-              </div>
+  }, []);
+  console.log(user)
+
+
+  return (
+    <div>
+      <ExamplesNavbar />
+      <ProfilePageHeader />
+      <div className="section profile-content">
+        <Container>
+          <div className="owner">
+            <div className="avatar">
+              <img
+                alt="..."
+                className="img-circle img-no-padding img-responsive"
+              // src={url + user.image[0]}
+              />
             </div>
-            <Row>
-              <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="description text-dark">Description</h6>
-                <p>
-                  {user.description}
-                </p>
-                <br />
-                {/* <Button className="btn-round" color="default" outline>
+            <div className="name">
+              <h2 className="title text-dark">
+                {user.name} <br />
+              </h2>
+            </div>
+          </div>
+          <Row>
+            <Col className="ml-auto mr-auto text-center text-dark" md="6">
+              <h6 className="description text-dark">Description</h6>
+              <p>
+                {user.description}
+              </p>
+              <br />
+              {/* <Button className="btn-round" color="default" outline>
                       <i className="fa fa-cog" /> Settings
           </Button> */}
-              </Col>
-            </Row>
-            <Row>
-              <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="title text-dark">Languages
-                <br />
-                  <p>{user.languages}</p>
-                </h6>
-
-                <h6 className="title text-dark">Interests
-                <br />
-                  <p>{user.interests}</p>
-                </h6>
-
-                <h6 className="title text-dark">Location
-                <br />
-                  <p>{user.places}</p>
-                </h6>
-                <h4><strong>Photos</strong></h4>
-              {/* <Gallery photos={items}/>  */}
-
-              </Col>
-            </Row>
-            <br />
-            <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
-                Hire Now
-              </Button>
             </Col>
-            <DemoFooter />
-          </Container>
+          </Row>
+          <Row>
+            <Col className="ml-auto mr-auto text-center text-dark" md="6">
+              <h6 className="title text-dark">Languages
+                <br />
+                <p>{user.languages}</p>
+              </h6>
 
-        </div>
+              <h6 className="title text-dark">Interests
+                <br />
+                <p>{user.interests}</p>
+              </h6>
+
+              <h6 className="title text-dark">Location
+                <br />
+                <p>{user.places}</p>
+              </h6>
+              <h4><strong>Photos</strong></h4>
+              <Gallery photos={items}/> 
+
+            </Col>
+          </Row>
+          <br />
+          <Col className="ml-auto mr-auto text-center text-dark" md="6">
+            <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
+              Hire Now
+              </Button>
+          </Col>
+          <DemoFooter />
+        </Container>
 
       </div>
-    )
+
+    </div>
+  )
   // }
-// else{
-//   return (
-//     <div>
-//       <ExamplesNavbar />
-//         <ProfilePageHeader />
-//    <Gallery photos={items} />
-//    </div>
-//   )
-// }
+  // else{
+  //   return (
+  //     <div>
+  //       <ExamplesNavbar />
+  //         <ProfilePageHeader />
+  //    <Gallery photos={items} />
+  //    </div>
+  //   )
+  // }
 }
 export default ProfilePage;
