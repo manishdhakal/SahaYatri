@@ -28,9 +28,13 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
 
 function ProfilePage(props) {
+
+  const id = props.match.params.id
+  console.log(url+'/api/sathi/'+id)
+  
   const [user, setUser] = React.useState({});
-  // if (user !== {}){
-  //   var image = user.image.slice(0, 3)
+  // if(user !== undefined){
+  //   var image = user[0].slice(0, 3)
   //   var items = image.map(img => {
   //     return {
   //       src: url + img,
@@ -52,14 +56,16 @@ function ProfilePage(props) {
   document.documentElement.classList.remove("nav-open");
 
   React.useEffect(() => {
-    const id = props.match.params.id
-    axios.get(url+'/api/sathi/'+id).then(e => setUser(e.data))
+
+
+    axios.get(url+'/api/sathi/'+id).then(e => console.log(e))
     document.body.classList.add("/");
     return function cleanup() {
       document.body.classList.remove("/");
     };
   },[]);
   
+  console.log(user)
     return (
       <div>
         <ExamplesNavbar />
@@ -71,12 +77,12 @@ function ProfilePage(props) {
                 <img
                   alt="..."
                   className="img-circle img-no-padding img-responsive"
-                  // src={url + user.image[0]}
+                  // src={url + user[0][0]}
                 />
               </div>
               <div className="name">
                 <h2 className="title text-dark">
-                  {user.name} <br />
+                  {user[1].name} <br />
                 </h2>
               </div>
             </div>
@@ -84,7 +90,7 @@ function ProfilePage(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="description text-dark">Description</h6>
                 <p>
-                  {user.description}
+                  {user[1].description}
                 </p>
                 <br />
                 {/* <Button className="btn-round" color="default" outline>
@@ -96,17 +102,17 @@ function ProfilePage(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="title text-dark">Languages
                 <br />
-                  <p>{user.languages}</p>
+                  <p>{user[1].languages}</p>
                 </h6>
 
                 <h6 className="title text-dark">Interests
                 <br />
-                  <p>{user.interests}</p>
+                  <p>{user[1].interests}</p>
                 </h6>
 
                 <h6 className="title text-dark">Location
                 <br />
-                  <p>{user.places}</p>
+                  <p>{user[1].places}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               {/* <Gallery photos={items}/>  */}
