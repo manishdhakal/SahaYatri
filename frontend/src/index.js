@@ -12,6 +12,8 @@ import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import FilterPage from "views/FilterPage";
+import CheckoutPage from "./views/CheckoutPage";
+
 // others
 
 ReactDOM.render(
@@ -31,6 +33,10 @@ ReactDOM.render(
 				render={props => <RegisterPage {...props} />}
 			/>
 			<Route path="/filter" render={props => <FilterPage {...props} />} />
+			<Route
+				path="/checkout"
+				render={props => <CheckoutPage {...props} />}
+			/>
 		</Switch>
 	</BrowserRouter>,
 	document.getElementById("root")
