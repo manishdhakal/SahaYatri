@@ -24,12 +24,18 @@ import axios from "axios";
 function FilterPage(props) {
 	const [searchType, setSearchType] = useState(props.history.location.type);
 	let [searchKey, setSearchKey] = useState("");
+	let [searchLocation, setSearchLocation] = useState("");
 	let [searchItems, setSearchItems] = useState([
-		{ name: "Arman Chettri", description: "hero kto moh arman" },
+		{
+			name: "Arman Chettri",
+			description: "hero kto moh arman",
+			location: "Hetauda"
+		},
 		{
 			name: "Manish Dhakal",
 			description:
-				" Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, ratione!"
+				" Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, ratione!",
+			location: "Syangja"
 		}
 	]);
 	let [minPrice, setMinPrice] = useState(0);
@@ -91,8 +97,14 @@ function FilterPage(props) {
 				priorityHash[newSearchItems.indexOf(a)]
 			);
 		});
+		if (searchLocation !== "") {
+			newSearchItems = newSearchItems.filter(item => {
+				return item.location === searchLocation;
+			});
+		}
 		setSearchItems(newSearchItems);
 	};
+
 	useEffect(() => {
 		axios
 			.get(url + "/api/" + props.history.location.type)
@@ -146,9 +158,9 @@ function FilterPage(props) {
 									<Input
 										placeholder="places"
 										type="select"
-										onChange={e =>
-											console.log(e.target.value)
-										}
+										onChange={e => {
+											setSearchLocation(e.target.value);
+										}}
 									>
 										<option value="">--Select--</option>
 										{searchItems.map(item => (
