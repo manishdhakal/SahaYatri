@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import url from 'url.js'
+import url from "url.js";
 import {
 	Button,
 	CustomInput,
@@ -12,7 +12,7 @@ import {
 	Input,
 	InputGroup,
 	InputGroupAddon,
-	InputGroupText,
+	InputGroupText
 } from "reactstrap";
 
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
@@ -22,9 +22,16 @@ import ProfileCard from "../components/ProfileCard";
 import axios from "axios";
 
 function FilterPage(props) {
-	const [searchType, setSearchType] = useState(props.history.location.type)
+	const [searchType, setSearchType] = useState(props.history.location.type);
 	let [searchKey, setSearchKey] = useState("");
-	let [searchItems, setSearchItems] = useState([])
+	let [searchItems, setSearchItems] = useState([
+		{ name: "Arman Chettri", description: "hero kto moh arman" },
+		{
+			name: "Manish Dhakal",
+			description:
+				" Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, ratione!"
+		}
+	]);
 	let [minPrice, setMinPrice] = useState(0);
 	let [maxPrice, setMaxPrice] = useState(0);
 
@@ -52,22 +59,57 @@ function FilterPage(props) {
 
 	let search = e => {
 		e.preventDefault();
-		setHosts(
-			hosts.sort((a, b) => {
-				return a - b;
-			})
+		let keywords = searchKey.split(" ");
+		// priority points
+		// 10 points for name match
+		// 2 points for each description match
+		let priorityHash = {};
+		searchItems.forEach((item, index) => {
+			priorityHash[index.toString()] = 0;
+			console.log(priorityHash);
+			keywords.forEach(word => {
+				let re = new RegExp(word, "ig");
+				let matches = item.name.match(re);
+				if (matches != null)
+					matches.forEach(() => {
+						priorityHash[index.toString()] += 10;
+					});
+				console.log(matches);
+				matches = item.description.match(re);
+				if (matches != null)
+					matches.forEach(() => {
+						priorityHash[index.toString()] += 2;
+					});
+				console.log(matches);
+			});
+			console.log(priorityHash);
+		});
+		let newSearchItems = searchItems.filter(
+			(item, index) => !(priorityHash[index.toString()] === 0)
 		);
+		newSearchItems.sort((a, b) => {
+			return (
+				priorityHash[newSearchItems.indexOf(b)] -
+				priorityHash[newSearchItems.indexOf(a)]
+			);
+		});
+		setSearchItems(newSearchItems);
 	};
-	useEffect(() =>{
-		axios.get(url+'/api/'+props.history.location.type).then(resp => setSearchItems(resp.data))
-	},[])
-	console.log(searchItems)
+	useEffect(() => {
+		axios
+			.get(url + "/api/" + props.history.location.type)
+			.then(resp => setSearchItems(resp.data));
+	}, []);
+	console.log(searchItems);
 	return (
 		<div>
 			<div
 				className="page-header section-dark"
 				style={{
-					backgroundImage: "linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(" + require("assets/img/village.jpg") + ") ",
+					backgroundImage:
+						"linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(" +
+						require("assets/img/village.jpg") +
+						") ",
 					height: "100px",
 					width: "100%"
 				}}
@@ -76,7 +118,13 @@ function FilterPage(props) {
 				<Container>
 					<Form>
 						<FormGroup>
-							<Label for="Search" tag="h4" className="text-white font-weight-bold">Search</Label>
+							<Label
+								for="Search"
+								tag="h4"
+								className="text-white font-weight-bold"
+							>
+								Search
+							</Label>
 							<Input
 								bsSize="lg"
 								type="text"
@@ -89,15 +137,27 @@ function FilterPage(props) {
 						</FormGroup>
 						<Container>
 							<FormGroup>
-								<Label for="minPrice" tag="h4" className="text-white font-weight-bold">Location</Label>
-								<InputGroup> 
+								<Label
+									for="minPrice"
+									tag="h4"
+									className="text-white font-weight-bold"
+								>
+									Location
+								</Label>
+								<InputGroup>
 									<Input
 										placeholder="places"
 										type="select"
-										onChange={e => console.log(e.target.value)}
+										onChange={e =>
+											console.log(e.target.value)
+										}
 									>
-										<option value=''>--Select--</option>
-										{searchItems.map(item=> <option value={item.location}>{item.location}</option>)										}
+										<option value="">--Select--</option>
+										{searchItems.map(item => (
+											<option value={item.location}>
+												{item.location}
+											</option>
+										))}
 									</Input>
 								</InputGroup>
 							</FormGroup>
@@ -148,7 +208,13 @@ function FilterPage(props) {
 								</InputGroup>
 							</FormGroup> */}
 						</Container>
-						<Button className="btn-round" color="neutral" type="button" outline>
+						<Button
+							className="btn-round"
+							color="neutral"
+							type="button"
+							onClick={search}
+							outline
+						>
 							<i className="fa fa-search" />
 							Search
 						</Button>

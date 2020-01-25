@@ -31,3 +31,5 @@ backend/virtual
 package-lock.json
 yarn.lock
 .sqlite3
+
+test.js
