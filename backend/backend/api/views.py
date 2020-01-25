@@ -3,7 +3,8 @@ from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from django.http import HttpResponse
-from rest_framework.decorators import api_view 
+from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import api_view ,renderer_classes
 from backend.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from api.models import User,Sathi,Photo,Post,FoodPhoto,FoodProvider,Host, Event, EventImages, BookingData
@@ -76,6 +77,7 @@ def FoodProviderView(request):
   
 
 @api_view(['GET',])
+# @renderer_classes(Response)
 def SathiView(request,pk):
     sathi = Sathi.objects.get(id=pk)
     photos = Photo.objects.filter(sathi=sathi)
@@ -86,6 +88,33 @@ def SathiView(request,pk):
         data.append(p["image"])
     sathilist = SathiSerializer(sathi)
     lists=[sathilist.data]
+    lists[0]["image"]=data
+    return Response(lists)
+
+
+@api_view(['GET',])
+def FoodView(request,pk):
+    food = FoodProvider.objects.get(id=pk)
+    photos = FoodPhoto.objects.filter(food=food)
+    photo = FoodPhotoSerializer(photos,many=True)
+    data =[]
+    for p in photo.data:
+        data.append(p["image"])
+    foodlist = FoodProviderSerializer(food)
+    lists=[foodlist.data]
+    lists[0]["image"]=data
+    return Response(lists)
+
+@api_view(['GET',])
+def EventView(request,pk):
+    event = Event.objects.get(id=pk)
+    photos = EventImages.objects.filter(event=event)
+    photo = EventImagesSerializer(photos,many=True)
+    data =[]
+    for p in photo.data:
+        data.append(p["image"])
+    eventlist = EventSerializer(event)
+    lists=[eventlist.data]
     lists[0]["image"]=data
     return Response(lists)
 

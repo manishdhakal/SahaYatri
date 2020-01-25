@@ -49,6 +49,7 @@ function ExamplesNavbar() {
   });
   return (
     <Navbar
+      style={{height:70}}
       className={classnames("fixed-top", navbarColor)}
       color-on-scroll="300"
       expand="lg"
@@ -66,11 +67,13 @@ function ExamplesNavbar() {
               <img
               alt="..."
               className="img-no-padding img-responsive"
-              // src={require('assets/img/sahayatri.png')}
+              style={{height:40}}
+              src={require('assets/img/sahayatri-white.png')}
               /> :
               <img
                 alt="..."
                 className="img-no-padding img-responsive"
+                style={{height:40}}
                 src={require('assets/img/sahayatri.png')}
               />
             }

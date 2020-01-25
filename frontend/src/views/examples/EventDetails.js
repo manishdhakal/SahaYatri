@@ -22,7 +22,7 @@ function EventDetails(props) {
   
   useEffect(() =>{
     const id = props.match.params.id
-    axios.get(url+'/api/sathi/'+id).then(e => {
+    axios.get(url+'/api/event/'+id).then(e => {
       setEvent(e.data[0])
       setImages(e.data[0].image)
     })
@@ -118,7 +118,7 @@ function EventDetails(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
-                Hire Now
+                Attend
               </Button>
             </Col>
             <DemoFooter />

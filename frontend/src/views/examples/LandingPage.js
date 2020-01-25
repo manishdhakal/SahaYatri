@@ -31,18 +31,20 @@ function LandingPage() {
 
     axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
     axios.get(url+'/api/event/').then(resp => setEvents(resp.data))
+    axios.get(url+'/api/food/').then(resp => setFoods(resp.data))
 
     document.body.classList.add("profile");
     return function cleanup() {
       document.body.classList.remove("profile");
     };
   },[]);
-
   const [sathis, setSathis] = useState([])
   const [events, setEvents] = useState([])
+  const [foods, setFoods] = useState([])
   console.log(sathis)
   const slicedSathis = sathis.slice(0,3)
   const slicedEvents = events.slice(0,3)
+  const slicedFoods = foods.slice(0,3)
   return (
     <>
       <ExamplesNavbar />
@@ -330,15 +332,15 @@ function LandingPage() {
           <Container>
             <h2 className="title">Cook {'&'} Dine Near You</h2>
             <Row>
-              {slicedEvents.map(event => 
+              {slicedFoods.map(food => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
+                      <Link to={{pathname:'/cookndine/'+ food.id, id:food.id}}>
                         <img
                           alt="..."
-                          src={url+event.image[0]}
+                          src={url+food.image[0]}
                         />
                       </Link>
                     </a>
@@ -346,11 +348,11 @@ function LandingPage() {
                   <CardBody>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       <div className="author">
-                        <CardTitle tag="h4">{event.name}</CardTitle>
+                        <CardTitle tag="h4">{food.name}</CardTitle>
                       </div>
                     </a>
                     <p className="card-description text-center">
-                      {event.description}
+                      {food.description}
                     </p>
                   </CardBody>
                   <CardFooter className="text-center">

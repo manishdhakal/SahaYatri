@@ -120,10 +120,11 @@ function ProfilePage(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              {user.availabel &&
-              <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
+              {user.available ?
+              <Button className="btn-round w-25 h6" color="primary">
                 Hire Now
-              </Button>
+              </Button>:
+              <h6>Sorry, the companion is not available for now</h6>
               }
             </Col>
             <DemoFooter />

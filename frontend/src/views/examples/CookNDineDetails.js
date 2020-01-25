@@ -22,23 +22,14 @@ function CookNDine(props) {
   
   useEffect(() =>{
     const id = props.match.params.id
-    axios.get(url+'/api/sathi/'+id).then(e => {
-      setUser(e.data[0])
+    axios.get(url+'/api/food/'+id).then(e => {
+      setCook(e.data[0])
       setImages(e.data[0].image)
     })
   },[])
 
-  const [user, setUser] = useState({});
+  const [cook, setCook] = useState({});
   const [images, setImages] = React.useState([])
-  const [activeTab, setActiveTab] = useState("1");
-
-
-  const toggle = tab => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
-  };
-
 
   var slicedImage = images.slice(0, 3)
   var items = slicedImage.map(img => {
@@ -64,7 +55,7 @@ function CookNDine(props) {
   //   // };
   // },[]);
 
-  console.log(user,images)
+  console.log(cook,images)
     return (
       <div>
         <ExamplesNavbar />
@@ -81,7 +72,7 @@ function CookNDine(props) {
               </div>
               <div className="name">
                 <h2 className="title text-dark">
-                  {user.name} <br />
+                  {cook.name} <br />
                 </h2>
               </div>
             </div>
@@ -89,7 +80,7 @@ function CookNDine(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="description text-dark">Description</h6>
                 <p>
-                  {user.description}
+                  {cook.description}
                 </p>
                 <br />
               {/* <Button className="btn-round" color="default" outline>
@@ -99,19 +90,19 @@ function CookNDine(props) {
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <h6 className="title text-dark">Languages
+              <h6 className="title text-dark">Dishes
                 <br />
-                  <p>{user.languages}</p>
+                  <p>{cook.dishes}</p>
                 </h6>
-              <h6 className="title text-dark">Interests
+              <h6 className="title text-dark">Cook As well
                 <br />
-                  <p>{user.interests}</p>
+                  {cook.cook ? <p>yes</p>:<p>no</p>}
                 </h6>
 
               <h6 className="title text-dark">Location
                 <br />
 
-                  <p>{user.places}</p>
+                  <p>{cook.location}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
@@ -121,7 +112,7 @@ function CookNDine(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
-                Hire Now
+                Attend
               </Button>
             </Col>
             <DemoFooter />

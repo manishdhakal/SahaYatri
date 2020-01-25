@@ -22,44 +22,31 @@ import ProfileCard from "../components/ProfileCard";
 import axios from "axios";
 
 function FilterPage(props) {
-	const [searchType, setSearchType] = useState(props.history.location.type);
 	let [searchKey, setSearchKey] = useState("");
 	let [searchLocation, setSearchLocation] = useState("");
-	let [searchItems, setSearchItems] = useState([
-		{
-			name: "Arman Chettri",
-			description: "hero kto moh arman",
-			location: "Hetauda"
-		},
-		{
-			name: "Manish Dhakal",
-			description:
-				" Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, ratione!",
-			location: "Syangja"
-		}
-	]);
-	let [minPrice, setMinPrice] = useState(0);
-	let [maxPrice, setMaxPrice] = useState(0);
+	let [searchItems, setSearchItems] = useState([]);
+	// let [minPrice, setMinPrice] = useState(0);
+	// let [maxPrice, setMaxPrice] = useState(0);
 
 	let handleSearchKeyChange = e => {
 		setSearchKey(e.target.value);
 	};
 
-	let handleMinPriceChange = e => {
-		setMinPrice(e.target.value);
-	};
+	// let handleMinPriceChange = e => {
+	// 	setMinPrice(e.target.value);
+	// };
 
-	let handleMaxPriceChange = e => {
-		setMaxPrice(e.target.value);
-	};
+	// let handleMaxPriceChange = e => {
+	// 	setMaxPrice(e.target.value);
+	// };
 
-	let handleMinSliderChange = e => {
-		setMinPrice(e.target.value * 100);
-	};
+	// let handleMinSliderChange = e => {
+	// 	setMinPrice(e.target.value * 100);
+	// };
 
-	let handleMaxSliderChange = e => {
-		setMaxPrice(e.target.value * 100);
-	};
+	// let handleMaxSliderChange = e => {
+	// 	setMaxPrice(e.target.value * 100);
+	// };
 
 	let search = e => {
 		e.preventDefault();
@@ -106,9 +93,38 @@ function FilterPage(props) {
 	};
 
 	useEffect(() => {
-		axios
-			.get(url + "/api/" + props.history.location.type)
-			.then(resp => setSearchItems(resp.data));
+		let res = [];
+		if (props.history.location.type === undefined) {
+			axios
+				.get(url + "/api/sathi")
+				.then(resp => {
+					for(let i=0; i<resp.data.length; ++i){
+						resp.data[i].type = 'user'
+					}
+					res.push(...resp.data);
+					return axios.get(url + "/api/food");
+				})
+				.then(resp => {
+					for(let i=0; i<resp.data.length; ++i){
+						resp.data[i].type = 'cookndine'
+					}
+					res.push(...resp.data);
+					return axios.get(url + "/api/event");
+				})
+				.then(resp => {
+					for(let i=0; i<resp.data.length; ++i){
+						resp.data[i].type = 'event'
+					}
+					res.push(...resp.data);
+					setSearchItems(res);
+				});
+		} else
+			axios
+				.get(url + "/api/" + props.history.location.type)
+				.then(resp => {
+					res.push(...resp.data);
+					setSearchItems(res);
+				});
 	}, []);
 	console.log(searchItems);
 	return (
@@ -239,13 +255,10 @@ function FilterPage(props) {
 			<Container>
 				<ListGroup>
 					{searchItems.map(item => {
+						console.log(item)
 						return (
 							<ListGroupItem className="justify-content-between">
-								<ProfileCard
-									name={
-										item.name
-									} /**key={hostid}  info=host*/
-								/>
+								<ProfileCard key={item.id} info={item} />
 							</ListGroupItem>
 						);
 					})}

@@ -39,14 +39,14 @@ function LandingPageHeader() {
             <h1>SAHAYATRI</h1>
             <h3>Creating Interface Between Locals and Tourists</h3>
             <br />
-            <InputGroup className='w-75 mx-auto'>
+            {/* <InputGroup className='w-75 mx-auto'>
                 <Input placeholder="Search" type="search" className='bg-transparent  text-white' />
                  <InputGroupAddon addonType="apppend">
                   <InputGroupText className='bg-transparent'>
                     <i className="fa fa-search text-white view overlay zoom" onClick={()=>console.log('this')}/>
                   </InputGroupText>
                 </InputGroupAddon>
-            </InputGroup>
+            </InputGroup> */}
             {/* <Button
               href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               className="btn-round mr-1"
