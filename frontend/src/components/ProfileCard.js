@@ -4,6 +4,8 @@ import { Jumbotron, Container, Row, Col, Badge } from "reactstrap";
 import { Link } from "react-router-dom";
 
 export default function ProfileCard(props) {
+	if (props == null) return;
+
 	return (
 		<>
 			<Link to="/profile">
@@ -14,13 +16,14 @@ export default function ProfileCard(props) {
 								<img src="" /**host.imgurl */ alt="Profile" />
 							</Container>
 						</Col>
-						<Col className='text-white'>
-							<p>Name of the host</p>
-							<p>The category of the hosting</p>
-							<p>Pricing</p>
-							<p>Aviability</p>
+						<Col className="text-white">
+							<p>Arman Deshmukh</p>
+							<p>Undergrad in CE. Ghumante kto moh!!!</p>
+							<p>Companion</p>
+							<p>Pokhara</p>
+							<p style={{ color: "#00cc00" }}>✔</p>
 							<Badge pill color="info">
-								4.9 ⚝
+								4.7 ⚝
 							</Badge>
 							<br />
 							<br />
