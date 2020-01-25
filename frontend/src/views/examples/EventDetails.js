@@ -14,30 +14,22 @@ import {
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
+import EventPageHeader from "components/Headers/EventPageHeader";
 
-function ProfilePage(props) {
+function EventDetails(props) {
   
   useEffect(() =>{
     const id = props.match.params.id
     axios.get(url+'/api/sathi/'+id).then(e => {
-      setUser(e.data[0])
+      setEvent(e.data[0])
       setImages(e.data[0].image)
     })
   },[])
 
-  const [user, setUser] = useState({});
+  const [event, setEvent] = useState({});
   const [images, setImages] = React.useState([])
-  const [activeTab, setActiveTab] = useState("1");
-
-
-  const toggle = tab => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
-  };
 
 
   var slicedImage = images.slice(0, 3)
@@ -64,11 +56,11 @@ function ProfilePage(props) {
   //   // };
   // },[]);
 
-  console.log(user,images)
+  // console.log(user,images)
     return (
       <div>
         <ExamplesNavbar />
-        <ProfilePageHeader />
+        <EventPageHeader />
         <div className="section profile-content">
           <Container>
             <div className="owner">
@@ -78,10 +70,15 @@ function ProfilePage(props) {
                   className="img-circle img-no-padding img-responsive"
                   src={url + images[0]}
                 />
+                <div className="name">
+                <h3 className="title text-dark font-weight-bold ">
+                  Event
+                </h3>
+              </div>
               </div>
               <div className="name">
                 <h2 className="title text-dark">
-                  {user.name} <br />
+                  {event.name} <br />
                 </h2>
               </div>
             </div>
@@ -89,7 +86,7 @@ function ProfilePage(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="description text-dark">Description</h6>
                 <p>
-                  {user.description}
+                  {event.description}
                 </p>
                 <br />
               {/* <Button className="btn-round" color="default" outline>
@@ -99,19 +96,19 @@ function ProfilePage(props) {
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <h6 className="title text-dark">Languages
+              <h6 className="title text-dark">Hosted By
                 <br />
-                  <p>{user.languages}</p>
+                  <p>{event.host}</p>
                 </h6>
-              <h6 className="title text-dark">Interests
-                <br />
-                  <p>{user.interests}</p>
+              <h6 className="title text-dark">Price
+                <br /> 
+                  <p>{event.pricing} per person</p>
                 </h6>
 
               <h6 className="title text-dark">Location
                 <br />
 
-                  <p>{user.places}</p>
+                  <p>{event.location}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
@@ -120,11 +117,9 @@ function ProfilePage(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              {user.availabel &&
               <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
                 Hire Now
               </Button>
-              }
             </Col>
             <DemoFooter />
           </Container>
@@ -132,15 +127,5 @@ function ProfilePage(props) {
 
     </div>
   )
-  // }
-  // else{
-  //   return (
-  //     <div>
-  //       <ExamplesNavbar />
-  //         <ProfilePageHeader />
-  //    <Gallery photos={items} />
-  //    </div>
-  //   )
-  // }
 }
-export default ProfilePage;
+export default EventDetails

@@ -12,6 +12,8 @@ import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import FilterPage from "views/FilterPage";
+import EventDetails from "views/examples/EventDetails";
+import CookNDine from "views/examples/CookNDineDetails";
 // others
 
 ReactDOM.render(
@@ -25,6 +27,14 @@ ReactDOM.render(
 			<Route
 				path="/user/:id"
 				render={props => <ProfilePage {...props} />}
+			/>
+			<Route
+				path="/event/:id"
+				render={props => <EventDetails {...props} />}
+			/>
+			<Route
+				path="/cookndine/:id"
+				render={props => <CookNDine {...props} />}
 			/>
 			<Route
 				path="/register"

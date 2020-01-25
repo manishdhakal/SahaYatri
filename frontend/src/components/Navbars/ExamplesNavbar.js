@@ -62,7 +62,19 @@ function ExamplesNavbar() {
             title="SahaYatri"
             tag={Link}
           >
-            SAHAYATRI
+            { document.documentElement.scrollTop < 300 ?
+              <img
+              alt="..."
+              className="img-no-padding img-responsive"
+              // src={require('assets/img/sahayatri.png')}
+              /> :
+              <img
+                alt="..."
+                className="img-no-padding img-responsive"
+                src={require('assets/img/sahayatri.png')}
+              />
+            }
+            {/* SAHAYATRI */}
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}

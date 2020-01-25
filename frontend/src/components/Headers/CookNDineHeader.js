@@ -4,7 +4,7 @@ import React from "react";
 
 // core components
 
-function ProfilePageHeader() {
+function CookNDineHeader() {
   let pageHeader = React.createRef();
 
   React.useEffect(() => {
@@ -38,4 +38,4 @@ function ProfilePageHeader() {
   );
 }
 
-export default ProfilePageHeader;
+export default CookNDineHeader;

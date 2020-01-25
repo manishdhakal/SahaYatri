@@ -14,11 +14,11 @@ import {
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
+import CookNDineHeader from "components/Headers/CookNDineHeader";
 
-function ProfilePage(props) {
+function CookNDine(props) {
   
   useEffect(() =>{
     const id = props.match.params.id
@@ -68,7 +68,7 @@ function ProfilePage(props) {
     return (
       <div>
         <ExamplesNavbar />
-        <ProfilePageHeader />
+        <CookNDineHeader />
         <div className="section profile-content">
           <Container>
             <div className="owner">
@@ -120,11 +120,9 @@ function ProfilePage(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              {user.availabel &&
               <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
                 Hire Now
               </Button>
-              }
             </Col>
             <DemoFooter />
           </Container>
@@ -143,4 +141,4 @@ function ProfilePage(props) {
   //   )
   // }
 }
-export default ProfilePage;
+export default CookNDine

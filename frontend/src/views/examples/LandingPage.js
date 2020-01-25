@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState,useEffect} from "react";
 import axios from 'axios'
 import url from 'url.js'
 // reactstrap components
@@ -16,7 +16,7 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 
 // core components
@@ -27,19 +27,22 @@ import { Link } from "react-router-dom";
 
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
-  React.useEffect(() => {
+  useEffect(() => {
 
     axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-    
+    axios.get(url+'/api/event/').then(resp => setEvents(resp.data))
+
     document.body.classList.add("profile");
     return function cleanup() {
       document.body.classList.remove("profile");
     };
   },[]);
 
-  const [sathis, setSathis] = React.useState([])
+  const [sathis, setSathis] = useState([])
+  const [events, setEvents] = useState([])
   console.log(sathis)
-  const slicedsathis = sathis.slice(0,3)
+  const slicedSathis = sathis.slice(0,3)
+  const slicedEvents = events.slice(0,3)
   return (
     <>
       <ExamplesNavbar />
@@ -140,12 +143,12 @@ function LandingPage() {
           <Container  >
             <h2 className="title">Companions around you</h2>
             <Row>
-              {slicedsathis.map( sathi => 
+              {slicedSathis.map( sathi => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href=" " onClick={e => e.preventDefault()}>
-                      <Link to={{pathname:'/user/'+ sathi.id, id:sathi.id}} >
+                      <Link to={{pathname:'/user/'+ sathi.id}} >
                       <img
                         alt="..."
                         src={url+sathi.image[0]}
@@ -276,27 +279,27 @@ function LandingPage() {
           <Container>
             <h2 className="title">Events Near You</h2>
             <Row>
+              {slicedEvents.map(event => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/gaijatra.jpg")}
-                      />
+                      <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
+                        <img
+                          alt="..."
+                          src={url+event.image[0]}
+                        />
+                      </Link>
                     </a>
                   </div>
                   <CardBody>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       <div className="author">
-                        <CardTitle tag="h4">Gai Jatra</CardTitle>
+                        <CardTitle tag="h4">{event.name}</CardTitle>
                       </div>
                     </a>
                     <p className="card-description text-center">
-                      The strength of the team is each individual member. The
-                      strength of each member is the team. If you can laugh
-                      together, you can work together, silence isn’t golden,
-                      it’s deadly.
+                      {event.description}
                     </p>
                   </CardBody>
                   <CardFooter className="text-center">
@@ -319,26 +322,35 @@ function LandingPage() {
                   </CardFooter>
                 </Card>
               </Col>
+              )}
+            </Row>
+          </Container>
+        </div>
+        <div className="section section-dark text-center">
+          <Container>
+            <h2 className="title">Cook {'&'} Dine Near You</h2>
+            <Row>
+              {slicedEvents.map(event => 
               <Col md="4">
                 <Card className="card-profile card-plain">
                   <div className="card-avatar">
                     <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/deusi.jpg")}
-                      />
+                      <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
+                        <img
+                          alt="..."
+                          src={url+event.image[0]}
+                        />
+                      </Link>
                     </a>
                   </div>
                   <CardBody>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       <div className="author">
-                        <CardTitle tag="h4">Lakhe Naach</CardTitle>
+                        <CardTitle tag="h4">{event.name}</CardTitle>
                       </div>
                     </a>
                     <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
+                      {event.description}
                     </p>
                   </CardBody>
                   <CardFooter className="text-center">
@@ -361,48 +373,7 @@ function LandingPage() {
                   </CardFooter>
                 </Card>
               </Col>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/deusi.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Deusi</CardTitle>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-instagram" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-facebook" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col>
+              )}
             </Row>
           </Container>
         </div>
@@ -454,6 +425,7 @@ function LandingPage() {
             </Row>
           </Container>
         </div>
+        
       </div>
       <DemoFooter />
     </>
