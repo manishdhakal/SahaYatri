@@ -126,7 +126,11 @@ function FilterPage(props) {
 			>
 				<ExamplesNavbar />
 				<Container>
-					<Form>
+					<Form
+						onSubmit={e => {
+							e.preventDefault();
+						}}
+					>
 						<FormGroup>
 							<Label
 								for="Search"
