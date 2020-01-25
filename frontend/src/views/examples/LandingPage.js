@@ -38,7 +38,6 @@ function LandingPage() {
   },[]);
 
   const [sathis, setSathis] = React.useState([])
-  console.log(sathis)
   const slicedsathis = sathis.slice(0,3)
   return (
     <>
