@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, {useEffect,useState} from "react";
 
 import url from 'url.js'
 import Gallery from "react-photo-gallery";
@@ -28,24 +28,19 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
 
 function ProfilePage(props) {
-
-  const id = props.match.params.id
-  console.log(url+'/api/sathi/'+id)
   
-  const [user, setUser] = React.useState({});
-  // if(user !== undefined){
-  //   var image = user[0].slice(0, 3)
-  //   var items = image.map(img => {
-  //     return {
-  //       src: url + img,
-  //       width: 4,
-  //       height: 3
-  //     }
-  //   })
-  // }
+  useEffect(() =>{
+    const id = props.match.params.id
+    axios.get(url+'/api/sathi/'+id).then(e => {
+      setUser(e.data[0])
+      setImages(e.data[0].image)
+    })
+  },[])
 
-  const [activeTab, setActiveTab] = React.useState("1");
-  
+  const [user, setUser] = useState({});
+  const [images, setImages] = React.useState([])
+  const [activeTab, setActiveTab] = useState("1");
+
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -53,19 +48,31 @@ function ProfilePage(props) {
     }
   };
 
-  document.documentElement.classList.remove("nav-open");
 
-  React.useEffect(() => {
+  var slicedImage = images.slice(0, 3)
+  var items = slicedImage.map(img => {
+    return {
+      src: url + img,
+      width: 4,
+      height: 3
+    }
+  })
 
+  // document.documentElement.classList.remove("nav-open");
+  // useEffect(() => {
+  //   
+  //   console.log(url+'/api/sathi/'+id)
+    
+  //   // 
+  //   // 
+  //   // .catch(err => console.log(err))
+  //   // document.body.classList.add("/");
+  //   // return function cleanup() {
+  //   //   document.body.classList.remove("/");
+  //   // };
+  // },[]);
 
-    axios.get(url+'/api/sathi/'+id).then(e => console.log(e))
-    document.body.classList.add("/");
-    return function cleanup() {
-      document.body.classList.remove("/");
-    };
-  },[]);
-  
-  console.log(user)
+  console.log(user,images)
     return (
       <div>
         <ExamplesNavbar />
@@ -77,12 +84,12 @@ function ProfilePage(props) {
                 <img
                   alt="..."
                   className="img-circle img-no-padding img-responsive"
-                  // src={url + user[0][0]}
+                  src={url + images[0]}
                 />
               </div>
               <div className="name">
                 <h2 className="title text-dark">
-                  {user[1].name} <br />
+                  {user.name} <br />
                 </h2>
               </div>
             </div>
@@ -90,32 +97,32 @@ function ProfilePage(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="description text-dark">Description</h6>
                 <p>
-                  {user[1].description}
+                  {user.description}
                 </p>
                 <br />
-                {/* <Button className="btn-round" color="default" outline>
+              {/* <Button className="btn-round" color="default" outline>
                       <i className="fa fa-cog" /> Settings
           </Button> */}
-              </Col>
-            </Row>
-            <Row>
-              <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="title text-dark">Languages
+            </Col>
+          </Row>
+          <Row>
+            <Col className="ml-auto mr-auto text-center text-dark" md="6">
+              <h6 className="title text-dark">Languages
                 <br />
-                  <p>{user[1].languages}</p>
+                  <p>{user.languages}</p>
+                </h6>
+              <h6 className="title text-dark">Interests
+                <br />
+                  <p>{user.interests}</p>
                 </h6>
 
-                <h6 className="title text-dark">Interests
+              <h6 className="title text-dark">Location
                 <br />
-                  <p>{user[1].interests}</p>
-                </h6>
 
-                <h6 className="title text-dark">Location
-                <br />
-                  <p>{user[1].places}</p>
+                  <p>{user.places}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
-              {/* <Gallery photos={items}/>  */}
+              <Gallery photos={items}/> 
 
               </Col>
             </Row>
@@ -127,20 +134,19 @@ function ProfilePage(props) {
             </Col>
             <DemoFooter />
           </Container>
-
-        </div>
-
       </div>
-    )
+
+    </div>
+  )
   // }
-// else{
-//   return (
-//     <div>
-//       <ExamplesNavbar />
-//         <ProfilePageHeader />
-//    <Gallery photos={items} />
-//    </div>
-//   )
-// }
+  // else{
+  //   return (
+  //     <div>
+  //       <ExamplesNavbar />
+  //         <ProfilePageHeader />
+  //    <Gallery photos={items} />
+  //    </div>
+  //   )
+  // }
 }
 export default ProfilePage;

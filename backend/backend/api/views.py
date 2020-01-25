@@ -83,12 +83,11 @@ def SathiView(request,pk):
     data =[]
     ph=[]
     for p in photo.data:
-        ph.append(p["image"])
-
-    data.append(ph)
+        data.append(p["image"])
     sathilist = SathiSerializer(sathi)
-    data.append(sathilist.data)
-    return Response(data=data)
+    lists=[sathilist.data]
+    lists[0]["image"]=data
+    return Response(lists)
 
 @api_view(['GET',])
 def PhotoShow(request,pk):
