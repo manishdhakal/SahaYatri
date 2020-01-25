@@ -17,7 +17,13 @@ export default function ProfileCard(props) {
 	return (
 		<>
 			<Link to={`/${props.info.type}/${props.info.id}`}>
-				<Jumbotron fluid className="p-3 bg-secondary my-2 rounded">
+				<Jumbotron
+					fluid
+					className="p-3 bg-secondary my-2 rounded"
+					style={{
+						height: "200px"
+					}}
+				>
 					<Row>
 						<Col xs="2">
 							<Container className="themed-container" fluid>
@@ -25,7 +31,8 @@ export default function ProfileCard(props) {
 									src={url + props.info.image[0]}
 									style={{
 										height: "80px",
-										width: "80px"
+										width: "80px",
+										borderRadius: "50%"
 									}}
 									/**host.imgurl */
 

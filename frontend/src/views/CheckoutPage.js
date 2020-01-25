@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
 	Form,
@@ -10,7 +10,11 @@ import {
 	Container,
 	Row,
 	InputGroup,
-	InputGroupAddon
+	InputGroupAddon,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter
 } from "reactstrap";
 
 import ProfilePageHeader from "components/Headers/ProfilePageHeader";
@@ -19,7 +23,11 @@ import DemoFooter from "components/Footers/DemoFooter";
 
 import url from "url";
 
-export default function CheckoutPage() {
+export default function CheckoutPage(props) {
+	const [modal, setModal] = useState(false);
+	const toggle = () => {
+		setModal(!modal);
+	};
 	const onFormSubmit = e => {
 		e.preventDefault();
 		let form = e.target;
@@ -36,6 +44,8 @@ export default function CheckoutPage() {
 			headers: {
 				Accept: "application/json"
 			}
+		}).then(() => {
+			toggle();
 		});
 	};
 
@@ -44,6 +54,32 @@ export default function CheckoutPage() {
 			<ExamplesNavbar />
 			<ProfilePageHeader />
 			<br />
+			<Modal isOpen={modal} toggle={toggle}>
+				<ModalHeader>
+					<div className="icon-box">
+						<i className="material-icons">&#xE876;</i>
+					</div>
+					<p className="modal-title">Awesome!</p>
+				</ModalHeader>
+				<ModalBody>
+					<p style={{ textAlign: "center" }}>
+						Your booking has been confirmed. Check your email for
+						detials.
+					</p>
+				</ModalBody>
+				<ModalFooter>
+					<Container fluid>
+						<Button
+							color="primary"
+							onClick={() => {
+								props.history.push("/");
+							}}
+						>
+							<p style={{ textAlign: "center" }}>Goto homepage</p>
+						</Button>
+					</Container>
+				</ModalFooter>
+			</Modal>
 			<Container>
 				<h1>Booking Form</h1>
 				<Form
@@ -132,18 +168,18 @@ export default function CheckoutPage() {
 					<FormGroup>
 						<Container>
 							<Row>
-								<div class="col-xs-12 col-md-4 col-md-offset-4">
-									<div class="panel panel-default">
-										<div class="panel-heading">
+								<div className="col-xs-12 col-md-4 col-md-offset-4">
+									<div className="panel panel-default">
+										<div className="panel-heading">
 											<Row>
-												<h3 class="text-center">
+												<h3 className="text-center">
 													Payment Details
 												</h3>
 											</Row>
 										</div>
-										<div class="panel-body">
+										<div className="panel-body">
 											<Row>
-												<div class="col-xs-12">
+												<div className="col-xs-12">
 													<FormGroup>
 														<Label>
 															CARD NUMBER
@@ -154,20 +190,20 @@ export default function CheckoutPage() {
 																placeholder="Valid Card Number"
 															></Input>
 															<InputGroupAddon>
-																<span class="fa fa-credit-card"></span>
+																<span className="fa fa-credit-card"></span>
 															</InputGroupAddon>
 														</InputGroup>
 													</FormGroup>
 												</div>
 											</Row>
 											<Row>
-												<div class="col-xs-7 col-md-7">
+												<div className="col-xs-7 col-md-7">
 													<FormGroup>
 														<Label>
-															<span class="hidden-xs">
+															<span className="hidden-xs">
 																EXPIRATION
 															</span>
-															<span class="visible-xs-inline">
+															<span className="visible-xs-inline">
 																EXP
 															</span>
 															DATE
@@ -178,7 +214,7 @@ export default function CheckoutPage() {
 														></Input>
 													</FormGroup>
 												</div>
-												<div class="col-xs-5 col-md-5 pull-right">
+												<div className="col-xs-5 col-md-5 pull-right">
 													<FormGroup>
 														<Label>CV CODE</Label>
 														<Input
@@ -189,7 +225,7 @@ export default function CheckoutPage() {
 												</div>
 											</Row>
 											<Row>
-												<div class="col-xs-12">
+												<div className="col-xs-12">
 													<FormGroup>
 														<Label>
 															CARD OWNER

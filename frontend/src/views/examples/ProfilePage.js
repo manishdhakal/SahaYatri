@@ -1,7 +1,6 @@
-
 import React, {useEffect,useState} from "react";
 
-import url from 'url.js'
+import url from "url.js";
 import Gallery from "react-photo-gallery";
 
 // reactstrap components
@@ -10,16 +9,16 @@ import {
   Container,
   Row,
   Col,
+
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
-import axios from 'axios'
+import axios from "axios";
 
-function ProfilePage(props) {
-  
+function ProfilePage(props) {  
   useEffect(() =>{
     const id = props.match.params.id
     axios.get(url+'/api/sathi/'+id).then(e => {
