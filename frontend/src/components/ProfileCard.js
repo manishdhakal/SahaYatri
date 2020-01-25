@@ -17,7 +17,7 @@ export default function ProfileCard(props) {
 							</Container>
 						</Col>
 						<Col className="text-white">
-							<p>Arman Deshmukh</p>
+							<p>{props.name}</p>
 							<p>Undergrad in CE. Ghumante kto moh!!!</p>
 							<p>Companion</p>
 							<p>Pokhara</p>

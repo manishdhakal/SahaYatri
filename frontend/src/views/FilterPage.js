@@ -35,8 +35,6 @@ function FilterPage(props) {
 	let [minPrice, setMinPrice] = useState(0);
 	let [maxPrice, setMaxPrice] = useState(0);
 
-	let [hosts, setHosts] = useState([1, 6, 4]);
-
 	let handleSearchKeyChange = e => {
 		setSearchKey(e.target.value);
 	};
@@ -224,11 +222,13 @@ function FilterPage(props) {
 			<br />
 			<Container>
 				<ListGroup>
-					{hosts.map(host => {
+					{searchItems.map(item => {
 						return (
 							<ListGroupItem className="justify-content-between">
 								<ProfileCard
-									key={host} /**key={hostid}  info=host*/
+									name={
+										item.name
+									} /**key={hostid}  info=host*/
 								/>
 							</ListGroupItem>
 						);
