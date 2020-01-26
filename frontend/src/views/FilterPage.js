@@ -60,12 +60,14 @@ function FilterPage(props) {
 			console.log(priorityHash);
 			keywords.forEach(word => {
 				let re = new RegExp(word, "ig");
+				if (item.name === undefined) item.name = "";
 				let matches = item.name.match(re);
 				if (matches != null)
 					matches.forEach(() => {
 						priorityHash[index.toString()] += 10;
 					});
 				console.log(matches);
+				if (item.description === undefined) item.description = "";
 				matches = item.description.match(re);
 				if (matches != null)
 					matches.forEach(() => {
@@ -98,22 +100,22 @@ function FilterPage(props) {
 			axios
 				.get(url + "/api/sathi")
 				.then(resp => {
-					for(let i=0; i<resp.data.length; ++i){
-						resp.data[i].type = 'user'
+					for (let i = 0; i < resp.data.length; ++i) {
+						resp.data[i].type = "user";
 					}
 					res.push(...resp.data);
 					return axios.get(url + "/api/food");
 				})
 				.then(resp => {
-					for(let i=0; i<resp.data.length; ++i){
-						resp.data[i].type = 'cookndine'
+					for (let i = 0; i < resp.data.length; ++i) {
+						resp.data[i].type = "cookndine";
 					}
 					res.push(...resp.data);
 					return axios.get(url + "/api/event");
 				})
 				.then(resp => {
-					for(let i=0; i<resp.data.length; ++i){
-						resp.data[i].type = 'event'
+					for (let i = 0; i < resp.data.length; ++i) {
+						resp.data[i].type = "event";
 					}
 					res.push(...resp.data);
 					setSearchItems(res);
@@ -255,7 +257,7 @@ function FilterPage(props) {
 			<Container>
 				<ListGroup>
 					{searchItems.map(item => {
-						console.log(item)
+						console.log(item);
 						return (
 							<ListGroupItem className="justify-content-between">
 								<ProfileCard key={item.id} info={item} />
