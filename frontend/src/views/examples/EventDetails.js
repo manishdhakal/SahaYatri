@@ -117,9 +117,11 @@ function EventDetails(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
-                Attend
-              </Button>
+              <a href={'/checkout#event?'+event.id} >
+                <Button  className="btn-round w-25 h6" color="primary">
+                  Attend
+                </Button>
+              </a>
             </Col>
             <DemoFooter />
           </Container>

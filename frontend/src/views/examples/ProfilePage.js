@@ -17,6 +17,7 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from "axios";
+import {Link} from 'react-router-dom'
 
 function ProfilePage(props) {  
   useEffect(() =>{
@@ -120,9 +121,11 @@ function ProfilePage(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               {user.available ?
-              <Button className="btn-round w-25 h6" color="primary">
-                Hire Now
-              </Button>:
+              <a href={'/checkout#sathi?'+user.id} type='sathi'>
+                <Button  className="btn-round w-25 h6" color="primary">
+                  Hire Now
+                </Button>
+              </a> :
               <h6>Sorry, the companion is not available for now</h6>
               }
             </Col>

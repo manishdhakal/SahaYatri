@@ -98,14 +98,16 @@ function ExamplesNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink to={{pathname:'/filter', type:'sathi'}} tag={Link}>
+              <a href='/filter'>
+              <NavLink>
                 <i className="fa fa-male" /> Companion
               </NavLink>
+              </a>
             </NavItem>
             <NavItem>
               <NavLink
                 to={{pathname:'/filter', type:'event'}}
-                // target="_blank"
+                
                 tag={Link}
               >
                 <i className="nc-icon nc-pin-3" /> Local Events
@@ -114,7 +116,7 @@ function ExamplesNavbar() {
             <NavItem>
               <NavLink
                 to={{pathname:'/filter', type:'food'}}
-                // target="_blank"
+                tag={Link}
               >
                 <i className="fa fa-coffee" /> Cook {'&'} Dine
               </NavLink>

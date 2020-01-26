@@ -24,7 +24,7 @@ class Sathi(models.Model):
     duration = models.CharField(max_length=10)
     languages = models.CharField(max_length=50)
     interests = models.CharField(max_length=250)
-    places = models.CharField(max_length=300)
+    location = models.CharField(max_length=300)
     price = models.IntegerField(default = 200)
   
     def __str__(self):
@@ -41,7 +41,7 @@ class Photo(models.Model):
 
 class FoodProvider(models.Model):
     name = models.CharField(max_length=100)
-    place =  models.CharField(max_length=100)
+    location =  models.CharField(max_length=100)
     dishes =  models.CharField(max_length=100)
     cook = models.BooleanField()
     price = models.IntegerField(default=200)

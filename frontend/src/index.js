@@ -42,6 +42,8 @@ ReactDOM.render(
 				render={props => <RegisterPage {...props} />}
 			/>
 			<Route path="/filter" render={props => <FilterPage {...props} />} />
+			{/* <Route path="/filter-event" render={props => <FilterPage {...props} />} />
+			<Route path="/filter-food" render={props => <FilterPage {...props} />} /> */}
 			<Route
 				path="/checkout"
 				render={props => <CheckoutPage {...props} />}

@@ -60,14 +60,14 @@ function LandingPage() {
                    a companion from the list of the our trained locals.
                 </h5>
                 <br />
-                <Button
+                {/* <Button
                   className="btn-round"
                   color="info"
                   href="#pablo"
                   onClick={e => e.preventDefault()}
                 >
                   See Details
-                </Button>
+                </Button> */}
               </Col>
             </Row>
             <br />
@@ -83,9 +83,9 @@ function LandingPage() {
                     <p className="description text-dark">
                       Get a companion for you around the new places.
                     </p>
-                    <Button onClick={_ => console.log('nothing') } className="btn-link" color="info" href="#pablo">
+                    {/* <Button onClick={_ => console.log('nothing') } className="btn-link" color="info" href="#pablo">
                       See more
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Col>
@@ -99,9 +99,9 @@ function LandingPage() {
                     <p>
                       Find out about the events happening near you and join it.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    {/* <Button className="btn-link" color="info" href="#pablo">
                       See more
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Col>
@@ -115,9 +115,9 @@ function LandingPage() {
                     <p>
                       Choose to cook and dine with authentic people around you.
                     </p>
-                    <Button className="btn-link" color="info" href="#pablo">
+                    {/* <Button className="btn-link" color="info" href="#pablo">
                       See more
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Col>

@@ -23,12 +23,12 @@ class PhotoSerializer(serializers.ModelSerializer):
 class SathiSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sathi
-        fields = ('id','name','email','phone','description','available','time','duration','languages','interests','places',)
+        fields = ('id','name','email','phone','description','available','time','duration','languages','interests','location',)
 
 class FoodProviderSerializer(serializers.ModelSerializer):
         class Meta:
             model = FoodProvider
-            fields =['id','name','place','dishes','cook']
+            fields =['id','name','location','price','dishes','cook']
 
        
 class FoodPhotoSerializer(serializers.ModelSerializer):

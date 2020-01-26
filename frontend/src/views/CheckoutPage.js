@@ -24,6 +24,10 @@ import DemoFooter from "components/Footers/DemoFooter";
 import url from "url";
 
 export default function CheckoutPage(props) {
+	console.log(props.location.hash)
+	let str = props.location.hash.slice(1,props.location.hash.length)
+	let [type, id] = str.split('?')
+	console.log(type,id)
 	const [modal, setModal] = useState(false);
 	const toggle = () => {
 		setModal(!modal);
@@ -32,6 +36,8 @@ export default function CheckoutPage(props) {
 		e.preventDefault();
 		let form = e.target;
 		let res = {
+			catId:id,
+			bookType: type,
 			fname: form.querySelector("#fname").value,
 			lname: form.querySelector("#lname").value,
 			docType: "passport",
@@ -54,7 +60,7 @@ export default function CheckoutPage(props) {
 			<ExamplesNavbar />
 			<ProfilePageHeader />
 			<br />
-			<Modal isOpen={modal} toggle={toggle}>
+			<Modal isOpen={modal} toggle={toggle} className='text-dark'>
 				<ModalHeader>
 					<div className="icon-box">
 						<i className="material-icons">&#xE876;</i>
@@ -89,7 +95,7 @@ export default function CheckoutPage(props) {
 					}}
 				>
 					<FormGroup>
-						<Label for="fname">Firstname</Label>
+						<Label for="fname" className='text-dark'>Firstname</Label>
 						<Input
 							type="text"
 							name="fname"
@@ -107,13 +113,14 @@ export default function CheckoutPage(props) {
 						/>
 					</FormGroup>
 					<FormGroup tag="fieldset">
-						<legend>Document Type</legend>
+						<legend className='text'>Document Type</legend>
 						<FormGroup check>
 							<Label check>
 								<Input
 									type="radio"
 									name="docType"
 									value="passport"
+									
 								/>{" "}
 								Passport
 							</Label>

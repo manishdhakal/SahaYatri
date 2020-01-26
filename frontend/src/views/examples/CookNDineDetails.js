@@ -78,11 +78,11 @@ function CookNDine(props) {
             </div>
             <Row>
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="description text-dark">Description</h6>
+                {/* <h6 className="description text-dark">Description</h6>
                 <p>
                   {cook.description}
                 </p>
-                <br />
+                <br /> */}
               {/* <Button className="btn-round" color="default" outline>
                       <i className="fa fa-cog" /> Settings
           </Button> */}
@@ -102,7 +102,7 @@ function CookNDine(props) {
               <h6 className="title text-dark">Location
                 <br />
 
-                  <p>{cook.location}</p>
+                  <p>{cook.place}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
@@ -111,9 +111,11 @@ function CookNDine(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <Button className="btn-round w-25 h6 font-weight-bold" color="primary">
-                Attend
-              </Button>
+                <a href={'/checkout#food?'+cook.id} type='sathi'>
+                    <Button  className="btn-round w-25 h6" color="primary">
+                    Hire Now
+                    </Button>
+                </a>
             </Col>
             <DemoFooter />
           </Container>

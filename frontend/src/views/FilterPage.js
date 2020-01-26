@@ -22,12 +22,13 @@ import ProfileCard from "../components/ProfileCard";
 import axios from "axios";
 
 function FilterPage(props) {
+	
 	let [searchKey, setSearchKey] = useState("");
 	let [searchLocation, setSearchLocation] = useState("");
 	let [searchItems, setSearchItems] = useState([]);
 	// let [minPrice, setMinPrice] = useState(0);
 	// let [maxPrice, setMaxPrice] = useState(0);
-
+	console.log(searchItems)
 	let handleSearchKeyChange = e => {
 		setSearchKey(e.target.value);
 	};
@@ -66,12 +67,12 @@ function FilterPage(props) {
 						priorityHash[index.toString()] += 10;
 					});
 				console.log(matches);
-				matches = item.description.match(re);
-				if (matches != null)
-					matches.forEach(() => {
-						priorityHash[index.toString()] += 2;
-					});
-				console.log(matches);
+				// matches = item.description.match(re);
+				// if (matches != null)
+				// 	matches.forEach(() => {
+				// 		priorityHash[index.toString()] += 2;
+				// 	});
+				// console.log(matches);
 			});
 			console.log(priorityHash);
 		});
@@ -184,7 +185,7 @@ function FilterPage(props) {
 									>
 										<option value="">--Select--</option>
 										{searchItems.map(item => (
-											<option value={item.location}>
+											<option value={item.location?item.location:item.places}>
 												{item.location}
 											</option>
 										))}
