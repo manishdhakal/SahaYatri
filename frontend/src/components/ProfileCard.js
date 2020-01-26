@@ -17,43 +17,57 @@ export default function ProfileCard(props) {
 	return (
 		<>
 			<Link to={`/${props.info.type}/${props.info.id}`}>
-				<Jumbotron
-					fluid
-					className="p-3 bg-secondary my-2 rounded"
-					style={{
-						height: "200px"
-					}}
-				>
-					<Row>
-						<Col xs="2">
-							<Container className="themed-container" fluid>
-								<img
-									src={url + props.info.image[0]}
-									style={{
-										height: "80px",
-										width: "80px",
-										borderRadius: "50%"
-									}}
-									/**host.imgurl */
+				<Container>
+					<Jumbotron
+						fluid
+						className="p-3 my-2 rounded border border-primary"
+						style={{
+							height: "260px",
+							stroke: "blue"
+						}}
+					>
+						<Row>
+							<Col xs="auto">
+								<Container className="themed-container">
+									<img
+										src={url + props.info.image[0]}
+										style={{
+											height: "80px",
+											width: "80px",
+											borderRadius: "50%"
+										}}
+										/**host.imgurl */
 
-									alt="Profile"
-								/>
-							</Container>
-						</Col>
-						<Col className="text-white">
-							<p>{props.info.name}</p>
-							<p>{props.info.description}</p>
-							<p>{props.info.email} </p>
-							<p>{props.info.phone}</p>
-							{availability}
-							<Badge pill color="info">
-								4.7 ⚝
-							</Badge>
-							<br />
-							<br />
-						</Col>
-					</Row>
-				</Jumbotron>
+										alt="Profile"
+									/>
+								</Container>
+							</Col>
+							<Col
+								style={{
+									color: "#333333",
+									fontWeight: "bold"
+								}}
+							>
+								<Container>
+									<strong>{props.info.name}</strong>
+									<br />
+									<strong>{props.info.description}</strong>
+									<br />
+									<strong>{props.info.email} </strong>
+									<br />
+									<strong>{props.info.phone}</strong>
+									<br />
+									Available? : {availability}
+									<Badge pill color="info">
+										4.7 ⚝
+									</Badge>
+								</Container>
+								<br />
+								<br />
+							</Col>
+						</Row>
+					</Jumbotron>
+				</Container>
 			</Link>
 		</>
 	);
