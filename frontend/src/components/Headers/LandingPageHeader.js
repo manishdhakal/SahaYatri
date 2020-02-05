@@ -7,7 +7,8 @@ import {
 	InputGroup,
 	Input,
 	InputGroupAddon,
-	InputGroupText
+	InputGroupText,
+	
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -16,42 +17,54 @@ import { Link } from "react-router-dom";
 function LandingPageHeader() {
 	let pageHeader = React.createRef();
 
-	React.useEffect(() => {
-		if (window.innerWidth < 991) {
-			const updateScroll = () => {
-				let windowScrollTop = window.pageYOffset / 3;
-				pageHeader.current.style.transform =
-					"translate3d(0," + windowScrollTop + "px,0)";
-			};
-			window.addEventListener("scroll", updateScroll);
-			return function cleanup() {
-				window.removeEventListener("scroll", updateScroll);
-			};
-		}
-	});
+	// React.useEffect(() => {
+	// 	if (window.innerWidth < 991) {
+	// 		const updateScroll = () => {
+	// 			let windowScrollTop = window.pageYOffset / 3;
+	// 			pageHeader.current.style.transform =
+	// 				"translate3d(0," + windowScrollTop + "px,0)";
+	// 		};
+	// 		window.addEventListener("scroll", updateScroll);
+	// 		return function cleanup() {
+	// 			window.removeEventListener("scroll", updateScroll);
+	// 		};
+	// 	}
+	// });
   return (
     <>
       <div
         style={{
-          backgroundImage: "url(" + require("assets/img/village.jpg") + ")"
-        }}
-        className="page-header"
+		  backgroundImage: "linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(" + require("assets/img/village.jpg") + ")",
+		  backgroundSize:'cover',
+		}}
+        
         data-parallax={true}
         ref={pageHeader}
       >
         <div className="filter" />
         <Container>
-          <div className="motto text-center">
+          <div className=" text-center text-white" style={{paddingTop:100}} >
             <h1>SAHAYATRI</h1>
             <h3>Creating Interface Between Locals and Tourists</h3>
             <br />
+			<InputGroup className='w-100 mx-auto' style={{height:200}}>
+				<InputGroupAddon addonType="prepend">
+					<InputGroupText  style={{height:40}}>
+					<i className="nc-icon nc-zoom-split"/>
+					</InputGroupText>
+				</InputGroupAddon>
+				<Input placeholder="Locals" type="text" />
+				<InputGroupAddon addonType="append" >
+					<Button color="primary" style={{height:40,}}>Browse</Button>
+				</InputGroupAddon>
+			</InputGroup>
             {/* <InputGroup className='w-75 mx-auto'>
-                <Input placeholder="Search" type="search" className='bg-transparent  text-white' />
-                 <InputGroupAddon addonType="apppend">
-                  <InputGroupText className='bg-transparent'>
-                    <i className="fa fa-search text-white view overlay zoom" onClick={()=>console.log('this')}/>
-                  </InputGroupText>
-                </InputGroupAddon>
+			<InputGroupAddon addonType="apppend">
+				<InputGroupText className=''>
+					<i className="nc-icon nc-zoom-split"/>
+				</InputGroupText>
+			</InputGroupAddon>
+                <Input placeholder="Search Locals" type="text" className='' />
             </InputGroup> */}
             {/* <Button
 	return (

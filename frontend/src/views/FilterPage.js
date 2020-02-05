@@ -125,6 +125,24 @@ function FilterPage(props) {
 				.get(url + "/api/" + props.history.location.type)
 				.then(resp => {
 					res.push(...resp.data);
+					switch(props.history.location.type){
+						case 'food':
+							for (let i = 0; i < resp.data.length; ++i) {
+								resp.data[i].type = 'cookndine';
+							}
+							break
+						case 'sathi':
+							for (let i = 0; i < resp.data.length; ++i) {
+								resp.data[i].type =  'user';
+							}
+							break
+						default:
+							for (let i = 0; i < resp.data.length; ++i) {
+								resp.data[i].type = 'event';
+							}
+							break
+						
+				}
 					setSearchItems(res);
 				});
 	}, []);
