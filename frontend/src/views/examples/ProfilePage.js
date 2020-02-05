@@ -28,8 +28,9 @@ function ProfilePage(props) {
     })
   },[])
 
+  const [userSM, setUserSM] = useState(false)
   const [user, setUser] = useState({});
-  const [images, setImages] = React.useState([])
+  const [images, setImages] = useState([])
   const [activeTab, setActiveTab] = useState("1");
 
 
@@ -40,12 +41,13 @@ function ProfilePage(props) {
   };
 
 
-  var slicedImage = images.slice(0, 3)
+  var slicedImage
+  userSM ? (slicedImage = images): ( slicedImage =  images.slice(0, 3) )
   var items = slicedImage.map(img => {
     return {
       src: url + img,
-      width: 4,
-      height: 3,
+      width: 1,
+      height:1,
       padding:10
     }
   })

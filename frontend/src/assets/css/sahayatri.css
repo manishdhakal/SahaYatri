@@ -1,0 +1,40 @@
+.btn-show-more {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .info-show-more {
+    border-color: #2196F3;
+    color: dodgerblue
+  }
+  
+  .info-show-more:hover {
+    background: #2196F3;
+    color: white;
+  }
+
+  .btn-navbar{
+      height: 25px;
+      border:solid;
+      background-color: transparent;
+      cursor: pointer;
+  }
+
+  .navbar-success {
+    border-color: #4CAF50;
+    color: white;
+  }
+  
+  .navbar-success:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  .speech-bubble {
+    position: relative;
+    border-radius: 50%;
+  }

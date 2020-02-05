@@ -18,7 +18,7 @@ import {
 } from "reactstrap";
 
 function ExamplesNavbar() {
-  const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
+  // const [navbarColor, setNavbarColor] = React.useState("");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
 
   const toggleNavbarCollapse = () => {
@@ -26,31 +26,31 @@ function ExamplesNavbar() {
     document.documentElement.classList.toggle("nav-open");
   };
 
-  React.useEffect(() => {
-    const updateNavbarColor = () => {
-      if (
-        document.documentElement.scrollTop > 299 ||
-        document.body.scrollTop > 299
-      ) {
-        setNavbarColor("");
-      } else if (
-        document.documentElement.scrollTop < 300 ||
-        document.body.scrollTop < 300
-      ) {
-        setNavbarColor("navbar-transparent");
-      }
-    };
+  // React.useEffect(() => {
+  //   const updateNavbarColor = () => {
+  //     if (
+  //       document.documentElement.scrollTop > 299 ||
+  //       document.body.scrollTop > 299
+  //     ) {
+  //       setNavbarColor("");
+  //     } else if (
+  //       document.documentElement.scrollTop < 300 ||
+  //       document.body.scrollTop < 300
+  //     ) {
+  //       setNavbarColor("navbar-transparent");
+  //     }
+  //   };
 
-    window.addEventListener("scroll", updateNavbarColor);
+  //   window.addEventListener("scroll", updateNavbarColor);
 
-    return function cleanup() {
-      window.removeEventListener("scroll", updateNavbarColor);
-    };
-  });
+  //   return function cleanup() {
+  //     window.removeEventListener("scroll", updateNavbarColor);
+  //   };
+  // });
   return (
     <Navbar
       style={{height:70}}
-      className={classnames("fixed-top", navbarColor)}
+      className={classnames("fixed-top text-dark")}
       color-on-scroll="300"
       expand="lg"
     >
@@ -63,20 +63,20 @@ function ExamplesNavbar() {
             title="SahaYatri"
             tag={Link}
           >
-            { document.documentElement.scrollTop < 300 ?
+            {/* { document.documentElement.scrollTop < 300 ?
               <img
               alt="..."
               className="img-no-padding img-responsive"
               style={{height:40}}
               src={require('assets/img/sahayatri-white.png')}
-              /> :
+              /> : */}
               <img
                 alt="..."
                 className="img-no-padding img-responsive"
                 style={{height:40}}
                 src={require('assets/img/sahayatri.png')}
               />
-            }
+            {/* } */}
             {/* SAHAYATRI */}
           </NavbarBrand>
           <button
@@ -96,32 +96,49 @@ function ExamplesNavbar() {
           navbar
           isOpen={navbarCollapse}
         >
-          <Nav navbar>
+          <Nav navbar className='text-dark'>
             <NavItem>
-              <a href='/filter'>
-              <NavLink>
-                <i className="fa fa-male" /> Companion
-              </NavLink>
+              <a href='#nth'>
+                <NavLink className='text-dark' to={{pathname:'/filter', type:'event' }}  tag={Link}>
+                  <i className="fa fa-male" /> Companion
+                </NavLink>
               </a>
             </NavItem>
             <NavItem>
-              <NavLink
-                to={{pathname:'/filter', type:'event'}}
-                
-                tag={Link}
-              >
-                <i className="nc-icon nc-pin-3" /> Local Events
-              </NavLink>
+              <a href='#nth'>
+                <NavLink
+                  to={{pathname:'/filter', type:'event'}}
+                  className='text-dark'
+                  tag={Link}
+                >
+                  <i className="nc-icon nc-pin-3" /> Local Events
+                </NavLink>
+              </a>
             </NavItem>
             <NavItem>
-              <NavLink
-                to={{pathname:'/filter', type:'food'}}
-                tag={Link}
-              >
-                <i className="fa fa-coffee" /> Cook {'&'} Dine
-              </NavLink>
+              <a href='#nth'>
+                <NavLink
+                  className='text-dark'
+                  to={{pathname:'/filter', type:'food'}}
+                  tag={Link}
+                >
+                  <i className="fa fa-coffee" /> Cook {'&'} Dine
+                </NavLink>
+              </a>
             </NavItem>
             <NavItem>
+              <a href='#nth'>
+                <NavLink
+                    to={{pathname:'/register', type:'food'}}
+                    tag={Link}
+                    style={{marginRight:30}}
+                    className=" text-center border text-dark"
+                  >
+                  LOGIN AS LOCAL
+                </NavLink>
+              </a>
+            </NavItem>
+            {/* <NavItem>
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/"
@@ -153,7 +170,7 @@ function ExamplesNavbar() {
                 <i className="fa fa-instagram" />
                 <p className="d-lg-none">Instagram</p>
               </NavLink>
-            </NavItem>
+            </NavItem> */}
             {/* <NavItem>
               <InputGroup>
                 <Input placeholder="Search" type="search" className='bg-transparent' color='neutral' />
