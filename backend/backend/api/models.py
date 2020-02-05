@@ -32,7 +32,7 @@ class Sathi(models.Model):
 
 class Photo(models.Model):
     image = models.ImageField(upload_to="images",default ="")
-    sathi = models.ForeignKey(Sathi,on_delete=models.CASCADE)
+    sathi = models.ForeignKey(Sathi,related_name='photos',on_delete=models.CASCADE)
 
 
     def __str__(self):
@@ -51,7 +51,7 @@ class FoodProvider(models.Model):
 
 class FoodPhoto(models.Model):
     image = models.ImageField(upload_to="foodimages",default ="")
-    food =  models.ForeignKey(FoodProvider,on_delete=models.CASCADE)
+    food =  models.ForeignKey(FoodProvider,related_name='photos',on_delete=models.CASCADE)
     def __str__(self):
         return self.food.name
 
@@ -91,7 +91,7 @@ class EventThumbnail(models.Model):
         return self.event.name
 
 class EventImages(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.DO_NOTHING)
+    event = models.ForeignKey(Event, related_name='photos',on_delete=models.DO_NOTHING)
     image = models.ImageField(upload_to="images/", verbose_name='Image')
     describe = models.TextField(blank=False)
 
