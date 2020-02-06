@@ -12,3 +12,4 @@ admin.site.register(Event)
 admin.site.register(EventImages)
 admin.site.register(BookingData)
 
+
