@@ -33,7 +33,7 @@ class EventPhotoType(DjangoObjectType):
 
 # -----------------------------------------------#
 class Query(object):
-    all_sathis=graphene.List(SathiType)
+    # all_sathis=graphene.List(SathiType)
     sathi = graphene.Field(SathiType,
                             id =graphene.Int(),
                             name = graphene.String())
