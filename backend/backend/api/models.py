@@ -43,11 +43,13 @@ class Sathi(models.Model):
     phone = models.BigIntegerField()
     description = models.TextField(max_length = 500)
     available = models.BooleanField()
-    time = models.DateTimeField()
+    time = models.DateTimeField(default = datetime.now())
     duration = models.CharField(max_length=10)
     languages = models.CharField(max_length=50)
     interests = models.CharField(max_length=250)
     location = models.CharField(max_length=300)
+    lat = models.FloatField(default= 0.00)
+    lon = models.FloatField(default= 0.00)
     price = models.IntegerField(default = 200)
   
     def __str__(self):
@@ -68,6 +70,8 @@ class FoodProvider(models.Model):
     dishes =  models.CharField(max_length=100)
     cook = models.BooleanField()
     price = models.IntegerField(default=200)
+    lat = models.FloatField(default= 0.00)
+    lon = models.FloatField(default= 0.00)
     def __str__(self):
         return self.name
 
@@ -98,6 +102,8 @@ def get_event_image(instance, filename):
 class Event(models.Model):
     name = models.CharField(max_length=50, blank=False)
     location = models.CharField(max_length=50, default="Kathmandu")
+    lat = models.FloatField(default= 0.00)
+    lon = models.FloatField(default= 0.00)
     datetime = models.DateTimeField(default = datetime.now())
     host = models.CharField(max_length=50)
     pricing = models.CharField(max_length=50, blank=True)
@@ -130,3 +136,4 @@ class BookingData(models.Model):
 
     def __str__(self):
         return self.fname
+

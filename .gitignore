@@ -27,6 +27,7 @@ yarn-error.log*
 # backend
 backend/venv
 backend/virtual
+backend/__pycache__
 
 package-lock.json
 yarn.lock

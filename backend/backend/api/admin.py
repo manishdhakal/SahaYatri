@@ -13,3 +13,4 @@ admin.site.register(EventImages)
 admin.site.register(BookingData)
 admin.site.register(Profile)
 
+
