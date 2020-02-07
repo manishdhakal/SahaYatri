@@ -1,18 +1,41 @@
 from django.db import models
 from datetime import datetime
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 
 # class FreeTime(models.Model):
 #     time = models.DateField(null=True)
 #     interval_hrs = models.IntegerField()
 
-class User(models.Model):
-    username = models.CharField(max_length=15, unique=True, default=None, primary_key=True)
-    name =  models.CharField(max_length=30, default=None)
+class Profile(models.Model):
+    user = models.OneToOneField(User,related_name='profile',on_delete=models.CASCADE)
+    CHOICES_FIELD = (
+        ('passport', 'PASSPORT'),
+        ('license', 'LICENSE'),
+        ('citizen', 'CITIZENSHIP')
+    )
+    docType = models.CharField(max_length=10, choices=CHOICES_FIELD, default='')
+    docID = models.CharField(max_length=50, blank=False)
+    phone = models.CharField(max_length=15, blank=False)
+    def __str__(self):
+        return self.user.username
 
-class Post(models.Model):
-    message = models.CharField(max_length=100)
-    posted_by = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+# class Post(models.Model):
+#     message = models.CharField(max_length=100)
+#     posted_by = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
 
 class Sathi(models.Model):
     name =  models.CharField(max_length=30, default=None)
@@ -99,16 +122,11 @@ class EventImages(models.Model):
         return self.event.name
 
 class BookingData(models.Model):
-    CHOICES_FIELD = (
-        ('passport', 'PASSPORT'),
-        ('license', 'LICENSE'),
-        ('citizen', 'CITIZENSHIP')
-    )
-    fname = models.CharField(max_length=50, blank=False)
-    lname = models.CharField(max_length=50, blank=False)
-    docType = models.CharField(max_length=10, choices=CHOICES_FIELD, default='')
-    docID = models.CharField(max_length=50, blank=False)
-    phone = models.CharField(max_length=15, blank=False)
+    
+    time = models.DateTimeField(default=datetime.now())
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,related_name="bookingdata",null =True,on_delete=models.CASCADE)
+    category = models.IntegerField(default=0)
+    categoryId=models.IntegerField(default=0)
 
     def __str__(self):
         return self.fname

@@ -2,7 +2,7 @@ import graphene
 
 from graphene_django.types import DjangoObjectType
 from .converter import BigInt
-from api.models import User, Sathi,Photo,Post,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
+from api.models import Sathi,Photo,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
 
 class SathiType(DjangoObjectType):
     phone = graphene.Field(BigInt)

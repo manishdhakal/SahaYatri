@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from api.models import User, Sathi,Photo,Post,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
-class UserSerialiser(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        abstract = True
-        model = User
-        fields = ['url','first_name',]
+from api.models import  Sathi,Photo,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
+# class UserSerialiser(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         abstract = True
+#         model = User
+#         fields = ['url','first_name',]
 
 
-class PostSerialiser(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        abstract = True
-        model = Post
-        fields = ['url','post_id', 'message', 'posted_by']
+# class PostSerialiser(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         abstract = True
+#         model = Post
+#         fields = ['url','post_id', 'message', 'posted_by']
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
