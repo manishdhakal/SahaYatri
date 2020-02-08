@@ -18,7 +18,10 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
-
+.sqlite3
+.png
+.jpg
+.jpeg
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'backend',
     'rest_framework',
     'corsheaders',
-    'api'
+    'api',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +86,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+GRAPHENE = {
+    'SCHEMA': 'backend.schema.schema'
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
