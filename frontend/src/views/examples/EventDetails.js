@@ -17,6 +17,7 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
 import EventPageHeader from "components/Headers/EventPageHeader";
+import LandingPage from "./LandingPage";
 
 function EventDetails(props) {
   
@@ -59,7 +60,7 @@ function EventDetails(props) {
   // console.log(user,images)
     return (
       <div>
-        <ExamplesNavbar />
+        <ExamplesNavbar {...props} />
         <EventPageHeader />
         <div className="section profile-content">
           <Container>
@@ -118,11 +119,12 @@ function EventDetails(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               <a href={'/checkout#event?'+event.id} >
-                <Button  className="btn-round w-25 h6" color="primary">
+                <Button  className="btn-round w-25 h6" color="info">
                   Attend
                 </Button>
               </a>
             </Col>
+            <LandingPage />
             <DemoFooter />
           </Container>
       </div>

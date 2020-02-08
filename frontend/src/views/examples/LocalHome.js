@@ -25,8 +25,9 @@ import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import { Link } from "react-router-dom";
 import Context from "context/context";
+import LocalNavbar from "components/Navbars/LocalNavbar";
 
-function LandingPage() {
+function LocalHome() {
   document.documentElement.classList.remove("nav-open");
   useEffect(() => {
 
@@ -57,60 +58,50 @@ function LandingPage() {
   const slicedFoods = foodSM? foods: foods.slice(0,3)
   return (
     <>
-      {/* <ExamplesNavbar {...props} /> */}
+      <LocalNavbar />
       {/* <LandingPageHeader /> */}
       <div className="main">
         <div className="section section-nude text-center" >
+        <p className='font-weight-bold'>You are an authorized the local person. You can post events and get hired as companion for the tourists</p>
           <Container  style={{color:'#000'}} >
-            <h3 className='text-center text-dark font-weight-bold'>Similar Offers</h3>
-            <h3 className="title">Companions around you</h3>
+            <h3 className="title font-weight-bold">Incoming Hirings</h3>
             <Row>
               {slicedSathis.map( sathi => 
               <Col md="4" >
-                <Col md='12' className=' rounded border shadow mb-20' style={{height:500, marginBottom:10}}>
-                  <Card className="card-profile card-plain">
-                    <div className="card-avatar">
-                      <a href=" " onClick={e => e.preventDefault()}>
-                        <Link onClick={()=> window.location.replace('/user/'+sathi.id)} >
-                        <img
-                          alt="..."
-                          src={url+sathi.image[0]}
-                        />
-                        </Link>
-                      </a>
-                    </div>
+                <Col md='12' className=' rounded border shadow' style={{marginBottom:10}}>
+                  <Card className="card-plain">
+                  
                     <CardBody>
                       <a href=" " onClick={e => e.preventDefault()}>
                         <div className="author">
-                          <CardTitle tag="h4">
-                          <Link className='font-weight-bold text-primary'  onClick={()=> window.location.replace('/user/'+sathi.id)}>{sathi.name} </Link>
+                          <CardTitle tag="h4" >
+                            <Link className='font-weight-bold text-primary' to ={{pathname:'/user/'+String(sathi.id), fromLocal:true}}> {sathi.name} </Link>
                           </CardTitle>
                         </div>
                       </a>
                       <br />
-                      <h4 className='text-success font-weight-bold'>$6/h</h4>
-                      <p className="card-description text-center" style={{color:'#000'}}>
-                        {sathi.description}
-                      </p>
+                      {/* <h4 className='text-info font-weight-bold'>$6/h</h4> */}
+                      <h5>2020-01-24</h5>
+                      <h5>3hrs</h5>
+                      <Button
+                        className=""
+                        style={{margin:10}}
+                        color="danger"
+                        href="#pablo"
+                        onClick={e => e.preventDefault()}
+                      >
+                        Decline
+                      </Button>
+                      <Button
+                        className=""
+                        color="info"
+                        href="#pablo"
+                        style={{margin:10}}
+                        onClick={e => e.preventDefault()}
+                      >
+                        Accept  
+                      </Button>
                     </CardBody>
-                    <CardFooter className="text-center">
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1 text-dark"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-instagram" />
-                      </Button>
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1 text-dark"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-facebook" />
-                      </Button>
-                    </CardFooter>
                   </Card>
                 </Col>
               </Col>
@@ -211,7 +202,7 @@ function LandingPage() {
 
         <div className="section section-nude text-center">
           <Container>
-            <h3 className="title">Events Near You</h3>
+            <h2 className="title">Events Near You</h2>
             <Row>
               {slicedEvents.map(event => 
               <Col md="4">
@@ -267,7 +258,7 @@ function LandingPage() {
         </div>
         <div className="section section-nude text-center">
           <Container>
-            <h3 className="title">Cook {'&'} Dine Near You</h3>
+            <h2 className="title">Cook {'&'} Dine Near You</h2>
             <Row>
               {slicedFoods.map(food => 
               <Col md="4">
@@ -376,4 +367,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default LocalHome;

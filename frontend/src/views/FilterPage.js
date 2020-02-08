@@ -160,7 +160,7 @@ function FilterPage(props) {
 					width: "100%"
 				}}
 			>
-				<ExamplesNavbar />
+				<ExamplesNavbar {...props} />
 				<Container>
 					<Form
 						onSubmit={e => {

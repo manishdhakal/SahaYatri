@@ -14,5 +14,4 @@ import MyRoute from 'Route'
 
 ReactDOM.render(<MyRoute />, document.getElementById("root") );
 
-// ReactDOM.render(<Test/>, document.getElementById('root'))
 serviceWorker.register();

@@ -12,23 +12,22 @@ import {
   NavLink,
   Nav,
   Container,
+  DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  ButtonDropdown,
-  DropdownItem,
-  Dropdown,
+  Dropdown
 } from "reactstrap";
 import Context from "context/context";
 
-function ExamplesNavbar(props) {
+function LocalNavbar(props) {
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const {user, setUser} = useContext(Context)
   
-  // console.log(props)
+  console.log(user)
 
   // const [navbarColor, setNavbarColor] = React.useState("");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
-  const [isDropdownOpen,setIsDropdownOpen ] = useState(false)
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
@@ -56,22 +55,21 @@ function ExamplesNavbar(props) {
   //     window.removeEventListener("scroll", updateNavbarColor);
   //   };
   // });
-  console.log(user)
   return (
     <Navbar
-      style={{height:50, }}
+      style={{height:70}}
       className={classnames("fixed-top text-dark")}
       color-on-scroll="300"
       expand="lg"
     >
-      <Container style={{marginTop:-20}}>
+      <Container>
         <div className="navbar-translate">
           <NavbarBrand
             data-placement="bottom"
-            to="/"
+            // to="/"
             // target="_blank"
             title="SahaYatri"
-            tag={Link}
+            // tag={Link}
           >
             {/* { document.documentElement.scrollTop < 300 ?
               <img
@@ -80,12 +78,14 @@ function ExamplesNavbar(props) {
               style={{height:40}}
               src={require('assets/img/sahayatri-white.png')}
               /> : */}
+              <a href='/'>
               <img
                 alt="..."
                 className="img-no-padding img-responsive"
-                style={{height:40 }}
+                style={{height:40}}
                 src={require('assets/img/sahayatri.png')}
               />
+              </a>
             {/* } */}
             {/* SAHAYATRI */}
           </NavbarBrand>
@@ -109,26 +109,12 @@ function ExamplesNavbar(props) {
           <Nav navbar className='text-dark'>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
-                  <i className="fa fa-male" /> Make an Offer
+                <NavLink className='text-dark' to={{pathname:'/filter', type:'event' }}  tag={Link}>
+                  <i className="fa fa-male" /> Companion
                 </NavLink>
               </a>
             </NavItem>
             <NavItem>
-              <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
-                  <i className="fa fa-hand-pointer-o" /> My Offers
-                </NavLink>
-              </a>
-            </NavItem>
-            <NavItem>
-              <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
-                  <i className="nc-icon nc-cart-simple" /> {' '}My Bookings
-                </NavLink>
-              </a>
-            </NavItem>
-            {/* <NavItem>
               <a href='#nth'>
                 <NavLink
                   to={{pathname:'/filter', type:'event'}}
@@ -149,21 +135,8 @@ function ExamplesNavbar(props) {
                   <i className="fa fa-coffee" /> Cook {'&'} Dine
                 </NavLink>
               </a>
-            </NavItem> */}
-            <NavItem>
-              <a href='#nth'>
-                <NavLink
-                    to={{pathname:'/register-local'}}
-                    tag={Link}
-                    style={{marginRight:30}}
-                    className=" text-center border text-dark"
-                  >
-                  JOIN AS LOCAL
-                </NavLink>
-              </a>
             </NavItem>
-            { user.isLoggedIn ?
-              <Dropdown nav isOpen={isDropdownOpen} toggle={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <Dropdown nav isOpen={isDropdownOpen} toggle={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <a href='#nth'>
                   <DropdownToggle nav caret className='text-dark'> 
                   <img alt='' src={require('assets/img/faces/kaci-baum-2.jpg')} style={{borderRadius:'50%', height:20, width:20}} />
@@ -183,22 +156,7 @@ function ExamplesNavbar(props) {
                       </DropdownItem>
                   </DropdownMenu>
                 </a>
-              </Dropdown> :
-              <NavItem>
-                <a href='#nth'>
-                  <NavLink
-                      to={{pathname:'/register'}}
-                      onClick={() => setUser({...user, afterLogin: props.location.pathname}) }
-                      tag={Link}
-                      style={{marginRight:30}}
-                      className=" text-center text-dark"
-                    >
-                    LOGIN
-                  </NavLink>
-                </a>
-              </NavItem>
-            }
-
+              </Dropdown>
             {/* <NavItem>
               <NavLink
                 data-placement="bottom"
@@ -249,4 +207,4 @@ function ExamplesNavbar(props) {
   );
 }
 
-export default ExamplesNavbar;
+export default LocalNavbar;

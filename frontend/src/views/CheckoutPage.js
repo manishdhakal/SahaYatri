@@ -57,7 +57,7 @@ export default function CheckoutPage(props) {
 
 	return (
 		<div>
-			<ExamplesNavbar />
+			<ExamplesNavbar {...props} />
 			<ProfilePageHeader />
 			<br />
 			<Modal isOpen={modal} toggle={toggle} className='text-dark'>

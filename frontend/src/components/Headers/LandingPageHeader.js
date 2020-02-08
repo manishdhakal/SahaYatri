@@ -34,7 +34,7 @@ function LandingPageHeader() {
     <>
       <div
         style={{
-		  backgroundImage: "linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(" + require("assets/img/village.jpg") + ")",
+		  backgroundImage: "linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(" + require("assets/img/village.jpg") + ")",
 		  backgroundSize:'cover',
 		}}
         

@@ -17,6 +17,7 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
 import CookNDineHeader from "components/Headers/CookNDineHeader";
+import LandingPage from 'views/examples/LandingPage'
 
 function CookNDine(props) {
   
@@ -58,7 +59,7 @@ function CookNDine(props) {
   console.log(cook,images)
     return (
       <div>
-        <ExamplesNavbar />
+        <ExamplesNavbar {...props} />
         <CookNDineHeader />
         <div className="section profile-content">
           <Container>
@@ -112,11 +113,12 @@ function CookNDine(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <a href={'/checkout#food?'+cook.id} type='sathi'>
-                    <Button  className="btn-round w-25 h6" color="primary">
-                    Hire Now
+                    <Button  className="btn-round w-25 h6" color="info">
+                    Attend
                     </Button>
                 </a>
             </Col>
+            <LandingPage />
             <DemoFooter />
           </Container>
       </div>
@@ -127,7 +129,7 @@ function CookNDine(props) {
   // else{
   //   return (
   //     <div>
-  //       <ExamplesNavbar />
+  //       <ExamplesNavbar {...props} />
   //         <ProfilePageHeader />
   //    <Gallery photos={items} />
   //    </div>

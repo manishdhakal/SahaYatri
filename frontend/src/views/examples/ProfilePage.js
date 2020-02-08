@@ -18,6 +18,7 @@ import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from "axios";
 import {Link} from 'react-router-dom'
+import LandingPage from "./LandingPage";
 
 function ProfilePage(props) {  
   useEffect(() =>{
@@ -41,7 +42,7 @@ function ProfilePage(props) {
   };
 
 
-  var slicedImage
+  var slicedImage;
   userSM ? (slicedImage = images): ( slicedImage =  images.slice(0, 3) )
   var items = slicedImage.map(img => {
     return {
@@ -66,10 +67,9 @@ function ProfilePage(props) {
   //   // };
   // },[]);
 
-  console.log(user,images)
     return (
       <div>
-        <ExamplesNavbar />
+        <ExamplesNavbar {...props} />
         <ProfilePageHeader />
         <div className="section profile-content">
           <Container>
@@ -122,15 +122,15 @@ function ProfilePage(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              {user.available ?
-              <a href={'/checkout#sathi?'+user.id} type='sathi'>
-                <Button  className="btn-round w-25 h6" color="primary">
-                  Hire Now
-                </Button>
-              </a> :
-              <h6>Sorry, the companion is not available for now</h6>
+              {!props.location.fromLocal &&
+                <a href={'/checkout#sathi?'+user.id} type='sathi'>
+                  <Button  className="btn-round h6" color="info">
+                    Hire Now
+                  </Button>
+                </a>
               }
             </Col>
+            {!props.location.fromLocal && <LandingPage />}
             <DemoFooter />
           </Container>
       </div>
@@ -141,7 +141,7 @@ function ProfilePage(props) {
   // else{
   //   return (
   //     <div>
-  //       <ExamplesNavbar />
+  //       <ExamplesNavbar {...props} />
   //         <ProfilePageHeader />
   //    <Gallery photos={items} />
   //    </div>

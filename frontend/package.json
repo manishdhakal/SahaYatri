@@ -16,7 +16,7 @@
     "prop-types": "^15.6.0",
     "react": "16.8.6",
     "react-bootstrap-switch": "15.5.3",
-    "react-datetime": "2.16.3",
+    "react-calendar": "^2.19.2",
     "react-dom": "16.8.6",
     "react-geolocated": "^3.0.1",
     "react-leaflet": "^2.6.1",
@@ -29,6 +29,7 @@
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
+    "react-spinners": "^0.8.0",
     "reactstrap": "8.0.0",
     "recompose": "^0.30.0"
   },
