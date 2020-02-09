@@ -1,7 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from .converter import BigInt
-from api.models import Sathi,Photo,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail
+from api.models import Sathi,Photo,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail,SathiTime,FoodTime,EventTime
 from geopy.distance import geodesic
 from django.db.models import Case, When
 
@@ -13,6 +13,11 @@ class SathiType(DjangoObjectType):
 class PhotoType(DjangoObjectType):
     class Meta:
         model = Photo
+
+class SathiTimeType(DjangoObjectType):
+    class Meta:
+        model = SathiTime
+
 # -----------------------------------------------#
 
 class FoodType(DjangoObjectType):
@@ -22,6 +27,10 @@ class FoodType(DjangoObjectType):
 class FoodPhotoType(DjangoObjectType):
     class Meta:
         model = FoodPhoto
+
+class FoodTimeType(DjangoObjectType):
+    class Meta:
+        model = FoodTime
 # -----------------------------------------------#
 
 class EventType(DjangoObjectType):
@@ -32,6 +41,10 @@ class EventPhotoType(DjangoObjectType):
     class Meta:
         model = EventImages
 
+class EventTimeType(DjangoObjectType):
+    class Meta:
+        model = EventTime
+
 # -----------------------------------------------#
 class Query(object):
     nearby_sathis = graphene.List(SathiType,
@@ -40,6 +53,8 @@ class Query(object):
                                   limit = graphene.Float())
 
     all_sathis=graphene.List(SathiType)
+
+    all_sathi_time=graphene.List(SathiTimeType)
     sathi = graphene.Field(SathiType,
                             id =graphene.Int(),
                             name = graphene.String())
@@ -56,15 +71,33 @@ class Query(object):
                             name = graphene.String())
     all_event_photos=graphene.List(EventPhotoType)
 
+    my_sathis=graphene.List(SathiType)
+    my_foods=graphene.List(FoodType)
+    my_events=graphene.List(EventType)
 
+
+    def resolve_all_sathi_time(self,info,**kwargs):
+        # id= kwargs.get('id')
+        # sathi=Sathi.objects.get(id=id)
+        sathis= SathiTime.objects.all()
+        # print(sathis)
+        return sathis
     def resolve_all_sathis(self,info,**kwargs):
         return Sathi.objects.all()
 
-    def resolve_all_sathi_photos(self,info,**kwargs):
-        return Photo.objects.select_related('sathi').all()
+    def resolve_my_sathis(self,info,**kwargs):
+        user=info.context.user
+        return Sathi.objects.filter(user=user)
+
+    # def resolve_all_sathi_photos(self,info,**kwargs):
+    #     return Photo.objects.select_related('sathi').all()
  # -----------------------------------------------------------------------------------#
     def resolve_all_foods(self,info,**kwargs):
         return FoodProvider.objects.all()
+
+    def resolve_my_foods(self,info,**kwargs):
+        user=info.context.user
+        return FoodProvider.objects.filter(user=user)
 
     def resolve_all_food_photos(self,info,**kwargs):
         return FoodPhoto.objects.select_related('food').all()
@@ -72,6 +105,10 @@ class Query(object):
 # -------------------------------------------------------------------------------------#
     def resolve_all_events(self,info,**kwargs):
         return Event.objects.all()
+
+    def resolve_my_events(self,info,**kwargs):
+        user=info.context.user
+        return Event.objects.filter(user=user)
 
     def resolve_all_events_photos(self,info,**kwargs):
         return EventImages.objects.select_related('events').all()
