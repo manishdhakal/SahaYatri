@@ -9,6 +9,8 @@ import 'leaflet-routing-machine'
 import {Card,  CardBody, Button, CardTitle, Input, Row, Col, InputGroup, InputGroupAddon} from 'reactstrap'
 import url from 'url.js'
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar';
+import { get_nearby_sathis } from 'api';
+import { resources_api } from 'api';
 
 
 const personIcon = (imgUrl) => new Icon({
@@ -29,13 +31,13 @@ const LandingMap = (props)=>  {
 	  });
 
 	const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
-	const [search, setSearch] = useState(false)
+	// const [search, setSearch] = useState(false)
     const [sathis, setSathis] = useState([])
     
     const {user, setUser} = useContext(Context)
 	
 	useEffect(()=>{
-		axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
+		// axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
 		
 		if (!navigator.geolocation) {
 			alert('Geolocation is not supported by your browser');
@@ -45,14 +47,17 @@ const LandingMap = (props)=>  {
 				
 				setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
 				setMyLoc([pos.coords.latitude, pos.coords.longitude])
+				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude).then(res => setSathis(res.data.nearbySathis))
 			});
 		}
 
 	},[])
 
-	
-	const markers = sathis.map((sathi,i) => 
-		<Marker position={[viewport.center[0]+0.01* (i+1), viewport.center[1]+(0.01*i)]} icon={personIcon(url + sathi.image[0])} >
+	console.log(sathis)
+	const markers = sathis.map(sathi => 
+		<Marker position={[sathi.lat, sathi.lon]} 
+				icon={personIcon(resources_api + sathi.photos[0].image)} 
+		>{console.log(sathi)}
 			<Popup>
 				<Card className="card-profile card-plain" style={{width:200}}>
                     <div className="card-avatar">
@@ -60,7 +65,7 @@ const LandingMap = (props)=>  {
                         <Link to={{pathname:'/user/'+ sathi.id}} >
                         <img
                           alt="..."
-                          src={url+sathi.image[0]}
+                          src={resources_api+sathi.photos[0].image}
                         />
                         </Link>
                       </a>

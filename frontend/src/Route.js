@@ -12,13 +12,15 @@ import Index from 'views/Index'
 import Context from "context/context";
 import LandingMap from "views/examples/LandingMap";
 import axios  from "axios";
-import url from "url";
+// import url from "url";
 import CheckLocal from "views/examples/CheckLocal";
 import {RingLoader, BarLoader, PropagateLoader, ScaleLoader} from 'react-spinners'
 import LocalHome from "views/examples/LocalHome";
 import LocalRoute from "views/examples/LocalRoute";
 import Register from "views/examples/Register";
 import MakeOffer from 'views/examples/MakeOffer'
+import { get_nearby_sathis } from "api";
+
 
 // console.log('Route')
 // const temp_user = {isLoggedIn:true, isLocalApproved: true}
@@ -29,10 +31,13 @@ const MyRoute = ()=>{
 	const [user, setUser] = useState({isLoggedIn:false, isLocalApproved:false})
 	const provider = useMemo(() => ({user, setUser}), [user, setUser])
 
+
+
+	console.log(user)
 	useEffect(() => {
-		setUser({...user, isLoggedIn:true, isLocalApproved: true})
-		setIsConnecting(false)
-		console.log('Route inside useeffect')
+			setUser({...user, isLoggedIn:true, isLocalApproved: true})
+			setIsConnecting(false)
+		// console.log('Route inside useeffect')
 	},[])
 
 	if(isConnecting)
