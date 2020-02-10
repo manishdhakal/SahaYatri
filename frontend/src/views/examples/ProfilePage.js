@@ -40,16 +40,6 @@ function ProfilePage(props) {
   const [activeTab, setActiveTab] = useState("1");
 
   console.log(user)
-
-  const toggle = tab => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-    }
-  };
-
-
-  var slicedImage;
-  userSM ? (slicedImage = images): ( slicedImage =  images.slice(0, 3) )
   var items = images.map(img => {
     return {
       src: resource_url + img,

@@ -42,9 +42,11 @@ const MyRoute = ()=>{
 	useEffect(() => {
 		const token = cookie.load('token') 
 		if( token !== undefined) {
-			// console.log(cookie.load('token'))
+			console.log(cookie.load('token'))
 			// my_sathis().then(res => console.log('res'))
+
 			check_session(token).then(res => {
+				console.log("res")
 				if (res.data.verifyToken !== null){
 					let data = res.data.verifyToken.payload
 					setUser({...user, isLoggedIn:true, username:data.username})

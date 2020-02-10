@@ -87,7 +87,6 @@ class Query(object):
     def resolve_all_sathis(self,info,**kwargs):
         return Sathi.objects.all()
 
-    @login_required
     def resolve_my_sathis(self,info,**kwargs):
         # user=info.context.user
         username = kwargs.get('username')

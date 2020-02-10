@@ -1,7 +1,7 @@
 import { createApolloFetch } from "apollo-fetch";
 
 import cookie from 'react-cookies'
-const ngrok_uri = 'http://3bc198b5.ngrok.io'
+const ngrok_uri = 'http://127.0.0.1:8000'
 const fetch = createApolloFetch({uri:ngrok_uri+'/graphql/'})
 
 
