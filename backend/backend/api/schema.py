@@ -47,7 +47,7 @@ class EventTimeType(DjangoObjectType):
     class Meta:
         model = EventTime
 
-# -----------------------------------------------#
+#-----------------------------------------------#
 class Query(object):
     nearby_sathis = graphene.List(SathiType,
                                   lat = graphene.Float(),
