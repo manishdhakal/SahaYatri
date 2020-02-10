@@ -44,17 +44,20 @@ const MyRoute = ()=>{
 		if( token !== undefined) {
 			console.log(cookie.load('token'))
 			// my_sathis().then(res => console.log('res'))
-
 			check_session(token).then(res => {
 				console.log("res")
 				if (res.data.verifyToken !== null){
 					let data = res.data.verifyToken.payload
 					setUser({...user, isLoggedIn:true, username:data.username})
+					setIsConnecting(false)
 				}
 			})
-			
 		}
-		setIsConnecting(false)
+		else {
+			setUser({...user, isLoggedIn:false})
+			setIsConnecting(false)
+		}
+
 		// console.log('Route inside useeffect')
 	},[])
 
@@ -75,7 +78,6 @@ const MyRoute = ()=>{
 					path="/"
 					component={LandingMap}
 					 />
-				/>
 				{/* <Route
 					path="/home"
 					component={LandingPage}
@@ -102,14 +104,14 @@ const MyRoute = ()=>{
 					component={Register}
 				/>
 				{/* <Route path="/filter" component={FilterPage} /> */}
-				<Route path='/make-offer' component={MakeOffer} />
+				<Route strict={false} path='/make-offer' component={MakeOffer} />
 				{/* <Route path="/filter-event" render={props => <FilterPage {...props} />} />
 				<Route path="/filter-food" render={props => <FilterPage {...props} />} /> */}
 				<Route
 					path="/checkout"
 					component={CheckoutPage}
 				/>
-				<Route path='/my-bookings' component={MyBookings} />
+				<Route path='/my-bookings'  component={MyBookings} />
 				<Route path='/my-offers' component={MyOffers} />
 				<Route
 					path="/local"

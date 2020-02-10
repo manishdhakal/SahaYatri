@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom'
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Context from "context/context";
 import { login_user } from "api";
+import { check_session } from "api";
+import cookie from 'react-cookies'
 
 function Register(props) {
 
@@ -16,17 +18,28 @@ function Register(props) {
   const {user, setUser} = useContext(Context)
   document.documentElement.classList.remove("nav-open");
   useEffect(() => {
-
+    cookie.remove('token')
     setUser({...user, isLoggedIn:false, isLocalApproved:false})
   
   },[]);
   const next_link = user.afterLogin ? user.afterLogin: '/'
-  console.log(user)
-  // console.log(props)
 
   const handleLogin = () =>{
-    login_user(login.username, login.password)
+    login_user(login.username, login.password).then(res => {
+      console.log(res)
+      let auth = res.data.tokenAuth
+      if (auth){
+        cookie.save('token', auth.token)
+        check_session(auth.token).then(r => {
+          setUser({username:r.data.verifyToken.payload.username, isLoggedIn:true})
+          window.location.replace(next_link)
+        })
+        // setUser({})
+      }
+    })
+    // window.location.replace('/')
   }
+  // console.log(login)
   return (
     <>
       <ExamplesNavbar {...props} />
@@ -144,8 +157,8 @@ function Register(props) {
                   <Input placeholder="Username" type="text" onChange={e => setLogin({...login, username:e.target.value})} />
                   <label className='text-white '>Password</label>
                   <Input placeholder="Password" type="password" onChange={e => setLogin({...login, password:e.target.value})} />
-                  <Link to={next_link} onClick={() => setUser({...user,isLoggedIn:true, isLocalApproved:true})}>
-                    <Button block className="btn-round" color="info" onClick={handleLogin}>
+                  <Link onClick={() => setUser({...user,isLoggedIn:true, isLocalApproved:true})}>
+                    <Button block className="btn-round" color="info" onClick={handleLogin} hr>
                       Continue
                     </Button>
                   </Link>

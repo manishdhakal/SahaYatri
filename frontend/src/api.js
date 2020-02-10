@@ -15,7 +15,7 @@ const fetch = createApolloFetch({uri:ngrok_uri+'/graphql/'})
 //   // next();
 // });
 
-const get_nearby_sathis =  (lat, lng, limit=10) => fetch({query:`query {
+const get_nearby_sathis =  (lat, lng, limit=50) => fetch({ query:`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
         name
         id

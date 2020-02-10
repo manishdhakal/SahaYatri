@@ -1,7 +1,8 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
+import cookie from 'react-cookies'
 
 // reactstrap components
 import {
@@ -56,10 +57,17 @@ function ExamplesNavbar(props) {
   //     window.removeEventListener("scroll", updateNavbarColor);
   //   };
   // });
-  console.log(user)
+  useEffect(() => console.log(navbarCollapse))
+  // console.log(user)
+  const handleLogout = () => {
+    cookie.remove('token')
+    setUser({isLoggedIn:false})
+    window.location.reload()
+  }
   return (
+    // <div style={{width:'100%'}}>
     <Navbar
-      style={{height:50, }}
+      style={{height:50, width:"100%", paddingRight:10 }}
       className={classnames("fixed-top text-dark")}
       color-on-scroll="300"
       expand="lg"
@@ -109,21 +117,21 @@ function ExamplesNavbar(props) {
           <Nav navbar className='text-dark'>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
+                <NavLink className='text-dark' onClick={() => window.location.replace('/make-offer')}  tag={Link}>
                   <i className="fa fa-male" /> Make an Offer
                 </NavLink>
               </a>
             </NavItem>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/my-offers', type:'event' }}  tag={Link}>
+                <NavLink className='text-dark' onClick={() => window.location.replace('/my-offers')}  tag={Link}>
                   <i className="fa fa-hand-pointer-o" /> My Offers
                 </NavLink>
               </a>
             </NavItem>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/my-bookings', type:'event' }}  tag={Link}>
+                <NavLink className='text-dark' onClick={() => window.location.replace('/my-bookings')}  tag={Link}>
                   <i className="nc-icon nc-cart-simple" /> {' '}My Bookings
                 </NavLink>
               </a>
@@ -177,7 +185,7 @@ function ExamplesNavbar(props) {
                     </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem header>
-                      <Link className='text-uppercase font-weight-bold' to={{pathname:'/'}} onClick={() => setUser({...user, isLoggedIn:false, isLocalApproved:false})}>
+                      <Link className='text-uppercase font-weight-bold' onClick={() => handleLogout()}>
                         LOGOUT
                       </Link>
                       </DropdownItem>
@@ -246,6 +254,7 @@ function ExamplesNavbar(props) {
         </Collapse>
       </Container>
     </Navbar>
+    // </div>
   );
 }
 

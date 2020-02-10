@@ -27,7 +27,7 @@ const LandingMap = (props)=>  {
 
 	const [viewport, setViewport] = useState({
 		center : [27.684624, 85.333711],
-		zoom: 17,
+		zoom: 16,
 	  });
 
 	const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
@@ -38,13 +38,15 @@ const LandingMap = (props)=>  {
 	
 	useEffect(()=>{
 		// axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-		
+		get_nearby_sathis(viewport.center[0], viewport.center[1]).then(res => setSathis(res.data.nearbySathis))
+
 		if (!navigator.geolocation) {
 			alert('Geolocation is not supported by your browser');
+			// console.log('pos')
 		} else {
 			
 			navigator.geolocation.getCurrentPosition((pos)=>{
-				// console.log('got here')
+				
 				setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
 				setMyLoc([pos.coords.latitude, pos.coords.longitude])
 				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude).then(res => setSathis(res.data.nearbySathis))
@@ -95,7 +97,7 @@ const LandingMap = (props)=>  {
 		return (
 			<div>
 				<ExamplesNavbar {...props}/>
-				<Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50}}
+				<Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
 					onclick={(e)=> {
 						setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
 						setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})
