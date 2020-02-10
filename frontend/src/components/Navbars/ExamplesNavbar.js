@@ -116,14 +116,14 @@ function ExamplesNavbar(props) {
             </NavItem>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
+                <NavLink className='text-dark' to={{pathname:'/my-offers', type:'event' }}  tag={Link}>
                   <i className="fa fa-hand-pointer-o" /> My Offers
                 </NavLink>
               </a>
             </NavItem>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/make-offer', type:'event' }}  tag={Link}>
+                <NavLink className='text-dark' to={{pathname:'/my-bookings', type:'event' }}  tag={Link}>
                   <i className="nc-icon nc-cart-simple" /> {' '}My Bookings
                 </NavLink>
               </a>

@@ -25,14 +25,17 @@ import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import { Link } from "react-router-dom";
 import Context from "context/context";
+import { get_all_sathis, get_all_events, resource_url, get_all_foods } from "api";
 
-function LandingPage() {
+function LandingPage(props) {
+  console.log(props)
   document.documentElement.classList.remove("nav-open");
   useEffect(() => {
 
-    axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-    axios.get(url+'/api/event/').then(resp => setEvents(resp.data))
-    axios.get(url+'/api/food/').then(resp => setFoods(resp.data))
+    // axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
+    get_all_sathis().then(res => setSathis(res.data.allSathis.filter(sathi => sathi.id !== props.match.params.id )))
+    get_all_events().then(res => setEvents(res.data.allEvents.filter(evnt => evnt.id !== props.match.params.id)))
+    get_all_foods().then(res => setFoods(res.data.allFoods.filter(f => f.id !== props.match.params.id)))
 
     document.body.classList.add("profile");
     return function cleanup() {
@@ -50,8 +53,8 @@ function LandingPage() {
   const [foods, setFoods] = useState([])
 
   const {user, setUser} = useContext(Context)
-  console.log(user.isLoggedIn)
-
+  // console.log(user.isLoggedIn)
+  // sathis.filter(sathi => sathi.id !== user.id )
   const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
   const slicedEvents = eventSM? events: events.slice(0,3)
   const slicedFoods = foodSM? foods: foods.slice(0,3)
@@ -72,10 +75,12 @@ function LandingPage() {
                     <div className="card-avatar">
                       <a href=" " onClick={e => e.preventDefault()}>
                         <Link onClick={()=> window.location.replace('/user/'+sathi.id)} >
-                        <img
-                          alt="..."
-                          src={url+sathi.image[0]}
-                        />
+                        {sathis.length !== 0 &&
+                          <img
+                            alt="..."
+                            src={resource_url + sathi.photos[0].image}
+                          />
+                        }
                         </Link>
                       </a>
                     </div>
@@ -88,7 +93,7 @@ function LandingPage() {
                         </div>
                       </a>
                       <br />
-                      <h4 className='text-success font-weight-bold'>$6/h</h4>
+                      <h4 className='text-success font-weight-bold'> Nrs. {sathi.price}</h4>
                       <p className="card-description text-center" style={{color:'#000'}}>
                         {sathi.description}
                       </p>
@@ -220,10 +225,12 @@ function LandingPage() {
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
+                        {events.length !== 0 &&
                           <img
                             alt="..."
-                            src={url+event.image[0]}
+                            src={resource_url + event.photos[0].image}
                           />
+                        }
                         </Link>
                       </a>
                     </div>
@@ -233,6 +240,7 @@ function LandingPage() {
                           <CardTitle tag="h4" className='font-weight-bold'>{event.name}</CardTitle>
                         </div>
                       </a>
+                      <h4 className='text-success font-weight-bold'> Nrs. {event.price}</h4>
                       <p className="card-description text-center" style={{color:'#000'}}>
                         {event.description}
                       </p>
@@ -276,10 +284,12 @@ function LandingPage() {
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <Link to={{pathname:'/cookndine/'+ food.id, id:food.id}}>
+                        {foods.length !== 0 &&
                           <img
                             alt="..."
-                            src={url+food.image[0]}
+                            src={resource_url + food.photos[0].image}
                           />
+                        }
                         </Link>
                       </a>
                     </div>
@@ -289,7 +299,8 @@ function LandingPage() {
                           <CardTitle tag="h4">{food.name}</CardTitle>
                         </div>
                       </a>
-                      <p className="card-description text-center">
+                      <h4 className='text-success font-weight-bold'> Nrs. {food.price}</h4>
+                      <p className="card-description text-center text-dark">
                         {food.description}
                       </p>
                     </CardBody>

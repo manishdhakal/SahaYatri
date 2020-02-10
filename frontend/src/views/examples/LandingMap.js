@@ -10,7 +10,7 @@ import {Card,  CardBody, Button, CardTitle, Input, Row, Col, InputGroup, InputGr
 import url from 'url.js'
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar';
 import { get_nearby_sathis } from 'api';
-import { resources_api } from 'api';
+import { resource_url } from 'api';
 
 
 const personIcon = (imgUrl) => new Icon({
@@ -44,7 +44,7 @@ const LandingMap = (props)=>  {
 		} else {
 			
 			navigator.geolocation.getCurrentPosition((pos)=>{
-				
+				// console.log('got here')
 				setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
 				setMyLoc([pos.coords.latitude, pos.coords.longitude])
 				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude).then(res => setSathis(res.data.nearbySathis))
@@ -56,7 +56,7 @@ const LandingMap = (props)=>  {
 	console.log(sathis)
 	const markers = sathis.map(sathi => 
 		<Marker position={[sathi.lat, sathi.lon]} 
-				icon={personIcon(resources_api + sathi.photos[0].image)} 
+				icon={personIcon(resource_url + sathi.photos[0].image)} 
 		>{console.log(sathi)}
 			<Popup>
 				<Card className="card-profile card-plain" style={{width:200}}>
@@ -65,7 +65,7 @@ const LandingMap = (props)=>  {
                         <Link to={{pathname:'/user/'+ sathi.id}} >
                         <img
                           alt="..."
-                          src={resources_api+sathi.photos[0].image}
+                          src={resource_url+sathi.photos[0].image}
                         />
                         </Link>
                       </a>
@@ -79,7 +79,7 @@ const LandingMap = (props)=>  {
                         </div>
                       </a>
                       <br />
-                      <h5 className='text-info font-weight-bold'>$6/h</h5>
+                      <h5 className='text-info font-weight-bold'>{sathi.price}</h5>
                       <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
                         {sathi.description}
                       </p>
@@ -106,12 +106,12 @@ const LandingMap = (props)=>  {
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 					
 					/>
-					{/* <ReactLeafletSearch closeResultsOnClick={true} inputPlaceholder='Search Places'  position="topright" showPopup={false} /> */}
+					<ReactLeafletSearch  closeResultsOnClick={true} inputPlaceholder='Search Places'  position="topright" showPopup={false} />
 					{markers}
 					<CircleMarker center={{lat:myLoc[0], lng:myLoc[1]}} radius={20} >
-					<Popup>
+					{/* <Popup>
 						You Are Here.
-					</Popup>
+					</Popup> */}
 					</CircleMarker>
 					<Marker position={viewport.center} >
 					<Popup>

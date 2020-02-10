@@ -19,13 +19,18 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from "axios";
 import {Link} from 'react-router-dom'
 import LandingPage from "./LandingPage";
+import { get_sathi } from "api";
+import { resource_url } from "api";
 
 function ProfilePage(props) {  
   useEffect(() =>{
     const id = props.match.params.id
-    axios.get(url+'/api/sathi/'+id).then(e => {
-      setUser(e.data[0])
-      setImages(e.data[0].image)
+    get_sathi(id).then(res => {
+      setUser(res.data.sathi)
+      let photos =  res.data.sathi.photos
+      let img_arr = []
+      photos.forEach(photo => img_arr.push(photo.image))
+      setImages(img_arr)
     })
   },[])
 
@@ -34,6 +39,7 @@ function ProfilePage(props) {
   const [images, setImages] = useState([])
   const [activeTab, setActiveTab] = useState("1");
 
+  console.log(user)
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -44,9 +50,9 @@ function ProfilePage(props) {
 
   var slicedImage;
   userSM ? (slicedImage = images): ( slicedImage =  images.slice(0, 3) )
-  var items = slicedImage.map(img => {
+  var items = images.map(img => {
     return {
-      src: url + img,
+      src: resource_url + img,
       width: 1,
       height:1,
       padding:10
@@ -78,7 +84,7 @@ function ProfilePage(props) {
                 <img
                   alt="..."
                   className="img-circle img-no-padding img-responsive"
-                  src={url + images[0]}
+                  src={resource_url + images[0]}
                 />
               </div>
               <div className="name">
@@ -113,7 +119,7 @@ function ProfilePage(props) {
               <h6 className="title text-dark">Location
                 <br />
 
-                  <p>{user.places}</p>
+                  <p>{user.location}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
@@ -130,8 +136,8 @@ function ProfilePage(props) {
                 </a>
               }
             </Col>
-            {!props.location.fromLocal && <LandingPage />}
-            <DemoFooter />
+            {!props.location.fromLocal && <LandingPage {...props} />}
+            {/* <DemoFooter /> */}
           </Container>
       </div>
 

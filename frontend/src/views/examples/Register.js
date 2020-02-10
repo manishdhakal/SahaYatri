@@ -6,10 +6,13 @@ import {Link} from 'react-router-dom'
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Context from "context/context";
+import { login_user } from "api";
 
 function Register(props) {
 
-  const [isNew, setIsNew] = useState(true)
+  const [isNew, setIsNew] = useState(false)
+  const [login, setLogin] = useState({})
+  const [signup, setSignup] = useState({})
   const {user, setUser} = useContext(Context)
   document.documentElement.classList.remove("nav-open");
   useEffect(() => {
@@ -20,6 +23,10 @@ function Register(props) {
   const next_link = user.afterLogin ? user.afterLogin: '/'
   console.log(user)
   // console.log(props)
+
+  const handleLogin = () =>{
+    login_user(login.username, login.password)
+  }
   return (
     <>
       <ExamplesNavbar {...props} />
@@ -134,11 +141,11 @@ function Register(props) {
                 </div>
                 <Form className="register-form">
                   <label className='text-white '>Username</label>
-                  <Input placeholder="Username" type="text" />
+                  <Input placeholder="Username" type="text" onChange={e => setLogin({...login, username:e.target.value})} />
                   <label className='text-white '>Password</label>
-                  <Input placeholder="Password" type="password" />
+                  <Input placeholder="Password" type="password" onChange={e => setLogin({...login, password:e.target.value})} />
                   <Link to={next_link} onClick={() => setUser({...user,isLoggedIn:true, isLocalApproved:true})}>
-                    <Button block className="btn-round" color="info">
+                    <Button block className="btn-round" color="info" onClick={handleLogin}>
                       Continue
                     </Button>
                   </Link>

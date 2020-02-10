@@ -46,7 +46,7 @@ export default function MakeOffer(props) {
 	return (
 		<div>
 			<ExamplesNavbar {...props} />
-			<ProfilePageHeader />
+			{/* <ProfilePageHeader /> */}
 			<br />
 			<Modal isOpen={modal} toggle={toggle} className='text-dark'>
 				<ModalHeader>

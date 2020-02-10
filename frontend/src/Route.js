@@ -19,12 +19,17 @@ import LocalHome from "views/examples/LocalHome";
 import LocalRoute from "views/examples/LocalRoute";
 import Register from "views/examples/Register";
 import MakeOffer from 'views/examples/MakeOffer'
-import { get_nearby_sathis } from "api";
+// import { get_nearby_sathis } from "api";
+import MyBookings from "views/examples/MyBookings";
+import MyOffers from "views/examples/MyOffers";
+import cookie from 'react-cookies'
+import { check_session } from "api";
+import { my_sathis } from "api";
 
 
 // console.log('Route')
 // const temp_user = {isLoggedIn:true, isLocalApproved: true}
-
+// cookie.save('token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1hbmlzaDEiLCJleHAiOjE1ODEzMTQ4MTUsIm9yaWdJYXQiOjE1ODEzMTQ1MTV9.5z-SIR5rLf3CPDEf8VpUutCz_bet1_FhKdnxlSK6bKs")
 const MyRoute = ()=>{
 
 	const [isConnecting, setIsConnecting] = useState(true)
@@ -35,8 +40,19 @@ const MyRoute = ()=>{
 
 	console.log(user)
 	useEffect(() => {
-			setUser({...user, isLoggedIn:true, isLocalApproved: true})
-			setIsConnecting(false)
+		const token = cookie.load('token') 
+		if( token !== undefined) {
+			// console.log(cookie.load('token'))
+			// my_sathis().then(res => console.log('res'))
+			check_session(token).then(res => {
+				if (res.data.verifyToken !== null){
+					let data = res.data.verifyToken.payload
+					setUser({...user, isLoggedIn:true, username:data.username})
+				}
+			})
+			
+		}
+		setIsConnecting(false)
 		// console.log('Route inside useeffect')
 	},[])
 
@@ -58,10 +74,10 @@ const MyRoute = ()=>{
 					component={LandingMap}
 					 />
 				/>
-				<Route
+				{/* <Route
 					path="/home"
 					component={LandingPage}
-				/>
+				/> */}
 
 				<Route
 					path="/user/:id"
@@ -83,7 +99,7 @@ const MyRoute = ()=>{
 					path="/register"
 					component={Register}
 				/>
-				<Route path="/filter" component={FilterPage} />
+				{/* <Route path="/filter" component={FilterPage} /> */}
 				<Route path='/make-offer' component={MakeOffer} />
 				{/* <Route path="/filter-event" render={props => <FilterPage {...props} />} />
 				<Route path="/filter-food" render={props => <FilterPage {...props} />} /> */}
@@ -91,7 +107,8 @@ const MyRoute = ()=>{
 					path="/checkout"
 					component={CheckoutPage}
 				/>
-	
+				<Route path='/my-bookings' component={MyBookings} />
+				<Route path='/my-offers' component={MyOffers} />
 				<Route
 					path="/local"
 					component={LocalRoute}

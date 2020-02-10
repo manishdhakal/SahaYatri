@@ -1,0 +1,108 @@
+
+createUser mutataion:
+mutation{
+ createUser(username:"Aman",firstName:"Aman",lastName:"gupta",email:"aman@aman.com",password:"aman123",doctype:"Citizenship",docid:"123456-a.b.c",phone:"9867754234",host:true){
+  user{
+    id
+    firstName
+    lastName
+  }
+}
+  
+}
+
+
+
+sathi mutation:
+operations:{"query":"mutation($file:Upload!){createSathi(name:'Aman Gupta', email :'aman@aman.com', phone :986774021,description :'Oh that is right',duration :'2.5 hrs',languages :'english', interests:'Reading',location :'kushma', lat : 12.22201, lon : 34.333244, price:2000,image:$file){ sathi{id} }}",
+"variables":{"file":null}
+
+}
+
+map:{"0":["variables.file"]}
+
+0:file
+
+
+addSathiImage mutation:
+{"query":"mutation($file:Upload!){addSathiImage(sathiId:2,image:$file){ success }}",
+"variables":{"file":null}
+}
+
+pickSathiDate mutation:
+mutation{
+  pickSathiDate(sathiId:2,date:"2020-2-10"){
+    success
+  }
+  
+}
+
+createFood mutation:
+{"query":"mutation($file:Upload!){createFood(name:'Chaku', description :'yes it is a very tasty food',cook:true,location :'kushma', lat : 12.22201, lon : 34.333244, price:3032,image:$file){ food{id} }}",
+"variables":{"file":null}
+
+}
+addFoodImage mutation:
+{"query":"mutation($file:Upload!){addFoodImage(foodId:1,image:$file){ success }}",
+"variables":{"file":null}
+}
+pickFoodDate mutation:
+mutation{
+  pickFoodDate(foodId:1,date:"2020-2-10"){
+    success
+  }
+  
+}
+
+
+createEvent:
+{"query":"mutation($file:Upload!){createEvent(name:'DeusiBhailo', description :'yes it is a very entertaining event',location :'kathmandu', lat : 22.32201, lon : -50.333244, price:300,image:$file){ event{id} }}",
+"variables":{"file":null}
+
+}
+
+addEventImage mutation:
+{"query":"mutation($file:Upload!){addEventImage(eventId:1,image:$file){ success }}",
+"variables":{"file":null}
+}
+
+mutation{
+  pickEventDate(eventId:1,date:"2020-2-10"){
+    success
+  }
+  
+}
+
+
+making bookings mutation:
+mutation{
+ bookData(timeId:7,category:0,categoryId:2){
+  bookData{
+    id
+  }
+}
+}
+
+
+sathi query:
+
+{
+  allSathis{
+    name
+    photos{
+      image
+    }
+    booktime{
+      id
+      date
+    }
+  }
+}
+
+cat=0 -->Sathi
+1-->Food
+2-->Event
+querying bookings:
+{
+  bookings(cat:0)
+}
