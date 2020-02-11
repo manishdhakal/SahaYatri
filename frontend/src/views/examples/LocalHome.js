@@ -17,49 +17,96 @@ import {
   Container,
   Row,
   Col,
+  FormGroup,
+  Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
 
 // core components
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Context from "context/context";
 import LocalNavbar from "components/Navbars/LocalNavbar";
+import { login_user } from "api";
+import {ScaleLoader} from 'react-spinners'
+import Calendar from "react-calendar";
+import AddEvent from "./AddEvent";
 
-function LocalHome() {
-  document.documentElement.classList.remove("nav-open");
+function LocalHome(props) {
+
+  // const []
+  const [isLoading, setIsloading] = useState(true)
+  const [comp, setComp] = useState('offers')
+
+
+  const {user, setUser} = useContext(Context)
+  console.log(user.isLoggedIn)
+
+  if(!user.isLoggedIn)
+  return(
+      <Redirect to='/register-local' />
+  )
+  else if (!user.isLocalApproved)
+    return(
+        <div className='text-center'>
+        <ExamplesNavbar {...props} />
+        <div style={{marginTop:100}}>
+          <img alt='' src={require("assets/img/cross.png")} style={{width:100, height:100}} />
+          <h1 >
+          You are not a verified Local
+          </h1>
+          <h4> Contact our SahaYatri Office at Sankhamul, Kathmandu  to be verified <br /> Phone: 01-4------</h4>
+        </div>
+      </div>
+    )
+  else
+  return (
+    <>
+      <LocalNavbar {...props} />
+      <Input type="select" name="select" id="exampleSelect" style={{marginTop:80}}>
+        <option>Offers</option>
+        <option>Add Freetime</option>
+        <option>Add Events</option>
+        <option> Add Cook {'&'} Dine</option>
+      </Input>
+      {comp === 'offers' &&
+        <AddEvent {...props} />
+      }
+      <DemoFooter />
+    </>
+  );
+}
+
+
+const Offers =  (props) => {
+  const [sathis, setSathis] = useState([])
+  const [events, setEvents] = useState([])
+  const [foods, setFoods] = useState([])
+
+
+  const [eventSM, setEventSM] = useState(false)
+  const [foodSM, setFoodSM] = useState(false)
+
+  const [userSM, setUserSM] = useState(false)
+  const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
+  const slicedEvents = eventSM? events: events.slice(0,3)
+  const slicedFoods = foodSM? foods: foods.slice(0,3)
+  
+
   useEffect(() => {
 
     axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
     axios.get(url+'/api/event/').then(resp => setEvents(resp.data))
     axios.get(url+'/api/food/').then(resp => setFoods(resp.data))
-
-    document.body.classList.add("profile");
-    return function cleanup() {
-      document.body.classList.remove("profile");
-    };
   },[]);
-  // const []
 
-  const [userSM, setUserSM] = useState(false)
-  const [eventSM, setEventSM] = useState(false)
-  const [foodSM, setFoodSM] = useState(false)
-
-  const [sathis, setSathis] = useState([])
-  const [events, setEvents] = useState([])
-  const [foods, setFoods] = useState([])
-
-  const {user, setUser} = useContext(Context)
-  console.log(user.isLoggedIn)
-
-  const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
-  const slicedEvents = eventSM? events: events.slice(0,3)
-  const slicedFoods = foodSM? foods: foods.slice(0,3)
   return (
     <>
-      <LocalNavbar />
-      {/* <LandingPageHeader /> */}
       <div className="main">
         <div className="section section-nude text-center" >
         <p className='font-weight-bold'>You are an authorized the local person. You can post events and get hired as companion for the tourists</p>
@@ -106,94 +153,7 @@ function LocalHome() {
                 </Col>
               </Col>
               )}
-              {/* <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/joe-gardner-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Arman Chhetri</CardTitle>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-instagram" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-facebook" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/erik-lucatero-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Manish Dhakal</CardTitle>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-instagram" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-facebook" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col> */}
             </Row>
-            {/* <div style={{marginTop:20}}> */}
-            {/* <a href='#' className="Button Button--fullWidth Button--inverted Button--orange Button--invertedAlternativeHover">Show more</a>
-            </div> */}
             { !userSM &&
             <button className="btn-show-more info-show-more font-weight-bold rounded" style={{marginTop:10}} onClick={() => setUserSM(true)} > Show More <i className='fa fa-caret-down'/></button>
             }
@@ -359,12 +319,14 @@ function LocalHome() {
               </Col>
             </Row>
           </Container>
+
         </div>
-        
-      </div>
-      <DemoFooter />
-    </>
-  );
+      </div>  
+      </>
+  )
 }
 
+
+const mycss = `display: block;
+	margin: auto;`
 export default LocalHome;

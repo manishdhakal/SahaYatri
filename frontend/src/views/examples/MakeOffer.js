@@ -39,7 +39,7 @@ export default function MakeOffer(props) {
 	};
     console.log(formData)
     if (!user.isLoggedIn) {
-        setUser({...user, afterLogin: '/make-offer'})
+        setUser({...user, afterLogin: '/make-offer',me:'nth'})
         return <Redirect to='/register' />
     }
     else
@@ -127,8 +127,8 @@ export default function MakeOffer(props) {
 					</FormGroup>
 					<Button color='success' onClick={() => setModal(true)}>Submit</Button>
 				</Form>
-				<DemoFooter />
 			</Container>
+			<DemoFooter />
 		</div>
 	);
 }

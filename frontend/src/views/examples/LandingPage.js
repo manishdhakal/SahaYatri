@@ -33,9 +33,9 @@ function LandingPage(props) {
   useEffect(() => {
 
     // axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-    get_all_sathis().then(res => setSathis(res.data.allSathis.filter(sathi => sathi.id !== props.match.params.id )))
-    get_all_events().then(res => setEvents(res.data.allEvents.filter(evnt => evnt.id !== props.match.params.id)))
-    get_all_foods().then(res => setFoods(res.data.allFoods.filter(f => f.id !== props.match.params.id)))
+    get_all_sathis().then(res => setSathis(res.allSathis.filter(sathi => sathi.id !== props.match.params.id )))
+    get_all_events().then(res => setEvents(res.allEvents.filter(evnt => evnt.id !== props.match.params.id)))
+    get_all_foods().then(res => setFoods(res.allFoods.filter(f => f.id !== props.match.params.id)))
 
     document.body.classList.add("profile");
     return function cleanup() {
@@ -120,94 +120,7 @@ function LandingPage(props) {
                 </Col>
               </Col>
               )}
-              {/* <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/joe-gardner-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Arman Chhetri</CardTitle>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-instagram" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-facebook" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col>
-              <Col md="4">
-                <Card className="card-profile card-plain">
-                  <div className="card-avatar">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        src={require("assets/img/faces/erik-lucatero-2.jpg")}
-                      />
-                    </a>
-                  </div>
-                  <CardBody>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <div className="author">
-                        <CardTitle tag="h4">Manish Dhakal</CardTitle>
-                      </div>
-                    </a>
-                    <p className="card-description text-center">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis.
-                    </p>
-                  </CardBody>
-                  <CardFooter className="text-center">
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-instagram" />
-                    </Button>
-                    <Button
-                      className="btn-just-icon btn-neutral ml-1"
-                      color="link"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                    >
-                      <i className="fa fa-facebook" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Col> */}
             </Row>
-            {/* <div style={{marginTop:20}}> */}
-            {/* <a href='#' className="Button Button--fullWidth Button--inverted Button--orange Button--invertedAlternativeHover">Show more</a>
-            </div> */}
             { !userSM &&
             <button className="btn-show-more info-show-more font-weight-bold rounded" style={{marginTop:10}} onClick={() => setUserSM(true)} > Show More <i className='fa fa-caret-down'/></button>
             }

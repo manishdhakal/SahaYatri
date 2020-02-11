@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom'
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import Context from "context/context";
 import { login_user } from "api";
-import { check_session } from "api";
+// import { check_session } from "api";
 import cookie from 'react-cookies'
 
 function Register(props) {
@@ -27,19 +27,13 @@ function Register(props) {
   const handleLogin = () =>{
     login_user(login.username, login.password).then(res => {
       console.log(res)
-      let auth = res.data.tokenAuth
+      let auth = res.tokenAuth
       if (auth){
         cookie.save('token', auth.token)
-        check_session(auth.token).then(r => {
-          setUser({username:r.data.verifyToken.payload.username, isLoggedIn:true})
-          window.location.replace(next_link)
-        })
-        // setUser({})
+        props.history.push(next_link)
       }
     })
-    // window.location.replace('/')
   }
-  // console.log(login)
   return (
     <>
       <ExamplesNavbar {...props} />

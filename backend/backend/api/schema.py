@@ -4,7 +4,6 @@ from .converter import BigInt
 from api.models import Sathi,Photo,FoodProvider,FoodPhoto, BookingData, Event, EventImages, EventThumbnail,SathiTime,FoodTime,EventTime
 from geopy.distance import geodesic
 from django.db.models import Case, When
-from graphql_jwt.decorators import login_required
 from django.contrib.auth.models import User
 
 class SathiType(DjangoObjectType):
@@ -88,9 +87,9 @@ class Query(object):
         return Sathi.objects.all()
 
     def resolve_my_sathis(self,info,**kwargs):
-        # user=info.context.user
-        username = kwargs.get('username')
-        user = User.objects.get(username = username)
+        user=info.context.user
+        # username = kwargs.get('username')
+        # user = User.objects.get(username = username)
         print(user)
         return Sathi.objects.filter(user=user)
 

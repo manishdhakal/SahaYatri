@@ -74,11 +74,23 @@ class Query(graphene.AbstractType):
 
     def resolve_bookings(self, info,cat):
         user=info.context.user
+        print(info)
         if user.is_anonymous:
             raise Exception('Not logged in!')
         # return 'Holy Fuck'
         print(user)
-        bookings=BookingData.objects.all().filter(host=user)
+        if user.profile.host==True:
+            try:
+                bookings=BookingData.objects.all().filter(host=user,category=cat)
+            except:
+                return Exception("No bookings available")
+
+        else:
+            try:
+                bookings=BookingData.objects.all().filter(user=user,category=cat)
+            except:
+                return Exception("No bookings available")
+        
         print(bookings)
         bookData=[]
         if cat==0:

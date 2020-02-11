@@ -20,14 +20,12 @@ import {
   Dropdown,
 } from "reactstrap";
 import Context from "context/context";
+import { get_me } from "api";
+// import { my_sathis } from "api";
 
 function ExamplesNavbar(props) {
 
   const {user, setUser} = useContext(Context)
-  
-  // console.log(props)
-
-  // const [navbarColor, setNavbarColor] = React.useState("");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
   const [isDropdownOpen,setIsDropdownOpen ] = useState(false)
 
@@ -35,29 +33,16 @@ function ExamplesNavbar(props) {
     setNavbarCollapse(!navbarCollapse);
     document.documentElement.classList.toggle("nav-open");
   };
-
-  // React.useEffect(() => {
-  //   const updateNavbarColor = () => {
-  //     if (
-  //       document.documentElement.scrollTop > 299 ||
-  //       document.body.scrollTop > 299
-  //     ) {
-  //       setNavbarColor("");
-  //     } else if (
-  //       document.documentElement.scrollTop < 300 ||
-  //       document.body.scrollTop < 300
-  //     ) {
-  //       setNavbarColor("navbar-transparent");
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", updateNavbarColor);
-
-  //   return function cleanup() {
-  //     window.removeEventListener("scroll", updateNavbarColor);
-  //   };
-  // });
-  useEffect(() => console.log(navbarCollapse))
+  useEffect(() => {
+    if(user.isLoggedIn){
+      get_me()
+      .then(res => {
+        let data = res.me
+        setUser({...user, name: `${data.firstName} ${data.lastName}`, email:data.email, id:data.id})
+      })
+      .catch(err => console.log(err))
+    }
+  },[])
   // console.log(user)
   const handleLogout = () => {
     cookie.remove('token')
@@ -117,7 +102,7 @@ function ExamplesNavbar(props) {
           <Nav navbar className='text-dark'>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' onClick={() => window.location.replace('/make-offer')}  tag={Link}>
+                <NavLink className='text-dark' to='/make-offer' onClick={() => toggleNavbarCollapse()}  tag={Link}>
                   <i className="fa fa-male" /> Make an Offer
                 </NavLink>
               </a>
@@ -179,8 +164,8 @@ function ExamplesNavbar(props) {
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem>
-                      <Link to={{pathname:'/user/'+ String(user.id)}} className='text-uppercase font-weight-bold' >
-                        Manish Dhakal
+                      <Link to={{pathname:'/user/'+ user.id}} className='text-uppercase font-weight-bold' >
+                        {user.name}
                       </Link>
                     </DropdownItem>
                     <DropdownItem divider />

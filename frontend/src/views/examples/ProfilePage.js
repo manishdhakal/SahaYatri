@@ -26,20 +26,18 @@ function ProfilePage(props) {
   useEffect(() =>{
     const id = props.match.params.id
     get_sathi(id).then(res => {
-      setUser(res.data.sathi)
-      let photos =  res.data.sathi.photos
+      setProfile(res.sathi)
+      let photos =  res.sathi.photos
       let img_arr = []
       photos.forEach(photo => img_arr.push(photo.image))
       setImages(img_arr)
     })
   },[])
 
-  const [userSM, setUserSM] = useState(false)
-  const [user, setUser] = useState({});
+  const [profile, setProfile] = useState({});
   const [images, setImages] = useState([])
-  const [activeTab, setActiveTab] = useState("1");
 
-  console.log(user)
+  console.log(profile)
   var items = images.map(img => {
     return {
       src: resource_url + img,
@@ -79,7 +77,7 @@ function ProfilePage(props) {
               </div>
               <div className="name">
                 <h2 className="title text-dark">
-                  {user.name} <br />
+                  {profile.name} <br />
                 </h2>
               </div>
             </div>
@@ -87,7 +85,7 @@ function ProfilePage(props) {
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
                 <h6 className="description text-dark">Description</h6>
                 <p>
-                  {user.description}
+                  {profile.description}
                 </p>
                 <br />
               {/* <Button className="btn-round" color="default" outline>
@@ -99,17 +97,17 @@ function ProfilePage(props) {
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               <h6 className="title text-dark">Languages
                 <br />
-                  <p>{user.languages}</p>
+                  <p>{profile.languages}</p>
                 </h6>
               <h6 className="title text-dark">Interests
                 <br />
-                  <p>{user.interests}</p>
+                  <p>{profile.interests}</p>
                 </h6>
 
               <h6 className="title text-dark">Location
                 <br />
 
-                  <p>{user.location}</p>
+                  <p>{profile.location}</p>
                 </h6>
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
@@ -119,7 +117,7 @@ function ProfilePage(props) {
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
               {!props.location.fromLocal &&
-                <a href={'/checkout#sathi?'+user.id} type='sathi'>
+                <a href={'/checkout#sathi?'+profile.id} type='sathi'>
                   <Button  className="btn-round h6" color="info">
                     Hire Now
                   </Button>
@@ -133,15 +131,5 @@ function ProfilePage(props) {
 
     </div>
   )
-  // }
-  // else{
-  //   return (
-  //     <div>
-  //       <ExamplesNavbar {...props} />
-  //         <ProfilePageHeader />
-  //    <Gallery photos={items} />
-  //    </div>
-  //   )
-  // }
 }
 export default ProfilePage;

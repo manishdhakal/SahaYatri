@@ -11,9 +11,11 @@ import url from 'url.js'
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar';
 import { get_nearby_sathis } from 'api';
 import { resource_url } from 'api';
+import { get_all_foods } from 'api';
+import { get_all_events } from 'api';
 
 
-const personIcon = (imgUrl) => new Icon({
+const customIcon = (imgUrl) => new Icon({
 	iconUrl: imgUrl,
 	iconSize:     [30, 30],
 	shadowSize:   [50, 64],
@@ -31,14 +33,17 @@ const LandingMap = (props)=>  {
 	  });
 
 	const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
-	// const [search, setSearch] = useState(false)
-    const [sathis, setSathis] = useState([])
+	const [sathis, setSathis] = useState([])
+	const [foods, setFoods] = useState([])
+	const [events, setEvents] = useState([])
     
     const {user, setUser} = useContext(Context)
 	
 	useEffect(()=>{
 		// axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-		get_nearby_sathis(viewport.center[0], viewport.center[1]).then(res => setSathis(res.data.nearbySathis))
+		get_nearby_sathis(viewport.center[0], viewport.center[1])
+		.then(res => setSathis(res.nearbySathis))
+		.catch(err => setSathis([]))
 
 		if (!navigator.geolocation) {
 			alert('Geolocation is not supported by your browser');
@@ -46,23 +51,32 @@ const LandingMap = (props)=>  {
 		} else {
 			
 			navigator.geolocation.getCurrentPosition((pos)=>{
-				
 				setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
 				setMyLoc([pos.coords.latitude, pos.coords.longitude])
-				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude).then(res => setSathis(res.data.nearbySathis))
+				
+				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude)
+				.then(res => setSathis(res.nearbySathis))
+				.catch(err => setSathis([]))
+
+				get_all_foods()
+				.then(res => setFoods(res.allFoods))
+				.catch(err => console.log(err))
+
+				get_all_events()
+				.then(res => setEvents(res.allEvents))
 			});
 		}
 
 	},[])
 
 	console.log(sathis)
-	const markers = sathis.map(sathi => 
+	const sathiMarkers = sathis.map(sathi => 
 		<Marker position={[sathi.lat, sathi.lon]} 
-				icon={personIcon(resource_url + sathi.photos[0].image)} 
-		>{console.log(sathi)}
+				icon={customIcon(resource_url + sathi.photos[0].image)}
+		>
 			<Popup>
 				<Card className="card-profile card-plain" style={{width:200}}>
-                    <div className="card-avatar">
+					<div className="card-avatar">
                       <a href=" " onClick={e => e.preventDefault()}>
                         <Link to={{pathname:'/user/'+ sathi.id}} >
                         <img
@@ -80,6 +94,7 @@ const LandingMap = (props)=>  {
 							</Link>
                         </div>
                       </a>
+					  <h5>Companion</h5>
                       <br />
                       <h5 className='text-info font-weight-bold'>{sathi.price}</h5>
                       <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
@@ -91,9 +106,77 @@ const LandingMap = (props)=>  {
 		</Marker>
 		)
 	
-	// console.log(user , 'Map')
-	// if(user.isLoggedIn) return(<Redirect to='/home' />)
-	// else 
+	const foodMarkers = foods.map(food => 
+		<Marker position={[food.lat, food.lon]} 
+				icon={customIcon(resource_url + food.photos[0].image)}
+		>
+			<Popup>
+				<Card className="card-profile card-plain" style={{width:200}}>
+                    <div className="card-avatar">
+                      <a href=" " onClick={e => e.preventDefault()}>
+                        <Link to={{pathname:'/cookndine/'+ food.id}} >
+                        <img
+                          alt="..."
+                          src={resource_url+food.photos[0].image}
+                        />
+                        </Link>
+                      </a>
+                    </div>
+                    <CardBody>
+                      <a href=" " onClick={e => e.preventDefault()}>
+                        <div className="author">
+							<Link to={{pathname:'/cookndine/'+ food.id}} >
+                          		<CardTitle tag="h5" className='font-weight-bold text-dark'>{food.name}</CardTitle>
+							</Link>
+                        </div>
+                      </a>
+					  <h5>Cook {'&'} Dine</h5>
+                      <br />
+                      <h5 className='text-info font-weight-bold'>{food.price}</h5>
+                      <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
+                        {food.description}
+                      </p>
+                    </CardBody>
+                  </Card>
+			</Popup>  
+		</Marker>
+		)
+		const eventMarkers = events.map(event => 
+			<Marker position={[event.lat, event.lon]} 
+				icon={customIcon(resource_url + event.photos[0].image)}
+			>
+				<Popup>
+					<Card className="card-profile card-plain" style={{width:200}}>
+						<div className="card-avatar">
+						  <a href=" " onClick={e => e.preventDefault()}>
+							<Link to={{pathname:'/event/'+ event.id}} >
+							<img
+							  alt="..."
+							  src={resource_url+event.photos[0].image}
+							/>
+							</Link>
+						  </a>
+						</div>
+						<CardBody>
+						  <a href=" " onClick={e => e.preventDefault()}>
+							<div className="author">
+								<Link to={{pathname:'/event/'+ event.id}} >
+									  <CardTitle tag="h5" className='font-weight-bold text-dark'>{event.name}</CardTitle>
+								</Link>
+							</div>
+						  </a>
+						  <h5>Local Events</h5>
+						  <br />
+						  <h5 className='text-info font-weight-bold'>{event.price}</h5>
+						  <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
+							{event.description}
+						  </p>
+						</CardBody>
+					  </Card>
+				</Popup>  
+			</Marker>
+			)
+		
 		return (
 			<div>
 				<ExamplesNavbar {...props}/>
@@ -109,7 +192,9 @@ const LandingMap = (props)=>  {
 					
 					/>
 					<ReactLeafletSearch  closeResultsOnClick={true} inputPlaceholder='Search Places'  position="topright" showPopup={false} />
-					{markers}
+					{sathiMarkers}
+					{foodMarkers}
+					{eventMarkers}
 					<CircleMarker center={{lat:myLoc[0], lng:myLoc[1]}} radius={20} >
 					{/* <Popup>
 						You Are Here.

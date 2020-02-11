@@ -24,41 +24,61 @@ import MyBookings from "views/examples/MyBookings";
 import MyOffers from "views/examples/MyOffers";
 import cookie from 'react-cookies'
 import { check_session } from "api";
+// import { my_sathis } from "api";
+
+import { GraphQLClient } from "graphql-request";
 import { my_sathis } from "api";
 
 
 // console.log('Route')
 // const temp_user = {isLoggedIn:true, isLocalApproved: true}
 // cookie.save('token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1hbmlzaDEiLCJleHAiOjE1ODEzMTQ4MTUsIm9yaWdJYXQiOjE1ODEzMTQ1MTV9.5z-SIR5rLf3CPDEf8VpUutCz_bet1_FhKdnxlSK6bKs")
+var client
+const uri = 'http://localhost:8000'
 const MyRoute = ()=>{
+	const token = cookie.load('token')
+
+	if(token !== undefined){
+		client = new GraphQLClient(uri +'/graphql/',{
+			headers:{
+				Authorization: "JWT "+ token,
+			}
+		})
+	}
+	else{
+		client = new GraphQLClient(uri+'/graphql/') 
+	}
 
 	const [isConnecting, setIsConnecting] = useState(true)
 	const [user, setUser] = useState({isLoggedIn:false, isLocalApproved:false})
 	const provider = useMemo(() => ({user, setUser}), [user, setUser])
 
-
-
 	console.log(user)
 	useEffect(() => {
-		const token = cookie.load('token') 
+
 		if( token !== undefined) {
-			console.log(cookie.load('token'))
 			// my_sathis().then(res => console.log('res'))
 			check_session(token).then(res => {
-				console.log("res")
-				if (res.data.verifyToken !== null){
-					let data = res.data.verifyToken.payload
-					setUser({...user, isLoggedIn:true, username:data.username})
+				console.log(res)
+				if (res.verifyToken.payload){
+					let data = res.verifyToken.payload
+					console.log(data)
+					my_sathis()
+					.then(res=> setUser({...user,isLoggedIn:true, username:data.username, isLocalApproved:res.mySathis[0].approved, sathiId:res.mySathis[0].id}))
+					.catch(err => console.log(err))
+					// setUser({...user, })
 					setIsConnecting(false)
 				}
+
+			}).catch(err => {
+				setUser({...user, isLoggedIn:false})
+				setIsConnecting(false)
 			})
-		}
-		else {
+		}else{
 			setUser({...user, isLoggedIn:false})
 			setIsConnecting(false)
 		}
 
-		// console.log('Route inside useeffect')
 	},[])
 
 	if(isConnecting)
@@ -115,6 +135,10 @@ const MyRoute = ()=>{
 				<Route path='/my-offers' component={MyOffers} />
 				<Route
 					path="/local"
+					component={LocalHome}
+				/>
+				<Route
+					path="/deadend"
 					component={LocalRoute}
 				/>
 
@@ -131,4 +155,6 @@ const MyRoute = ()=>{
 
 const mycss = `display: block;
 	margin: auto;`
+
 export default MyRoute
+export {client}

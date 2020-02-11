@@ -89,6 +89,7 @@ function LocalNavbar(props) {
             {/* } */}
             {/* SAHAYATRI */}
           </NavbarBrand>
+          {
           <button
             aria-expanded={navbarCollapse}
             className={classnames("navbar-toggler navbar-toggler", {
@@ -100,26 +101,28 @@ function LocalNavbar(props) {
             <span className="navbar-toggler-bar bar2" />
             <span className="navbar-toggler-bar bar3" />
           </button>
+          }
         </div>
         <Collapse
           className="justify-content-end"
           navbar
-          isOpen={navbarCollapse}
+          isOpen={true}
         >
           <Nav navbar className='text-dark'>
             <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' to={{pathname:'/filter', type:'event' }}  tag={Link}>
-                  <i className="fa fa-male" /> Companion
+                <NavLink className='text-dark' to={{}}  tag={Link}>
+                  <i className="fa fa-male" /> Add Events
                 </NavLink>
               </a>
             </NavItem>
             <NavItem>
               <a href='#nth'>
                 <NavLink
-                  to={{pathname:'/filter', type:'event'}}
+                  onClick={toggleNavbarCollapse}
                   className='text-dark'
                   tag={Link}
+                  href="#"
                 >
                   <i className="nc-icon nc-pin-3" /> Local Events
                 </NavLink>

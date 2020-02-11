@@ -1,21 +1,8 @@
-import { createApolloFetch } from "apollo-fetch";
+import { client } from "Route"
 
-import cookie from 'react-cookies'
-const ngrok_uri = 'http://localhost:8000'
-const fetch = createApolloFetch({uri:ngrok_uri+'/graphql/'})
+const uri = 'http://localhost:8000'
 
-
-
-// fetch.use(({ request, options }) => {
-//   if (!options.headers) {
-//     options.headers = {};  // Create the headers object if needed.
-//   }
-//   options.headers['authorization'] = cookie.load('token');
-
-//   // next();
-// });
-
-const get_nearby_sathis =  (lat, lng, limit=50) => fetch({ query:`query {
+const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
         name
         id
@@ -29,9 +16,9 @@ const get_nearby_sathis =  (lat, lng, limit=50) => fetch({ query:`query {
             
         }
     }
-  }`})
+  }`)
 
-const get_sathi = (id) => fetch({query:`
+const get_sathi = (id) => client.request(`
     query {
         sathi(id:${id}) {
         id
@@ -51,10 +38,8 @@ const get_sathi = (id) => fetch({query:`
           }
         }
     }
-  `
-
-  })
-const get_all_sathis = () => fetch({query:`
+  `)
+const get_all_sathis = () => client.request(`
   query {
       allSathis{
       name
@@ -68,9 +53,9 @@ const get_all_sathis = () => fetch({query:`
       
     }
   }
-  `
-})
-const get_all_events = () => fetch({query:`
+  `)
+
+const get_all_events = () => client.request(`
 
     query {
         allEvents{
@@ -87,9 +72,9 @@ const get_all_events = () => fetch({query:`
         }
     }
     }
-`})
+`)
 
-const get_all_foods = () => fetch({query:`
+const get_all_foods = () => client.request(`
     query {
         allFoods{
         id
@@ -105,27 +90,43 @@ const get_all_foods = () => fetch({query:`
         }
     }
     }`
-})
+)
 
-const check_session = (token) => fetch({query:`
+const check_session = (token) => client.request(`
     mutation {
         verifyToken(token:"${token}"){
         payload
     }
     }
-`})
+`)
 
-const login_user = (username, password) => fetch({query:`mutation {
+const login_user = (username, password) => client.request(`mutation {
 	tokenAuth(username:"${username}", password:"${password}") {
 	  token
 	}
-}`})
+}`)
 
-const my_sathis = () => fetch({query:`query {
+const my_sathis = () => client.request(`query {
   mySathis {
     id
+    approved
   }
-}`})
-const resource_url = ngrok_uri+'/resources/'
+}`)
 
-export {get_sathi,get_nearby_sathis, resource_url, get_all_sathis, get_all_events, get_all_foods, check_session, login_user, my_sathis}
+const get_me = () => client.request(`query{
+  me {
+    id
+    firstName
+    lastName
+    email
+  }
+}`)
+
+
+const resource_url = uri+'/resources/'
+
+export {
+  get_sathi,get_nearby_sathis, resource_url, get_all_sathis, 
+  get_all_events, get_all_foods, check_session, login_user, my_sathis,
+  get_me
+}
