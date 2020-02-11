@@ -74,11 +74,11 @@ class Query(graphene.AbstractType):
 
     def resolve_bookings(self, info,cat):
         user=info.context.user
-        print(info)
+        print(info.context)
         if user.is_anonymous:
             raise Exception('Not logged in!')
         # return 'Holy Fuck'
-        print(user)
+        # print(user)
         if user.profile.host==True:
             try:
                 bookings=BookingData.objects.all().filter(host=user,category=cat)
@@ -108,7 +108,7 @@ class Query(graphene.AbstractType):
             data["sathi"]=sathi.name
             data["time"]=time.date.strftime("%Y-%m-%d")
             data["hirer"]=hirer
-            print(data)
+            # print(data)
             bookData.append(data)
         return bookData
         
@@ -162,9 +162,10 @@ class AddSathiImage(graphene.Mutation):
         image=Upload(required=True)
 
     def mutate(self,info,sathi_id,image):
-        user = info.context.user
-        if user.is_anonymous:
-            raise Exception("not logged in")
+        user = info.context.user or None
+        #if user.is_anonymous:
+         #   raise Exception("not logged in")
+	
         sathi=Sathi.objects.get(id=sathi_id)
         photo=Photo(sathi=sathi,image=image)
         photo.save()
