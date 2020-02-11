@@ -128,7 +128,7 @@ class CreateSathi(graphene.Mutation):
         lat = graphene.Float(required=True)
         lon = graphene.Float(required=True)
         price = graphene.Int(required=True)
-        image = Upload(required=True)
+        image = Upload(required=False)
     def mutate(self,info,**kwargs):
         user=info.context.user
 
@@ -149,9 +149,11 @@ class CreateSathi(graphene.Mutation):
             price =kwargs.get('price')
         )
         sathi.save()
-        photo=kwargs.get('image')
-        image=Photo(sathi=sathi,image=photo)
-        image.save()
+        if kwargs.get('image') != None:
+            photo=kwargs.get('image')
+            image=Photo(sathi=sathi,image=photo)
+            image.save()
+        
         return CreateSathi(sathi=sathi)
 
 class AddSathiImage(graphene.Mutation):
@@ -199,7 +201,7 @@ class CreateFood(graphene.Mutation):
         lat = graphene.Float(required=True)
         lon = graphene.Float(required=True)
         price = graphene.Int(required=True)
-        image = Upload(required=True)
+        image = Upload(required=False)
     def mutate(self,info,**kwargs):
         user=info.context.user
 
@@ -216,9 +218,11 @@ class CreateFood(graphene.Mutation):
             price =kwargs.get('price')
         )
         food.save()
-        photo=kwargs.get('image')
-        image=FoodPhoto(food=food,image=photo)
-        image.save()
+        if kwargs.get('image')!= None:
+            photo=kwargs.get('image')
+            image=FoodPhoto(food=food,image=photo)
+            image.save()
+
         return CreateFood(food=food)
 
 class AddFoodImage(graphene.Mutation):
@@ -265,7 +269,7 @@ class CreateEvent(graphene.Mutation):
         lat = graphene.Float(required=True)
         lon = graphene.Float(required=True)
         price = graphene.Int(required=True)
-        image = Upload(required=True)
+        image = Upload(required=False)
     def mutate(self,info,**kwargs):
         user=info.context.user
         if user.is_anonymous:
@@ -280,9 +284,10 @@ class CreateEvent(graphene.Mutation):
             price =kwargs.get('price')
         )
         event.save()
-        photo=kwargs.get('image')
-        image=EventImages(event=event,image=photo)
-        image.save()
+        if kwargs.get('image')!=None:
+            photo=kwargs.get('image')
+            image=EventImages(event=event,image=photo)
+            image.save() 
         return CreateEvent(event=event)
 
 class AddEventImage(graphene.Mutation):

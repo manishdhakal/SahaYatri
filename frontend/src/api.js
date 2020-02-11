@@ -50,6 +50,10 @@ const get_all_sathis = () => client.request(`
         id
         image
       }
+      booktime{
+        date
+        booked
+      }
       
     }
   }
@@ -122,6 +126,119 @@ const get_me = () => client.request(`query{
   }
 }`)
 
+const CreateSathi = `
+mutation($file:Upload!,$name:String!,$email:String!,$phone:Int!,$description:String!,
+  $duration:String!,$languages:String!,$interests:String!,$location:String!,$lat:String!,
+  $lon:String!,$price:Int!)
+{createSathi
+ (name:$name,
+  email :$email,
+  phone :$phone,
+  description :$description,
+  duration :$duration,
+  languages :$languages, 
+  interests:$interests,
+  location :$location, 
+  lat : $lat,
+  lon : $lon,
+  price:$price,
+  image:$file)
+    { sathi{
+      id
+            }
+    }
+  
+}"
+`
+const PickSathiDate=`
+mutation($id:Int!,$date:String!){
+  pickSathiDate(sathiId:$id,date:$date){
+    success
+  }
+  
+}
+`
+const AddSathiImage=`
+mutation($file:Upload!,$id:Int!)
+{addSathiImage
+  (sathiId:$id,image:$file)
+  { success }
+}
+`
+
+const CreateFood = `
+mutation($file:Upload!,$name:String!,$description:String!,
+  $location:String!,$lat:String!,$cook: Boolean!
+  $lon:String!,$price:Int!)
+{createFood
+ (name:$name,
+  description :$description,
+  location :$location, 
+  lat : $lat,
+  lon : $lon,
+  cook:$cook,
+  price:$price,
+  image:$file)
+    { food{
+      id
+            }
+    }
+  
+}"
+`
+const PickFoodDate=`
+mutation($id:Int!,$date:String!){
+  pickFoodDate(foodId:$id,date:$date){
+    success
+  } 
+}
+`
+
+const AddFoodImage = `
+mutation($file:Upload!,$id:Int!)
+{addFoodImage
+  (foodId:$id,image:$file)
+  { success }
+}
+`
+
+const CreateEvent = `
+mutation($file:Upload!,$name:String!,$description:String!,
+  $location:String!,$lat:String!,
+  $lon:String!,$price:Int!)
+{createFood
+ (name:$name,
+  description :$description,
+  location :$location, 
+  lat : $lat,
+  lon : $lon,
+  price:$price,
+  image:$file)
+    { event{
+      id
+            }
+    }
+  
+}"
+`
+const PickEventDate = `
+mutation($id:Int!,$date:String!){
+  pickEventDate(eventId:$id,date:$date){
+    success
+  }
+}
+`
+const AddEventImage=`
+mutation($file:Upload!,$id:Int!)
+{addEventImage(eventId:$id,image:$file)
+  { success }
+}
+`
+const MyBookings=(cat)=>client.request(`
+query{
+  bookings(cat:${cat})
+}
+`)
 
 const resource_url = uri+'/resources/'
 
