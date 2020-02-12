@@ -113,13 +113,13 @@ function ExamplesNavbar(props) {
                 </NavLink>
               </a>
             </NavItem> */}
-            <NavItem>
+            {/* <NavItem>
               <a href='#nth'>
                 <NavLink className='text-dark' onClick={() => window.location.replace('/my-bookings')}  tag={Link}>
                   <i className="nc-icon nc-cart-simple" /> {' '}My Bookings
                 </NavLink>
               </a>
-            </NavItem>
+            </NavItem> */}
             {/* <NavItem>
               <a href='#nth'>
                 <NavLink
@@ -159,14 +159,9 @@ function ExamplesNavbar(props) {
                 <a href='#nth'>
                   <DropdownToggle nav caret className='text-dark'> 
                   <img alt='' src={require('assets/img/faces/kaci-baum-2.jpg')} style={{borderRadius:'50%', height:20, width:20}} />
-                          {` Manish Dhakal`}
+                          {user.name}
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem>
-                      <Link to={{pathname:'/user/'+ user.id}} className='text-uppercase font-weight-bold' >
-                        {user.name}
-                      </Link>
-                    </DropdownItem>
                     <DropdownItem divider />
                     <DropdownItem header>
                       <Link className='text-uppercase font-weight-bold' onClick={() => handleLogout()}>

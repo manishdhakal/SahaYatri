@@ -19,9 +19,6 @@ import {
   Col,
 } from "reactstrap";
 
-// core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
-import LandingPageHeader from "components/Headers/LandingPageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import { Link } from "react-router-dom";
 import Context from "context/context";
@@ -31,8 +28,6 @@ function LandingPage(props) {
   console.log(props)
   document.documentElement.classList.remove("nav-open");
   useEffect(() => {
-
-    // axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
     get_all_sathis().then(res => setSathis(res.allSathis.filter(sathi => sathi.id !== props.match.params.id )))
     get_all_events().then(res => setEvents(res.allEvents.filter(evnt => evnt.id !== props.match.params.id)))
     get_all_foods().then(res => setFoods(res.allFoods.filter(f => f.id !== props.match.params.id)))
@@ -58,6 +53,7 @@ function LandingPage(props) {
   const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
   const slicedEvents = eventSM? events: events.slice(0,3)
   const slicedFoods = foodSM? foods: foods.slice(0,3)
+  console.log(sathis, foods, events)
   return (
     <>
       {/* <ExamplesNavbar {...props} /> */}
@@ -137,7 +133,7 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
+                        <Link to={{pathname:'/event/'+ event.id, id:event.id}}>{console.log()}
                         {events.length !== 0 &&
                           <img
                             alt="..."
@@ -295,7 +291,7 @@ function LandingPage(props) {
         </div>
         
       </div>
-      <DemoFooter />
+      {/* <DemoFooter /> */}
     </>
   );
 }

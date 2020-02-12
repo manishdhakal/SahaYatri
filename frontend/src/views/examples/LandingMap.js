@@ -27,9 +27,10 @@ const customIcon = (imgUrl) => new Icon({
 
 const LandingMap = (props)=>  {
 
+	const [show, setShow] = useState('all')
 	const [viewport, setViewport] = useState({
 		center : [27.684624, 85.333711],
-		zoom: 16,
+		zoom: 14,
 	  });
 
 	const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
@@ -68,9 +69,10 @@ const LandingMap = (props)=>  {
 		}
 
 	},[])
-
-	console.log(sathis)
-	const sathiMarkers = sathis.map(sathi => 
+	const filteredEvents = events.filter(val => val.photos.length > 0)
+	const filteredFoods = foods.filter(val => val.photos.length > 0)
+	const filteredSathis = sathis.filter(val => val.photos.length > 0)
+	const sathiMarkers = filteredSathis.map(sathi => 
 		<Marker position={[sathi.lat, sathi.lon]} 
 				icon={customIcon(resource_url + sathi.photos[0].image)}
 		>
@@ -106,7 +108,7 @@ const LandingMap = (props)=>  {
 		</Marker>
 		)
 	
-	const foodMarkers = foods.map(food => 
+	const foodMarkers = filteredFoods.map(food => 
 		<Marker position={[food.lat, food.lon]} 
 				icon={customIcon(resource_url + food.photos[0].image)}
 		>
@@ -141,7 +143,7 @@ const LandingMap = (props)=>  {
 			</Popup>  
 		</Marker>
 		)
-		const eventMarkers = events.map(event => 
+		const eventMarkers = filteredEvents.map(event => 
 			<Marker position={[event.lat, event.lon]} 
 				icon={customIcon(resource_url + event.photos[0].image)}
 			>
@@ -192,9 +194,10 @@ const LandingMap = (props)=>  {
 					
 					/>
 					<ReactLeafletSearch  closeResultsOnClick={true} inputPlaceholder='Search Places'  position="topright" showPopup={false} />
-					{sathiMarkers}
-					{foodMarkers}
-					{eventMarkers}
+					{show === 'sathi' && sathiMarkers}
+					{show === 'food' && foodMarkers}
+					{show === 'event' && eventMarkers}
+					{show === 'all' && <> {sathiMarkers} {foodMarkers} {eventMarkers} </>}
 					<CircleMarker center={{lat:myLoc[0], lng:myLoc[1]}} radius={20} >
 					{/* <Popup>
 						You Are Here.
@@ -235,22 +238,22 @@ const LandingMap = (props)=>  {
 						</div> */}
 				{/* </div> */}
 				<Row>
-					<Col xs='4' lg='auto'>
+					<Col xs='6' lg='auto'>
 						<label className='text-dark font-weight-bold'>Filter</label>
-						<Input type="select" name="select" id="exampleSelect">
-							<option>All</option>
-							<option>Companion</option>
-							<option>Events</option>
-							<option>Cook {'&'} Dine</option>
+						<Input type="select" name="select" id="exampleSelect" onChange={e => setShow(e.target.value)}>
+							<option value='all'>All</option>
+							<option value='sathi'>Companion</option>
+							<option value='event'>Events</option>
+							<option value='food'>Cook {'&'} Dine</option>
 						</Input>					
 					</Col>
-					<Col xs='8' lg='auto'>
+					{/* <Col xs='8' lg='auto'>
 					<label className='text-dark font-weight-bold'>Search</label>
 					<InputGroup>
 						<Input type="text" name="select" placeholder='Search'/>					
 						<InputGroupAddon addonType="append"><Button color="info" style={{height:40, fontSize:15}} className='text-center'><i className='nc-icon nc-zoom-split' /></Button></InputGroupAddon>
       				</InputGroup>
-					</Col>
+					</Col> */}
 				</Row>
 			</div>
 		)

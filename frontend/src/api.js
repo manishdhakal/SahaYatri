@@ -1,6 +1,6 @@
 import { client } from "Route"
 
-const uri = 'http://10.100.56.166:8000'
+const uri = 'http://localhost:8000'
 
 const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
@@ -193,10 +193,28 @@ const bookings = (cat) => client.request(`query{
 }
 `)
 
+const create_event =  (name, desc, location, lat,lon,price) => client.request( `mutation{
+  createEvent(name:"${name}", description :"${desc}",location :"${location}", lat : ${lat}, lon : ${lon}, price:${price}){
+    event {
+      id
+    }
+  }
+}`
+)
+
+const create_food = (name, desc, cook, location,lat, lon, price) => client.request(`mutation{
+  createFood(name:"${name}", description :"${desc}",cook:${cook},location :"${location}", lat : ${lat}, lon : ${lon}, price:${price}){
+    food {
+      id
+    }
+  }
+}
+`)
+
 const resource_url = uri+'/resources/'
 
 export {
   get_sathi,get_nearby_sathis, resource_url, get_all_sathis, 
   get_all_events, get_all_foods, check_session, login_user, my_sathis,
-  get_me, get_food, get_event, book, bookings, uri
+  get_me, get_food, get_event, book, bookings, uri, create_event, create_food
 }

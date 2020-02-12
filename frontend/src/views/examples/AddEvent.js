@@ -3,6 +3,7 @@ import {ModalFooter, ModalBody, Modal, ModalHeader, Container, Form, FormGroup, 
 import Context from 'context/context'
 import Calendar from 'react-calendar'
 import { TileLayer , Map, Marker, Popup } from 'react-leaflet'
+import { create_event } from 'api'
 const AddEvent = (props) => {
     const date = new Date()
     const {user, setUser} = useContext(Context)
@@ -68,37 +69,37 @@ const AddEvent = (props) => {
       <Form >
         <FormGroup>
           <Label for="docID" className='text-dark font-weight-bold h5'> Date</Label>
-          {/* <Input
-            type="text"
-            name="docID"
-            id="docID"
-            placeholder="Document ID"
-          /> */}
-          <Calendar className='shadow' minDate={new Date()} onChange={(e) => setFormData({date: e, ...formData})}/>
+          <Calendar className='shadow' minDate={new Date()} onChange={(e) => setFormData({date: `${e.getFullYear()}- ${e.getMonth()}-${e.getDay()}`, ...formData})}/>
+        </FormGroup>
+        <FormGroup>
+          <Label for="Document" className=' font-weight-bold h5 text-dark'>Name</Label>
+            <Input type="text" name="document" id="document" 
+                onChange={(e) => setFormData({...formData, name:e.target.value})}
+              />
         </FormGroup>
         <FormGroup>
           <Label for="Document" className=' font-weight-bold h5 text-dark'>Description</Label>
             <Input type="textarea" name="document" id="document" 
-                onChange={(e) => setFormData({...formData, duration:e.target.value})}
+                onChange={(e) => setFormData({...formData, description:e.target.value})}
               />
         </FormGroup>
         <FormGroup>
           <Label for="Document" className=' font-weight-bold h5 text-dark'>Price (in NRs.)</Label>
           <Input type="number" name="document" id="document" 
-              onChange={(e) => setFormData({...formData, amount:e.target.value})}
+              onChange={(e) => setFormData({...formData, price:e.target.value})}
               // onChange={(e) => console.log(e.target.value)}
             />
         </FormGroup>
         <FormGroup>
           <Label for="Document" className=' font-weight-bold h5 text-dark'>Location</Label>
           <Input type="text" name="document" id="document" 
-              onChange={(e) => setFormData({...formData, amount:e.target.value})}
+              onChange={(e) => setFormData({...formData, location:e.target.value})}
               // onChange={(e) => console.log(e.target.value)}
             />
         </FormGroup>
         <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
             onclick={(e)=> {
-                setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
+                // setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
                 setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})
             }}
         >
@@ -113,7 +114,11 @@ const AddEvent = (props) => {
             </Popup>  
             </Marker>
         </Map>
-        <Button style={{marginTop:20}} color='success' onClick={() => setModal(true)}>Submit</Button>
+        <Button style={{marginTop:20}} color='success' onClick={() => {
+            // create_event(formData.name,formData.description,formData.location,viewport.center[0], viewport.center[1], formData.price,).then((res) => setModal(true))
+            setModal(true)
+            }}
+        >Submit</Button>
       </Form>
     </Container>
     </>

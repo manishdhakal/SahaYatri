@@ -36,12 +36,14 @@ import { login_user } from "api";
 import {ScaleLoader} from 'react-spinners'
 import Calendar from "react-calendar";
 import AddEvent from "./AddEvent";
+import { TileLayer , Map, Marker, Popup } from 'react-leaflet'
+import { create_food } from 'api'
 
 function LocalHome(props) {
 
   // const []
   const [isLoading, setIsloading] = useState(true)
-  const [comp, setComp] = useState('offers')
+  const [comp, setComp] = useState('event')
 
 
   const {user, setUser} = useContext(Context)
@@ -68,14 +70,15 @@ function LocalHome(props) {
   return (
     <>
       <LocalNavbar {...props} />
-      <Input type="select" name="select" id="exampleSelect" style={{marginTop:80}}>
-        <option value='offers'>Offers</option>
-        <option value='freetime'>Add Freetime</option>
-        <option value='events'>Add Events</option>
+      <Input type="select" name="select" id="exampleSelect" style={{marginTop:80}} onChange={(e) => setComp(e.target.value)}>
+        <option value='event'>Add Events</option>
         <option value='food'> Add Cook {'&'} Dine</option>
       </Input>
-      {comp === 'offers' &&
+      {comp === 'event' &&
         <AddEvent {...props} />
+      }
+      {comp === 'food' &&
+        <AddFood {...props} />
       }
       <DemoFooter />
     </>
@@ -323,6 +326,150 @@ const Offers =  (props) => {
   )
 }
 
+const AddFood = (props) => {
+  const date = new Date()
+  const {user, setUser} = useContext(Context)
+  const [formData, setFormData] = useState({date:`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`, cook:false })
+  const [modal, setModal] = useState(false);
+  const toggle = () => {
+    setModal(!modal);
+  };
+
+  const [viewport, setViewport] = useState({
+  center : [27.684624, 85.333711],
+  zoom: 16,
+  });
+
+// const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
+  console.log(formData)
+useEffect(()=>{
+  // axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data)
+
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser');
+    // console.log('pos')
+  } else {
+    
+    navigator.geolocation.getCurrentPosition((pos)=>{
+      
+      setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
+      // setMyLoc([pos.coords.latitude, pos.coords.longitude])
+    });
+  }
+
+},[])
+  return(
+    <>
+    <Modal isOpen={modal} toggle={toggle} className='text-dark'>
+    <ModalHeader>
+      <div className="icon-box">
+        <i className="material-icons">&#xE876;</i>
+      </div>
+      <p className="modal-title">Awesome!</p>
+    </ModalHeader>
+    <ModalBody>
+      <p style={{ textAlign: "center" }}>
+        Your event has been confirmed. Check your email for
+        detials.
+      </p>
+    </ModalBody>
+    <ModalFooter>
+      <Container fluid>
+        <Button
+          color="primary"
+          onClick={() => {
+            props.history.push("/");
+          }}
+        >
+          <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
+        </Button>
+      </Container>
+    </ModalFooter>
+  </Modal>
+  <Container>
+    <h4 className='text-center font-weight-bold pull-left'>Add an Event for the tourist</h4>
+    <Form >
+      <FormGroup>
+        <Label for="docID" className='text-dark font-weight-bold h5'> Date</Label>
+        <Calendar className='shadow' minDate={new Date()} onChange={(e) => setFormData({date: `${e.getFullYear()}- ${e.getMonth()}-${e.getDay()}`, ...formData})}/>
+      </FormGroup>
+      <FormGroup>
+        <Label for="Document" className=' font-weight-bold h5 text-dark'>Name</Label>
+          <Input type="text" name="document" id="document" 
+              onChange={(e) => setFormData({...formData, name:e.target.value})}
+            />
+      </FormGroup>
+      <FormGroup>
+        <Label for="Document" className=' font-weight-bold h5 text-dark'>Description</Label>
+          <Input type="textarea" name="document" id="document" 
+              onChange={(e) => setFormData({...formData, description:e.target.value})}
+            />
+      </FormGroup>
+      <FormGroup>
+        <Label for="Document" className=' font-weight-bold h5 text-dark'>Price (in NRs.)</Label>
+        <Input type="number" name="document" id="document" 
+            onChange={(e) => setFormData({...formData, price:e.target.value})}
+            // onChange={(e) => console.log(e.target.value)}
+          />
+      </FormGroup>
+      <FormGroup>
+        <Label for="Document" className=' font-weight-bold h5 text-dark'>Location</Label>
+        <Input type="text" name="document" id="document" 
+            onChange={(e) => setFormData({...formData, location:e.target.value})}
+            // onChange={(e) => console.log(e.target.value)}
+          />
+      </FormGroup>
+      <FormGroup onChange={e => setFormData({...formData ,cook: e.target.value})} tag="fieldset">
+						<Label className='font-weight-bold h5 text-dark'>Cook As Well</Label>
+						<FormGroup check >
+							<Label check>
+								<Input
+									type="radio"
+									name="docType"
+									value={true}
+									
+								/>{" "}
+								<span className='font-weight-bold' >Yes </span>
+							</Label>
+						</FormGroup>
+						<FormGroup check>
+							<Label check>
+								<Input
+									type="radio"
+									name="docType"
+									value={false}
+								/>{" "}
+								<span className='font-weight-bold' >No </span>
+							</Label>
+						</FormGroup>
+					</FormGroup>
+      <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+          onclick={(e)=> {
+              // setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
+              setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})
+          }}
+      >
+          <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          
+          />
+          <Marker position={viewport.center} >
+          <Popup>
+              The Location of your desire.
+          </Popup>  
+          </Marker>
+      </Map>
+      <Button style={{marginTop:20}} color='success' onClick={() => {
+          // create_food(formData.name,formData.description,formData.cook,formData.location,viewport.center[0], viewport.center[1], formData.price,).then((res) => setModal(true))
+          setModal(true)  
+        }}
+      >Submit</Button>
+    </Form>
+  </Container>
+  </>
+  )
+}
 
 const mycss = `display: block;
 	margin: auto;`
