@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect,useState, useContext} from "react";
 
 import url from "url.js";
 import Gallery from "react-photo-gallery";
@@ -9,6 +9,7 @@ import {
   Container,
   Row,
   Col,
+  Input,
 
 } from "reactstrap";
 
@@ -21,21 +22,25 @@ import {Link} from 'react-router-dom'
 import LandingPage from "./LandingPage";
 import { get_sathi } from "api";
 import { resource_url } from "api";
+import Context from "context/context";
 
 function ProfilePage(props) {  
+      const id = props.match.params.id
   useEffect(() =>{
-    const id = props.match.params.id
+
     get_sathi(id).then(res => {
       setProfile(res.sathi)
       let photos =  res.sathi.photos
       let img_arr = []
       photos.forEach(photo => img_arr.push(photo.image))
       setImages(img_arr)
+      if(res.sathi.booktime.length !== 0) setUser({...user, timeId:res.sathi.booktime[0].id, category:0, categoryId:Number(id)})
     })
   },[])
 
   const [profile, setProfile] = useState({});
   const [images, setImages] = useState([])
+  const {user, setUser} = useContext(Context)
 
   console.log(profile)
   var items = images.map(img => {
@@ -47,20 +52,9 @@ function ProfilePage(props) {
     }
   })
 
-  // document.documentElement.classList.remove("nav-open");
-  // useEffect(() => {
-  //   
-  //   console.log(url+'/api/sathi/'+id)
-    
-  //   // 
-  //   // 
-  //   // .catch(err => console.log(err))
-  //   // document.body.classList.add("/");
-  //   // return function cleanup() {
-  //   //   document.body.classList.remove("/");
-  //   // };
-  // },[]);
-
+  let booktime
+  if(profile.booktime !== undefined)
+    booktime = profile.booktime.map(time =><option value={time.id}>{time.date}</option>)
     return (
       <div>
         <ExamplesNavbar {...props} />
@@ -88,9 +82,6 @@ function ProfilePage(props) {
                   {profile.description}
                 </p>
                 <br />
-              {/* <Button className="btn-round" color="default" outline>
-                      <i className="fa fa-cog" /> Settings
-          </Button> */}
             </Col>
           </Row>
           <Row>
@@ -116,12 +107,14 @@ function ProfilePage(props) {
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
+            <label className='text-dark font-weight-bold'>Free Times</label>
+            <Input type="select" name="select" id="exampleSelect" style={{marginBottom:20}} onClick={(e) => setUser({...user,timeId:e.target.value})} >
+              {booktime}
+            </Input >
               {!props.location.fromLocal &&
-                <a href={'/checkout#sathi?'+profile.id} type='sathi'>
-                  <Button  className="btn-round h6" color="info">
-                    Hire Now
-                  </Button>
-                </a>
+                <Link to='/checkout' className='btn-round btn-info btn'>
+                  Hire
+                </Link>
               }
             </Col>
             {!props.location.fromLocal && <LandingPage {...props} />}

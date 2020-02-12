@@ -24,7 +24,7 @@ import MyBookings from "views/examples/MyBookings";
 import MyOffers from "views/examples/MyOffers";
 import cookie from 'react-cookies'
 import { check_session } from "api";
-// import { my_sathis } from "api";
+import { uri } from "api";
 
 import { GraphQLClient } from "graphql-request";
 import { my_sathis } from "api";
@@ -34,7 +34,6 @@ import { my_sathis } from "api";
 // const temp_user = {isLoggedIn:true, isLocalApproved: true}
 // cookie.save('token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1hbmlzaDEiLCJleHAiOjE1ODEzMTQ4MTUsIm9yaWdJYXQiOjE1ODEzMTQ1MTV9.5z-SIR5rLf3CPDEf8VpUutCz_bet1_FhKdnxlSK6bKs")
 var client
-const uri = 'http://localhost:8000'
 const MyRoute = ()=>{
 	const token = cookie.load('token')
 
@@ -53,7 +52,7 @@ const MyRoute = ()=>{
 	const [user, setUser] = useState({isLoggedIn:false, isLocalApproved:false})
 	const provider = useMemo(() => ({user, setUser}), [user, setUser])
 
-	console.log(user)
+	console.log(client)
 	useEffect(() => {
 
 		if( token !== undefined) {
@@ -64,10 +63,13 @@ const MyRoute = ()=>{
 					let data = res.verifyToken.payload
 					console.log(data)
 					my_sathis()
-					.then(res=> setUser({...user,isLoggedIn:true, username:data.username, isLocalApproved:res.mySathis[0].approved, sathiId:res.mySathis[0].id}))
+					.then(res=>{ 
+						setUser({...user,isLoggedIn:true, username:data.username, isLocalApproved:res.mySathis[0].approved, sathiId:res.mySathis[0].id})
+						setIsConnecting(false)
+					})
 					.catch(err => console.log(err))
 					// setUser({...user, })
-					setIsConnecting(false)
+
 				}
 
 			}).catch(err => {

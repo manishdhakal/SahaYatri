@@ -4,8 +4,9 @@ import Context from 'context/context'
 import Calendar from 'react-calendar'
 import { TileLayer , Map, Marker, Popup } from 'react-leaflet'
 const AddEvent = (props) => {
+    const date = new Date()
     const {user, setUser} = useContext(Context)
-    const [formData, setFormData] = useState({date: new Date()})
+    const [formData, setFormData] = useState({date:`${date.getFullYear()}- ${date.getMonth()}-${date.getDay()}` })
     const [modal, setModal] = useState(false);
     const toggle = () => {
       setModal(!modal);
@@ -76,10 +77,9 @@ const AddEvent = (props) => {
           <Calendar className='shadow' minDate={new Date()} onChange={(e) => setFormData({date: e, ...formData})}/>
         </FormGroup>
         <FormGroup>
-          <Label for="Document" className=' font-weight-bold h5 text-dark'>Duration (in hrs.)</Label>
-            <Input type="number" name="document" id="document" 
+          <Label for="Document" className=' font-weight-bold h5 text-dark'>Description</Label>
+            <Input type="textarea" name="document" id="document" 
                 onChange={(e) => setFormData({...formData, duration:e.target.value})}
-                // onChange={(e) => console.log(e.target.value)}
               />
         </FormGroup>
         <FormGroup>
@@ -91,14 +91,7 @@ const AddEvent = (props) => {
         </FormGroup>
         <FormGroup>
           <Label for="Document" className=' font-weight-bold h5 text-dark'>Location</Label>
-          <Input type="number" name="document" id="document" 
-              onChange={(e) => setFormData({...formData, amount:e.target.value})}
-              // onChange={(e) => console.log(e.target.value)}
-            />
-        </FormGroup>
-        <FormGroup>
-          <Label for="Document" className=' font-weight-bold h5 text-dark'>Price (in NRs.)</Label>
-          <Input type="number" name="document" id="document" 
+          <Input type="text" name="document" id="document" 
               onChange={(e) => setFormData({...formData, amount:e.target.value})}
               // onChange={(e) => console.log(e.target.value)}
             />

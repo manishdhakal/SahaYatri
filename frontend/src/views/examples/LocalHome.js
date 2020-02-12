@@ -69,10 +69,10 @@ function LocalHome(props) {
     <>
       <LocalNavbar {...props} />
       <Input type="select" name="select" id="exampleSelect" style={{marginTop:80}}>
-        <option>Offers</option>
-        <option>Add Freetime</option>
-        <option>Add Events</option>
-        <option> Add Cook {'&'} Dine</option>
+        <option value='offers'>Offers</option>
+        <option value='freetime'>Add Freetime</option>
+        <option value='events'>Add Events</option>
+        <option value='food'> Add Cook {'&'} Dine</option>
       </Input>
       {comp === 'offers' &&
         <AddEvent {...props} />
@@ -100,9 +100,6 @@ const Offers =  (props) => {
 
   useEffect(() => {
 
-    axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data))
-    axios.get(url+'/api/event/').then(resp => setEvents(resp.data))
-    axios.get(url+'/api/food/').then(resp => setFoods(resp.data))
   },[]);
 
   return (

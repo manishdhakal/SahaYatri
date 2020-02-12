@@ -97,7 +97,7 @@ class FoodTime(models.Model):
 
 
     def __str__(self):
-        return self.sathi.name
+        return self.food.name
 class FoodPhoto(models.Model):
     image = models.ImageField(upload_to="foodimages",default ="")
     food =  models.ForeignKey(FoodProvider,related_name='photos',on_delete=models.CASCADE)
@@ -139,7 +139,7 @@ class EventTime(models.Model):
     booked=models.BooleanField(default=False)
     event = models.ForeignKey(Event,related_name='booktime',on_delete=models.CASCADE)
     def __str__(self):
-        return self.sathi.name
+        return self.event.name
 class EventThumbnail(models.Model):
     event = models.ForeignKey(Event, on_delete=models.DO_NOTHING)
     thumbnail = models.ImageField(upload_to="thumbnail/", verbose_name='Image')

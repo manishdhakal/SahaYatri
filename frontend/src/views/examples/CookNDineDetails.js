@@ -1,6 +1,6 @@
 
-import React, {useEffect,useState} from "react";
-
+import React, {useEffect,useState, useContext} from "react";
+import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
 import url from 'url.js'
 import Gallery from "react-photo-gallery";
 
@@ -18,45 +18,45 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 import axios from 'axios'
 import CookNDineHeader from "components/Headers/CookNDineHeader";
 import LandingPage from 'views/examples/LandingPage'
+import { get_food } from "api";
+import { resource_url } from "api";
+import { Link } from "react-router-dom";
+import Context from "context/context";
 
 function CookNDine(props) {
-  
+  const id = props.match.params.id
+  const [viewport, setViewport] = useState({
+		center : [27.684624, 85.333711],
+		zoom: 16,
+	  });
   useEffect(() =>{
-    const id = props.match.params.id
-    axios.get(url+'/api/food/'+id).then(e => {
-      setCook(e.data[0])
-      setImages(e.data[0].image)
+    get_food(id)
+    .then(res => {
+      setCook(res.food)
+      let photos =  res.food.photos
+      let img_arr = []
+      photos.forEach(photo => img_arr.push(photo.image))
+        setImages(img_arr)
+        setViewport({zoom:17, center:[res.food.lat, res.food.lon]})
+        if(res.event.booktime.length !== 0) setUser({...user, timeId:res.food.booktime[0].id, category:1, categoryId:Number(id) })
     })
+    .catch(err => console.log(err))
   },[])
 
   const [cook, setCook] = useState({});
-  const [images, setImages] = React.useState([])
+  const [images, setImages] = useState([])
+  const {user, setUser} = useContext(Context)
 
-  var slicedImage = images.slice(0, 3)
-  var items = slicedImage.map(img => {
+  var items = images.map(img => {
     return {
-      src: url + img,
+      src: resource_url + img,
       width: 4,
       height: 3,
       padding:10
     }
   })
 
-  // document.documentElement.classList.remove("nav-open");
-  // useEffect(() => {
-  //   
-  //   console.log(url+'/api/sathi/'+id)
-    
-  //   // 
-  //   // 
-  //   // .catch(err => console.log(err))
-  //   // document.body.classList.add("/");
-  //   // return function cleanup() {
-  //   //   document.body.classList.remove("/");
-  //   // };
-  // },[]);
-
-  console.log(cook,images)
+  console.log(cook)
     return (
       <div>
         <ExamplesNavbar {...props} />
@@ -68,7 +68,7 @@ function CookNDine(props) {
                 <img
                   alt="..."
                   className="img-circle img-no-padding img-responsive"
-                  src={url + images[0]}
+                  src={resource_url + images[0]}
                 />
               </div>
               <div className="name">
@@ -79,46 +79,60 @@ function CookNDine(props) {
             </div>
             <Row>
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                {/* <h6 className="description text-dark">Description</h6>
+                <h6 className="description text-dark">Description</h6>
                 <p>
                   {cook.description}
                 </p>
-                <br /> */}
-              {/* <Button className="btn-round" color="default" outline>
-                      <i className="fa fa-cog" /> Settings
-          </Button> */}
+                <br />
             </Col>
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <h6 className="title text-dark">Dishes
+            {cook.user !== undefined &&
+              <h6 className="title text-dark">Hosted By
                 <br />
-                  <p>{cook.dishes}</p>
-                </h6>
+                  <p>{`${cook.user.firstName} ${cook.user.lastName}`}</p>
+              </h6>
+            }
               <h6 className="title text-dark">Cook As well
                 <br />
                   {cook.cook ? <p>yes</p>:<p>no</p>}
                 </h6>
 
-              <h6 className="title text-dark">Location
+                <h6 className="title text-dark">Location
                 <br />
-
-                  <p>{cook.place}</p>
+                  <p>{cook.location}</p>
                 </h6>
+                { cook.booktime !== undefined &&
+                  <h6 className="title text-dark">Date
+                  <br />
+                    <p>{cook.booktime[0].date}</p>
+                  </h6>
+                }
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
-
+              <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+              >
+                  <TileLayer
+                  attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  
+                  />
+                  <Marker position={viewport.center} >
+                  <Popup>
+                      The Location of event.
+                  </Popup>  
+                  </Marker>
+              </Map>
               </Col>
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <a href={'/checkout#food?'+cook.id} type='sathi'>
-                    <Button  className="btn-round w-25 h6" color="info">
-                    Attend
-                    </Button>
-                </a>
+              <Link to='/checkout' className='btn-round btn-info btn' onClick={() => setUser({...user, category:1, id:Number(props.match.params.id) })}>
+                  Attend
+                </Link>
             </Col>
-            <LandingPage />
+            <LandingPage {...props} />
             <DemoFooter />
           </Container>
       </div>

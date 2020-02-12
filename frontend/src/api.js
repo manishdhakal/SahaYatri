@@ -1,6 +1,6 @@
 import { client } from "Route"
 
-const uri = 'http://localhost:8000'
+const uri = 'http://10.100.56.166:8000'
 
 const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
@@ -32,6 +32,10 @@ const get_sathi = (id) => client.request(`
         phone
         price
         description
+        booktime {
+          id
+          date
+        }
         photos {
             id
             image
@@ -39,6 +43,60 @@ const get_sathi = (id) => client.request(`
         }
     }
   `)
+const get_food = (id) => client.request(`query{
+  food(id:${id}) {
+    id
+    name
+    description
+    cook
+    lon
+    lat
+    price
+    location
+    user {
+      id
+      firstName
+      lastName
+    }
+    booktime {
+      id
+      date
+    }
+    photos {
+      id
+      image
+    }
+  }
+}`)
+
+const get_event = (id) => client.request(`query{
+  event(id:${id}) {
+    id
+    name
+    lon
+    lat
+    location
+    description
+    price
+    user {
+      id
+      firstName
+      lastName
+    }
+    
+    booktime {
+      id
+      date
+    }
+    
+    photos {
+      id
+      image
+    }
+    
+  }
+}`)
+
 const get_all_sathis = () => client.request(`
   query {
       allSathis{
@@ -122,11 +180,23 @@ const get_me = () => client.request(`query{
   }
 }`)
 
+const book = (category, categoryId, timeId) => client.request(`mutation{
+  bookData(category:${category}, categoryId:${categoryId}, timeId:${timeId}){
+    bookData{
+      id
+    }
+  }
+}`)
+
+const bookings = (cat) => client.request(`query{
+  bookings(cat:${cat})
+}
+`)
 
 const resource_url = uri+'/resources/'
 
 export {
   get_sathi,get_nearby_sathis, resource_url, get_all_sathis, 
   get_all_events, get_all_foods, check_session, login_user, my_sathis,
-  get_me
+  get_me, get_food, get_event, book, bookings, uri
 }

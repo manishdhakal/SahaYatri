@@ -47,7 +47,6 @@ function ExamplesNavbar(props) {
   const handleLogout = () => {
     cookie.remove('token')
     setUser({isLoggedIn:false})
-    window.location.reload()
   }
   return (
     // <div style={{width:'100%'}}>
@@ -107,13 +106,13 @@ function ExamplesNavbar(props) {
                 </NavLink>
               </a>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <a href='#nth'>
                 <NavLink className='text-dark' onClick={() => window.location.replace('/my-offers')}  tag={Link}>
                   <i className="fa fa-hand-pointer-o" /> My Offers
                 </NavLink>
               </a>
-            </NavItem>
+            </NavItem> */}
             <NavItem>
               <a href='#nth'>
                 <NavLink className='text-dark' onClick={() => window.location.replace('/my-bookings')}  tag={Link}>

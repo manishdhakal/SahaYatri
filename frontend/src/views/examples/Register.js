@@ -30,7 +30,7 @@ function Register(props) {
       let auth = res.tokenAuth
       if (auth){
         cookie.save('token', auth.token)
-        props.history.push(next_link)
+        props.history.push('/')
       }
     })
   }
