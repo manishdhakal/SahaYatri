@@ -70,10 +70,12 @@ function LocalHome(props) {
   return (
     <>
       <LocalNavbar {...props} />
-      <Input type="select" name="select" id="exampleSelect" style={{marginTop:80}} onChange={(e) => setComp(e.target.value)}>
-        <option value='event'>Add Events</option>
-        <option value='food'> Add Cook {'&'} Dine</option>
-      </Input>
+      <div style={{width:350, margin:'auto'}}>
+        <Input  type="select" name="select" id="exampleSelect" style={{marginTop:80}} onChange={(e) => setComp(e.target.value)}>
+          <option value='event'>Add Events</option>
+          <option value='food'> Add Cook {'&'} Dine</option>
+        </Input>
+      </div>
       {comp === 'event' &&
         <AddEvent {...props} />
       }
@@ -387,7 +389,7 @@ useEffect(()=>{
     </ModalFooter>
   </Modal>
   <Container>
-    <h4 className='text-center font-weight-bold pull-left'>Add an Event for the tourist</h4>
+    <h5 className='text-center font-weight-bold'>Add a Cook {'&'} Dine for the tourist</h5>
     <Form >
       <FormGroup>
         <Label for="docID" className='text-dark font-weight-bold h5'> Date</Label>
@@ -443,7 +445,7 @@ useEffect(()=>{
 							</Label>
 						</FormGroup>
 					</FormGroup>
-      <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+      <Map className='leaflet-1' center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
           onclick={(e)=> {
               // setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
               setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})

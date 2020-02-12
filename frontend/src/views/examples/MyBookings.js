@@ -10,7 +10,6 @@ const MyBookings = (props) => {
   const [sathis, setSathis] = useState([])
   const [foods, setFoods] = useState([])
   const [events, setEvents] = useState([])
-  const [showNone, setShowNone] = useState(true)
   useEffect(()=>{
 
     bookings(0).then(res=> {

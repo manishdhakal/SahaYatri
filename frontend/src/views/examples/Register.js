@@ -30,9 +30,10 @@ function Register(props) {
       let auth = res.tokenAuth
       if (auth){
         cookie.save('token', auth.token)
+        setUser({...user, isLoggedIn:true})
         props.history.push('/')
       }
-    })
+    }).catch(err => alert('Invalid username or password'))
   }
   return (
     <>
@@ -40,7 +41,7 @@ function Register(props) {
       <div
         className="page-header"
         style={{
-          backgroundImage: "url(" + require("assets/img/login-image.jpg") + ")"
+          backgroundImage: "url(" + require("assets/img/login-image.png") + ")"
         }}
       >
         <div className="filter" />
@@ -151,7 +152,7 @@ function Register(props) {
                   <Input placeholder="Username" type="text" onChange={e => setLogin({...login, username:e.target.value})} />
                   <label className='text-white '>Password</label>
                   <Input placeholder="Password" type="password" onChange={e => setLogin({...login, password:e.target.value})} />
-                  <Link onClick={() => setUser({...user,isLoggedIn:true, isLocalApproved:true})}>
+                  <Link>
                     <Button block className="btn-round" color="info" onClick={handleLogin} hr>
                       Continue
                     </Button>

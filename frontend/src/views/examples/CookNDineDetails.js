@@ -22,6 +22,7 @@ import { get_food } from "api";
 import { resource_url } from "api";
 import { Link } from "react-router-dom";
 import Context from "context/context";
+import ProfilePageHeader from "components/Headers/ProfilePageHeader";
 
 function CookNDine(props) {
   const id = props.match.params.id
@@ -60,7 +61,7 @@ function CookNDine(props) {
     return (
       <div>
         <ExamplesNavbar {...props} />
-        <CookNDineHeader />
+        <ProfilePageHeader />
         <div className="section profile-content">
           <Container>
             <div className="owner">
@@ -111,7 +112,7 @@ function CookNDine(props) {
                 }
                 <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
-              <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+              <Map className='leaflet-1' center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
               >
                   <TileLayer
                   attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -38,12 +38,13 @@ function ExamplesNavbar(props) {
       get_me()
       .then(res => {
         let data = res.me
+        console.log( data , 'me')
         setUser({...user, name: `${data.firstName} ${data.lastName}`, email:data.email, id:data.id})
       })
       .catch(err => console.log(err))
     }
   },[])
-  // console.log(user)
+  console.log(user)
   const handleLogout = () => {
     cookie.remove('token')
     setUser({isLoggedIn:false})
@@ -61,25 +62,15 @@ function ExamplesNavbar(props) {
           <NavbarBrand
             data-placement="bottom"
             to="/"
-            // target="_blank"
             title="SahaYatri"
             tag={Link}
           >
-            {/* { document.documentElement.scrollTop < 300 ?
-              <img
-              alt="..."
-              className="img-no-padding img-responsive"
-              style={{height:40}}
-              src={require('assets/img/sahayatri-white.png')}
-              /> : */}
               <img
                 alt="..."
                 className="img-no-padding img-responsive"
                 style={{height:40 }}
                 src={require('assets/img/sahayatri.png')}
               />
-            {/* } */}
-            {/* SAHAYATRI */}
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
@@ -158,8 +149,8 @@ function ExamplesNavbar(props) {
               <Dropdown nav isOpen={isDropdownOpen} toggle={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <a href='#nth'>
                   <DropdownToggle nav caret className='text-dark'> 
-                  <img alt='' src={require('assets/img/faces/kaci-baum-2.jpg')} style={{borderRadius:'50%', height:20, width:20}} />
-                          {user.name}
+                  <img alt='' src={require('assets/img/default-avatar.png')} style={{borderRadius:'50%', height:20, width:20}} />
+                    {user.name}
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem divider />

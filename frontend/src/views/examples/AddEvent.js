@@ -64,8 +64,8 @@ const AddEvent = (props) => {
         </Container>
       </ModalFooter>
     </Modal>
-    <Container>
-      <h4 className='text-center font-weight-bold'>Add an Event for the tourist</h4>
+    <Container style={{width:400}}>
+      <h5 className='text-center font-weight-bold'>Add an Event for the tourist</h5>
       <Form >
         <FormGroup>
           <Label for="docID" className='text-dark font-weight-bold h5'> Date</Label>
@@ -97,7 +97,7 @@ const AddEvent = (props) => {
               // onChange={(e) => console.log(e.target.value)}
             />
         </FormGroup>
-        <Map center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+        <Map className='leaflet-1' center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
             onclick={(e)=> {
                 // setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
                 setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})

@@ -86,28 +86,31 @@ function ProfilePage(props) {
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
+              <h6 className="title text-dark">Duration (hrs.)
+                <br />
+                  <p>{profile.duration}</p>
+              </h6>
               <h6 className="title text-dark">Languages
                 <br />
                   <p>{profile.languages}</p>
-                </h6>
+              </h6>
               <h6 className="title text-dark">Interests
                 <br />
                   <p>{profile.interests}</p>
-                </h6>
+              </h6>
 
               <h6 className="title text-dark">Location
                 <br />
-
                   <p>{profile.location}</p>
-                </h6>
-                <h4><strong>Photos</strong></h4>
+              </h6>
+              <h4><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
 
               </Col>
             </Row>
             <br />
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-            <label className='text-dark font-weight-bold'>Free Times</label>
+            <label className='text-dark font-weight-bold'>Available Times</label>
             <Input type="select" name="select" id="exampleSelect" style={{marginBottom:20}} onClick={(e) => setUser({...user,timeId:e.target.value})} >
               {booktime}
             </Input >

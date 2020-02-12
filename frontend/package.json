@@ -23,6 +23,7 @@
     "react-dom": "16.8.6",
     "react-geolocated": "^3.0.1",
     "react-leaflet": "^2.6.1",
+    "react-leaflet-locate-control": "^0.1.6",
     "react-leaflet-polyline": "^1.0.3",
     "react-leaflet-search": "^1.0.3",
     "react-map-gl": "^5.2.1",

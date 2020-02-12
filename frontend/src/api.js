@@ -25,6 +25,7 @@ const get_sathi = (id) => client.request(`
         name
         languages
         interests
+        duration
         lat
         lon
         location

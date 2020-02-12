@@ -1,25 +1,18 @@
 import React,{useState, useMemo, useEffect} from "react";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route,} from "react-router-dom";
 
-import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterLocal from "views/examples/RegisterLocal.js";
-import FilterPage from "views/FilterPage";
 import EventDetails from "views/examples/EventDetails";
 import CookNDine from "views/examples/CookNDineDetails";
 import CheckoutPage from "views/CheckoutPage";
-import Index from 'views/Index'
 import Context from "context/context";
 import LandingMap from "views/examples/LandingMap";
-import axios  from "axios";
-// import url from "url";
-import CheckLocal from "views/examples/CheckLocal";
-import {RingLoader, BarLoader, PropagateLoader, ScaleLoader} from 'react-spinners'
+import {ScaleLoader} from 'react-spinners'
 import LocalHome from "views/examples/LocalHome";
 import LocalRoute from "views/examples/LocalRoute";
 import Register from "views/examples/Register";
 import MakeOffer from 'views/examples/MakeOffer'
-// import { get_nearby_sathis } from "api";
 import MyBookings from "views/examples/MyBookings";
 import MyOffers from "views/examples/MyOffers";
 import cookie from 'react-cookies'
@@ -30,9 +23,6 @@ import { GraphQLClient } from "graphql-request";
 import { my_sathis } from "api";
 
 
-// console.log('Route')
-// const temp_user = {isLoggedIn:true, isLocalApproved: true}
-// cookie.save('token', "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6Im1hbmlzaDEiLCJleHAiOjE1ODEzMTQ4MTUsIm9yaWdJYXQiOjE1ODEzMTQ1MTV9.5z-SIR5rLf3CPDEf8VpUutCz_bet1_FhKdnxlSK6bKs")
 var client
 const MyRoute = ()=>{
 	const token = cookie.load('token')
@@ -68,7 +58,6 @@ const MyRoute = ()=>{
 						setIsConnecting(false)
 					})
 					.catch(err => console.log(err))
-					// setUser({...user, })
 
 				}
 
@@ -93,17 +82,12 @@ const MyRoute = ()=>{
 	return (
 		<Context.Provider value={provider}>
 			<BrowserRouter>
-			{/* <Switch> */}
 
 				<Route
 					exact
 					path="/"
 					component={LandingMap}
 					 />
-				{/* <Route
-					path="/home"
-					component={LandingPage}
-				/> */}
 
 				<Route
 					path="/user/:id"
@@ -125,10 +109,8 @@ const MyRoute = ()=>{
 					path="/register"
 					component={Register}
 				/>
-				{/* <Route path="/filter" component={FilterPage} /> */}
-				<Route strict={false} path='/make-offer' component={MakeOffer} />
-				{/* <Route path="/filter-event" render={props => <FilterPage {...props} />} />
-				<Route path="/filter-food" render={props => <FilterPage {...props} />} /> */}
+				<Route path='/make-offer' component={MakeOffer} />
+				
 				<Route
 					path="/checkout"
 					component={CheckoutPage}
@@ -143,13 +125,6 @@ const MyRoute = ()=>{
 					path="/deadend"
 					component={LocalRoute}
 				/>
-
-				{/* <Route
-					path="/local-home"
-					component={LocalHome}
-				/> */}
-
-			{/* </Switch> */}
 		</BrowserRouter>
 		</Context.Provider>
 	)

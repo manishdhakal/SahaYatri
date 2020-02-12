@@ -1,8 +1,5 @@
 
 import React,{useState,useEffect, useContext} from "react";
-import axios from 'axios'
-import url from 'url.js'
-// reactstrap components
 import {
   Button,
   Card,
@@ -19,7 +16,6 @@ import {
   Col,
 } from "reactstrap";
 
-import DemoFooter from "components/Footers/DemoFooter.js";
 import { Link } from "react-router-dom";
 import Context from "context/context";
 import { get_all_sathis, get_all_events, resource_url, get_all_foods } from "api";
@@ -37,7 +33,7 @@ function LandingPage(props) {
       document.body.classList.remove("profile");
     };
   },[]);
-  // const []
+
 
   const [userSM, setUserSM] = useState(false)
   const [eventSM, setEventSM] = useState(false)
@@ -48,16 +44,12 @@ function LandingPage(props) {
   const [foods, setFoods] = useState([])
 
   const {user, setUser} = useContext(Context)
-  // console.log(user.isLoggedIn)
-  // sathis.filter(sathi => sathi.id !== user.id )
   const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
   const slicedEvents = eventSM? events: events.slice(0,3)
   const slicedFoods = foodSM? foods: foods.slice(0,3)
   console.log(sathis, foods, events)
   return (
     <>
-      {/* <ExamplesNavbar {...props} /> */}
-      {/* <LandingPageHeader /> */}
       <div className="main">
         <div className="section section-nude text-center" >
           <Container  style={{color:'#000'}} >
@@ -70,8 +62,8 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href=" " onClick={e => e.preventDefault()}>
-                        <Link onClick={()=> window.location.replace('/user/'+sathi.id)} >
-                        {sathis.length !== 0 &&
+                        <Link onClick={()=> props.history.push('/user/'+sathi.id)} >
+                        {sathi.photos.length > 0 &&
                           <img
                             alt="..."
                             src={resource_url + sathi.photos[0].image}
@@ -84,7 +76,7 @@ function LandingPage(props) {
                       <a href=" " onClick={e => e.preventDefault()}>
                         <div className="author">
                           <CardTitle tag="h4">
-                          <Link className='font-weight-bold text-primary'  onClick={()=> window.location.replace('/user/'+sathi.id)}>{sathi.name} </Link>
+                            <Link className='font-weight-bold'  onClick={()=> props.history.push('/user/'+sathi.id)}>{sathi.name} </Link>
                           </CardTitle>
                         </div>
                       </a>
@@ -133,8 +125,8 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link to={{pathname:'/event/'+ event.id, id:event.id}}>{console.log()}
-                        {events.length !== 0 &&
+                        <Link onClick={()=> props.history.push('/event/'+event.id)}>
+                        {event.photos.length > 0 &&
                           <img
                             alt="..."
                             src={resource_url + event.photos[0].image}
@@ -146,7 +138,9 @@ function LandingPage(props) {
                     <CardBody>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <div className="author">
-                          <CardTitle tag="h4" className='font-weight-bold'>{event.name}</CardTitle>
+                          <CardTitle tag="h4" className='font-weight-bold'>
+                            <Link className='font-weight-bold'  onClick={()=> props.history.push('/event/'+event.id)}>{event.name} </Link>
+                          </CardTitle>
                         </div>
                       </a>
                       <h4 className='text-success font-weight-bold'> Nrs. {event.price}</h4>
@@ -192,8 +186,8 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link to={{pathname:'/cookndine/'+ food.id, id:food.id}}>
-                        {foods.length !== 0 &&
+                        <Link onClick={()=> props.history.push('/cookndine/'+food.id)}>
+                        {food.photos.length > 0 &&
                           <img
                             alt="..."
                             src={resource_url + food.photos[0].image}
@@ -205,7 +199,9 @@ function LandingPage(props) {
                     <CardBody>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <div className="author">
-                          <CardTitle tag="h4">{food.name}</CardTitle>
+                          <CardTitle tag="h4">
+                          <Link className='font-weight-bold'  onClick={()=> props.history.push('/cookndine/'+food.id)}>{food.name} </Link>
+                          </CardTitle>
                         </div>
                       </a>
                       <h4 className='text-success font-weight-bold'> Nrs. {food.price}</h4>
@@ -291,7 +287,6 @@ function LandingPage(props) {
         </div>
         
       </div>
-      {/* <DemoFooter /> */}
     </>
   );
 }
