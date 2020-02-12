@@ -201,8 +201,7 @@ const LandingMap = (props)=>  {
 					You Are Here.
 				</Popup> */}
 				</CircleMarker>
-				<img alt='' url="https://placekitten.com/g/500/500" style={{height:100, width:100, zIndex:5}} />
-				<Marker position={viewport.center} >
+					<Marker position={viewport.center} >
 				<Popup>
 					The Location of your desire.
 				</Popup>  
