@@ -325,7 +325,7 @@ useEffect(()=>{
         <Button
           color="primary"
           onClick={() => {
-            props.history.push("/");
+            props.history.push("/local");
           }}
         >
           <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
