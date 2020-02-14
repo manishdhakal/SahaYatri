@@ -24,6 +24,8 @@ function Register(props) {
   },[]);
   const next_link = user.afterLogin ? user.afterLogin: '/'
 
+  // console.log(next_link,'next_link')
+
   const handleLogin = () =>{
     login_user(login.username, login.password).then(res => {
       console.log(res)
@@ -31,7 +33,7 @@ function Register(props) {
       if (auth){
         cookie.save('token', auth.token)
         setUser({...user, isLoggedIn:true})
-        props.history.push('/')
+        props.history.push(next_link)
       }
     }).catch(err => alert('Invalid username or password'))
   }

@@ -62,7 +62,7 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href=" " onClick={e => e.preventDefault()}>
-                        <Link onClick={()=> props.history.push('/user/'+sathi.id)} >
+                        <Link onClick={()=> window.location.replace('/user/'+sathi.id)} >
                         {sathi.photos.length > 0 &&
                           <img
                             alt="..."
@@ -76,7 +76,7 @@ function LandingPage(props) {
                       <a href=" " onClick={e => e.preventDefault()}>
                         <div className="author">
                           <CardTitle tag="h4">
-                            <Link className='font-weight-bold'  onClick={()=> props.history.push('/user/'+sathi.id)}>{sathi.name} </Link>
+                            <Link className='font-weight-bold'  onClick={()=> window.location.replace('/user/'+sathi.id)}>{sathi.name} </Link>
                           </CardTitle>
                         </div>
                       </a>
@@ -125,7 +125,7 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link onClick={()=> props.history.push('/event/'+event.id)}>
+                        <Link onClick={()=> window.location.replace('/event/'+event.id)}>
                         {event.photos.length > 0 &&
                           <img
                             alt="..."
@@ -139,7 +139,7 @@ function LandingPage(props) {
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <div className="author">
                           <CardTitle tag="h4" className='font-weight-bold'>
-                            <Link className='font-weight-bold'  onClick={()=> props.history.push('/event/'+event.id)}>{event.name} </Link>
+                            <Link className='font-weight-bold'  onClick={()=> window.location.replace('/event/'+event.id)}>{event.name} </Link>
                           </CardTitle>
                         </div>
                       </a>
@@ -176,6 +176,8 @@ function LandingPage(props) {
             }
           </Container>
         </div>
+
+
         <div className="section section-nude text-center">
           <Container>
             <h3 className="title">Cook {'&'} Dine Near You</h3>
@@ -186,7 +188,7 @@ function LandingPage(props) {
                   <Card className="card-profile card-plain">
                     <div className="card-avatar">
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link onClick={()=> props.history.push('/cookndine/'+food.id)}>
+                        <Link onClick={()=> window.location.replace('/cookndine/'+food.id)}>
                         {food.photos.length > 0 &&
                           <img
                             alt="..."
@@ -200,7 +202,7 @@ function LandingPage(props) {
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <div className="author">
                           <CardTitle tag="h4">
-                          <Link className='font-weight-bold'  onClick={()=> props.history.push('/cookndine/'+food.id)}>{food.name} </Link>
+                          <Link className='font-weight-bold'  onClick={()=> window.location.replace('/cookndine/'+food.id)}>{food.name} </Link>
                           </CardTitle>
                         </div>
                       </a>
@@ -237,6 +239,8 @@ function LandingPage(props) {
             }
           </Container>
         </div>
+
+
         <div className="section landing-section">
           <Container>
             <Row>

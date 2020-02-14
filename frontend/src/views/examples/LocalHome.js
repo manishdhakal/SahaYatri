@@ -38,16 +38,45 @@ import Calendar from "react-calendar";
 import AddEvent from "./AddEvent";
 import { TileLayer , Map, Marker, Popup } from 'react-leaflet'
 import { create_food } from 'api'
+import { get_all_sathis } from "api";
+import { book } from "api";
+import { bookings } from "api";
 
+let off =[
+  {
+    name:'Pramod Khadka',
+    date:'2020-02-25',
+    price:450,
+    time:7, 
+  },
+  {
+    name:'Dinesh Acharya',
+    date:'2020-02-27',
+    price:550,
+    time:5, 
+  },
+  {
+    name:'Pramod Khadka',
+    date:'2020-02-25',
+    price:660,
+    time:7, 
+  },
+  {
+    name:'Pramod Khadka',
+    date:'2020-03-15',
+    price:450,
+    time:2.5, 
+  }
+]
+ 
 function LocalHome(props) {
 
   // const []
   const [isLoading, setIsloading] = useState(true)
-  const [comp, setComp] = useState('event')
+  const [comp, setComp] = useState('incomings')
 
 
   const {user, setUser} = useContext(Context)
-  console.log(user.isLoggedIn)
 
   if(!user.isLoggedIn)
   return(
@@ -70,8 +99,10 @@ function LocalHome(props) {
   return (
     <>
       <LocalNavbar {...props} />
-      <div style={{width:350, margin:'auto'}}>
-        <Input  type="select" name="select" id="exampleSelect" style={{marginTop:80}} onChange={(e) => setComp(e.target.value)}>
+      <div style={{width:350, margin:'auto',marginTop:80}}>
+        <label className='text-dark font-weight-bold test'>Select Your Options</label>
+        <Input  type="select" name="select" id="exampleSelect" style={{}} onChange={(e) => setComp(e.target.value)}>
+          <option value='incomings'>Offers</option>
           <option value='event'>Add Events</option>
           <option value='food'> Add Cook {'&'} Dine</option>
         </Input>
@@ -82,6 +113,11 @@ function LocalHome(props) {
       {comp === 'food' &&
         <AddFood {...props} />
       }
+      {
+        comp === 'incomings' &&
+        <Offers {...props} />
+
+      }
       <DemoFooter />
     </>
   );
@@ -90,49 +126,72 @@ function LocalHome(props) {
 
 const Offers =  (props) => {
   const [sathis, setSathis] = useState([])
-  const [events, setEvents] = useState([])
-  const [foods, setFoods] = useState([])
 
-
-  const [eventSM, setEventSM] = useState(false)
-  const [foodSM, setFoodSM] = useState(false)
-
-  const [userSM, setUserSM] = useState(false)
-  const slicedSathis = userSM ?  sathis :  sathis.slice(0,3)
-  const slicedEvents = eventSM? events: events.slice(0,3)
-  const slicedFoods = foodSM? foods: foods.slice(0,3)
+  const [offers, setOffers] = useState(off)
   
+  const [modal, setModal] = useState(false);
+	const toggle = () => {
+		setModal(!modal);
+	};
 
   useEffect(() => {
-
+    get_all_sathis().then(res => setSathis(res.allSathis)).catch(err => console.log(err))
   },[]);
-
+  console.log(sathis)
   return (
     <>
       <div className="main">
         <div className="section section-nude text-center" >
+        <Modal isOpen={modal} toggle={toggle} className='text-dark'>
+				<ModalHeader>
+					<div className="icon-box">
+						<i className="material-icons">&#xE876;</i>
+					</div>
+					<p className="modal-title">Awesome!</p>
+				</ModalHeader>
+				<ModalBody>
+					<p style={{ textAlign: "center" }}>
+						Your offer has been assigned to you. Check your email for
+						detials.
+					</p>
+				</ModalBody>
+				<ModalFooter>
+					<Container fluid>
+						<Button
+							color="primary"
+							onClick={() => {
+								toggle()
+							}}
+						>
+							<p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
+						</Button>
+					</Container>
+				</ModalFooter>
+			</Modal>
         <p className='font-weight-bold'>You are an authorized the local person. You can post events and get hired as companion for the tourists</p>
           <Container  style={{color:'#000'}} >
-            <h3 className="title font-weight-bold">Incoming Hirings</h3>
+            <h3 className="title font-weight-bold">Hires</h3>
             <Row>
-              {slicedSathis.map( sathi => 
+              {sathis.map( sathi => 
               <Col md="4" >
                 <Col md='12' className=' rounded border shadow' style={{marginBottom:10}}>
                   <Card className="card-plain">
                   
                     <CardBody>
-                      <a href=" " onClick={e => e.preventDefault()}>
                         <div className="author">
-                          <CardTitle tag="h4" >
-                            <Link className='font-weight-bold text-primary' to ={{pathname:'/user/'+String(sathi.id), fromLocal:true}}> {sathi.name} </Link>
+                          <CardTitle tag="h4" className='font-weight-bold' >
+                            {sathi.name}
+                            
                           </CardTitle>
+                          <br />
                         </div>
-                      </a>
                       <br />
                       {/* <h4 className='text-info font-weight-bold'>$6/h</h4> */}
-                      <h5>2020-01-24</h5>
-                      <h5>3hrs</h5>
-                      <Button
+                      {sathi.booktime.length ?
+                        <h5 style={{fontFamily:'serif'}}>{sathi.booktime[0].date}</h5>:
+                        <h5 style={{fontFamily:'serif'}}>2020-01-24</h5>
+                      }
+                      {/* <Button
                         className=""
                         style={{margin:10}}
                         color="danger"
@@ -149,6 +208,57 @@ const Offers =  (props) => {
                         onClick={e => e.preventDefault()}
                       >
                         Accept  
+                      </Button> */}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Col>
+              )}
+            </Row>
+            </Container>
+            
+            <br />
+            <br />
+            <br />
+            <Container  style={{color:'#000'}} >
+            <h3 className="title font-weight-bold">Similar Offers</h3>
+            <Row>
+              {offers.map( (sathi, index) => 
+              <Col md="4" >
+                <Col md='12' className=' rounded border shadow' style={{marginBottom:10}}>
+                  <Card className="card-plain">
+                  
+                    <CardBody>
+                        <div className="author">
+                          <CardTitle tag="h4" className='font-weight-bold' >
+                            {sathi.name}
+                          </CardTitle>
+                        </div>
+                      <br />
+                      <h4 className='text-info font-weight-bold'>Nrs. {sathi.price}</h4>
+                      <h5 style={{fontFamily:'serif'}}>{sathi.date}</h5>
+                      <h5 style={{fontFamily:'serif'}}>{sathi.time} hrs.</h5>
+                      {/* <Button
+                        className=""
+                        style={{margin:10}}
+                        color="danger"
+                        href="#pablo"
+                        onClick={e => e.preventDefault()}
+                      >
+                        Decline
+                      </Button> */}
+                      <Button
+                        className=""
+                        color="success"
+                        href="#pablo"
+                        style={{margin:10}}
+                        onClick={() => {
+                          setOffers(offers.filter((val, i) => i !== index))
+                          toggle()
+                          
+                        } }
+                      >
+                        Accept  
                       </Button>
                     </CardBody>
                   </Card>
@@ -156,174 +266,9 @@ const Offers =  (props) => {
               </Col>
               )}
             </Row>
-            { !userSM &&
-            <button className="btn-show-more info-show-more font-weight-bold rounded" style={{marginTop:10}} onClick={() => setUserSM(true)} > Show More <i className='fa fa-caret-down'/></button>
-            }
             </Container>
         </div>
-
-        <div className="section section-nude text-center">
-          <Container>
-            <h2 className="title">Events Near You</h2>
-            <Row>
-              {slicedEvents.map(event => 
-              <Col md="4">
-                <Col md='12' className=' rounded border shadow' style={{height:500}}>
-                  <Card className="card-profile card-plain">
-                    <div className="card-avatar">
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link to={{pathname:'/event/'+ event.id, id:event.id}}>
-                          <img
-                            alt="..."
-                            src={url+event.image[0]}
-                          />
-                        </Link>
-                      </a>
-                    </div>
-                    <CardBody>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <div className="author">
-                          <CardTitle tag="h4" className='font-weight-bold'>{event.name}</CardTitle>
-                        </div>
-                      </a>
-                      <p className="card-description text-center" style={{color:'#000'}}>
-                        {event.description}
-                      </p>
-                    </CardBody>
-                    <CardFooter className="text-center">
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-instagram" />
-                      </Button>
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-facebook" />
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </Col>
-              </Col>
-              )}
-            </Row>
-            { !eventSM &&
-            <button className="btn-show-more info-show-more font-weight-bold rounded" style={{marginTop:10}} onClick={() => setEventSM(true)} > Show More <i className='fa fa-caret-down'/></button>
-            }
-          </Container>
-        </div>
-        <div className="section section-nude text-center">
-          <Container>
-            <h2 className="title">Cook {'&'} Dine Near You</h2>
-            <Row>
-              {slicedFoods.map(food => 
-              <Col md="4">
-                <Col md='12' className=' rounded border shadow' style={{height:500}}>
-                  <Card className="card-profile card-plain">
-                    <div className="card-avatar">
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <Link to={{pathname:'/cookndine/'+ food.id, id:food.id}}>
-                          <img
-                            alt="..."
-                            src={url+food.image[0]}
-                          />
-                        </Link>
-                      </a>
-                    </div>
-                    <CardBody>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <div className="author">
-                          <CardTitle tag="h4">{food.name}</CardTitle>
-                        </div>
-                      </a>
-                      <p className="card-description text-center">
-                        {food.description}
-                      </p>
-                    </CardBody>
-                    <CardFooter className="text-center">
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-instagram" />
-                      </Button>
-                      <Button
-                        className="btn-just-icon btn-neutral ml-1"
-                        color="link"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <i className="fa fa-facebook" />
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </Col>
-              </Col>
-              )}
-            </Row>
-            { !foodSM &&
-            <button className="btn-show-more info-show-more font-weight-bold rounded" style={{marginTop:10}} onClick={() => setFoodSM(true)} > Show More <i className='fa fa-caret-down'/></button>
-            }
-          </Container>
-        </div>
-        <div className="section landing-section">
-          <Container>
-            <Row>
-              <Col className="ml-auto mr-auto  text-dark" md="8">
-                <h2 className="text-center">Keep in touch?</h2>
-                <Form className="contact-form">
-                  <Row>
-                    <Col md="6">
-                      <label className=''>Name</label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="nc-icon nc-single-02" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Name" type="text" />
-                      </InputGroup>
-                    </Col>
-                    <Col md="6">
-                      <label>Email</label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="nc-icon nc-email-85" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Email" type="email" />
-                      </InputGroup>
-                    </Col>
-                  </Row>
-                  <label>Message</label>
-                  <Input
-                    placeholder="Tell us your thoughts and feelings..."
-                    type="textarea"
-                    rows="4"
-                  />
-                  <Row>
-                    <Col className="ml-auto mr-auto" md="4">
-                      <Button className="btn-fill" color="danger" size="lg">
-                        Send Message
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-
-        </div>
-      </div>  
+        </div>  
       </>
   )
 }

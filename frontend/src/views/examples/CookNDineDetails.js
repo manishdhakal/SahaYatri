@@ -1,7 +1,6 @@
 
 import React, {useEffect,useState, useContext} from "react";
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
-import url from 'url.js'
 import Gallery from "react-photo-gallery";
 
 // reactstrap components
@@ -10,6 +9,7 @@ import {
   Container,
   Row,
   Col,
+  Table,
 } from "reactstrap";
 
 // core components
@@ -54,6 +54,7 @@ function CookNDine(props) {
       width: 4,
       height: 3,
       padding:10
+    
     }
   })
 
@@ -79,38 +80,51 @@ function CookNDine(props) {
               </div>
             </div>
             <Row>
-              <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="description text-dark">Description</h6>
-                <p>
+              <Col className="mx-auto text-center text-dark" md="6">
+                <p style={{fontSize:15,fontFamily:'Sans'}}>
                   {cook.description}
                 </p>
                 <br />
             </Col>
           </Row>
           <Row>
-            <Col className="ml-auto mr-auto text-center text-dark" md="6">
-            {cook.user !== undefined &&
-              <h6 className="title text-dark">Hosted By
-                <br />
-                  <p>{`${cook.user.firstName} ${cook.user.lastName}`}</p>
-              </h6>
-            }
-              <h6 className="title text-dark">Cook As well
-                <br />
-                  {cook.cook ? <p>yes</p>:<p>no</p>}
-                </h6>
+            <Col className="mx-auto text-center text-dark" sm="6">
+              <Table borderless>
+                <tbody>
+                  
+                  {cook.user &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Hosted By</td>
+                      <th  scope="row" style={{fontSize:18,fontFamily:'Arial'}}>{`${cook.user.firstName} ${cook.user.lastName}`}</th>
+                    </tr>
+                  }
 
-                <h6 className="title text-dark">Location
-                <br />
-                  <p>{cook.location}</p>
-                </h6>
-                { cook.booktime !== undefined &&
-                  <h6 className="title text-dark">Date
-                  <br />
-                    <p>{cook.booktime[0].date}</p>
-                  </h6>
-                }
-                <h4><strong>Photos</strong></h4>
+                  {cook.cook &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial'}} >Cook</td>
+                      {cook.cook ?
+                        <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">Yes</th>:
+                        <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">No</th>
+                      }
+                    </tr>
+                  }
+                  
+                  {cook.location &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Location</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">{cook.location}</th>
+                    </tr>
+                    
+                  }
+                  { cook.booktime !== undefined &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Date</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}}  scope="row">{cook.booktime[0].date}</th>
+                    </tr>
+                  }
+                </tbody>
+              </Table>
+                <h4 className='font-weight-bold text-info'><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
               <Map className='leaflet-1' center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
               >

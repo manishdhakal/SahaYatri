@@ -11,6 +11,7 @@ import {
   Row,
   Col,
   Input,
+  Table,
 } from "reactstrap";
 
 // core components
@@ -93,7 +94,32 @@ function EventDetails(props) {
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-            {event.user !== undefined &&
+              <Table borderless>
+                <tbody>
+                  
+                  {event.user &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Hosted By</td>
+                      <th  scope="row" style={{fontSize:18,fontFamily:'Arial'}}>{`${event.user.firstName} ${event.user.lastName}`}</th>
+                    </tr>
+                  }
+                  
+                  {event.location &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Location</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">{event.location}</th>
+                    </tr>
+                    
+                  }
+                  { event.booktime !== undefined &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Date</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}}  scope="row">{event.booktime[0].date}</th>
+                    </tr>
+                  }
+                </tbody>
+              </Table>
+            {/* {event.user !== undefined &&
               <h6 className="title text-dark">Hosted By
                 <br />
                   <p>{`${event.user.firstName} ${event.user.lastName}`}</p>
@@ -113,8 +139,8 @@ function EventDetails(props) {
                   <br />
                     <p>{event.booktime[0].date}</p>
                   </h6>
-                }
-                <h4><strong>Photos</strong></h4>
+                } */}
+                <h4 className='text-info font-weight-bold'><strong>Photos</strong></h4>
               <Gallery photos={items} margin={10}/> 
               <Map className='leaflet-1' center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
               >
@@ -133,9 +159,9 @@ function EventDetails(props) {
             </Row>
             <br/>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <Input type="select" name="select" id="exampleSelect" style={{marginBottom:20}} onClick={(e) => setUser({...user,bookiId:e.target.value})} >
+              {/* <Input type="select" name="select" id="exampleSelect" style={{marginBottom:20}} onClick={(e) => setUser({...user,bookiId:e.target.value})} >
                 {booktime}
-              </Input >
+              </Input > */}
                 <Link to='/checkout' className='btn-round btn-info btn' onClick={() => setUser({...user, category:2, id:Number(props.match.params.id) })}>
                   Attend
                 </Link>

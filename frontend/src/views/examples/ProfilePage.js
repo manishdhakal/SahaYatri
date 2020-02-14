@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   Input,
+  Table,
 
 } from "reactstrap";
 
@@ -77,8 +78,8 @@ function ProfilePage(props) {
             </div>
             <Row>
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="description text-dark">Description</h6>
-                <p>
+                {/* <h6 className="description text-dark">Description</h6> */}
+                <p style={{fontSize:15,fontFamily:'Sans'}}>
                   {profile.description}
                 </p>
                 <br />
@@ -86,7 +87,43 @@ function ProfilePage(props) {
           </Row>
           <Row>
             <Col className="ml-auto mr-auto text-center text-dark" md="6">
-              <h6 className="title text-dark">Duration (hrs.)
+              <Table borderless>
+                <tbody>
+                  {profile.location &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Location</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">{profile.location}</th>
+                    </tr>
+                    
+                  }
+                  {/* { profile.booktime.length > 0 &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Date</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}}  scope="row">{profile.booktime[0].date}</th>
+                    </tr>
+                  } */}
+                  {profile.interests &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Interests</td>
+                      <th  scope="row" style={{fontSize:18,fontFamily:'Arial'}}>{profile.interests}</th>
+                    </tr>
+                  }
+                  {profile.languages &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Languages</td>
+                      <th  scope="row" style={{fontSize:18,fontFamily:'Arial'}}>{profile.languages}</th>
+                    </tr>
+                  }
+                  {profile.duration &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}}>Free Time (hrs.)</td>
+                      <th  scope="row" style={{fontSize:18,fontFamily:'Arial'}}>{profile.duration}</th>
+                    </tr>
+                  }
+
+                </tbody>
+              </Table>
+              {/* <h6 className="title text-dark">Duration (hrs.)
                 <br />
                   <p>{profile.duration}</p>
               </h6>
@@ -102,8 +139,8 @@ function ProfilePage(props) {
               <h6 className="title text-dark">Location
                 <br />
                   <p>{profile.location}</p>
-              </h6>
-              <h4><strong>Photos</strong></h4>
+              </h6> */}
+              <h4 className='text-info font-weight-bold'><strong>Photos</strong></h4> 
               <Gallery photos={items} margin={10}/> 
 
               </Col>

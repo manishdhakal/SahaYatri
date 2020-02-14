@@ -21,7 +21,7 @@ import {
 } from "reactstrap";
 import Context from "context/context";
 import { get_me } from "api";
-// import { my_sathis } from "api";
+import { my_sathis } from "api";
 
 function ExamplesNavbar(props) {
 
@@ -38,8 +38,8 @@ function ExamplesNavbar(props) {
       get_me()
       .then(res => {
         let data = res.me
-        console.log( data , 'me')
-        setUser({...user, name: `${data.firstName} ${data.lastName}`, email:data.email, id:data.id})
+        my_sathis()
+        .then(r => setUser({...user, name: `${data.firstName} ${data.lastName}`, email:data.email, id:data.id, isLocalApproved:r.mySathis[0].approved, sathiId:r.mySathis[0].id}))
       })
       .catch(err => console.log(err))
     }
@@ -104,13 +104,13 @@ function ExamplesNavbar(props) {
                 </NavLink>
               </a>
             </NavItem> */}
-            {/* <NavItem>
+            <NavItem>
               <a href='#nth'>
-                <NavLink className='text-dark' onClick={() => window.location.replace('/my-bookings')}  tag={Link}>
+                <NavLink className='text-dark' to='/my-bookings' onClick={() => toggleNavbarCollapse()}  tag={Link}>
                   <i className="nc-icon nc-cart-simple" /> {' '}My Bookings
                 </NavLink>
               </a>
-            </NavItem> */}
+            </NavItem>
             {/* <NavItem>
               <a href='#nth'>
                 <NavLink

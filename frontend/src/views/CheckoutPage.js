@@ -18,6 +18,7 @@ import DemoFooter from "components/Footers/DemoFooter";
 
 import Context from "context/context";
 import { book } from "api";
+import { Redirect } from "react-router";
 
 export default function CheckoutPage(props) {
     const {user, setUser} = useContext(Context)
@@ -26,7 +27,10 @@ export default function CheckoutPage(props) {
 	const toggle = () => {
 		setModal(!modal);
 	};
-    console.log(formData)
+    if (!user.isLoggedIn){
+		setUser({...user,afterLogin:'/checkout'})
+		return <Redirect to='/register' />
+	}
 	return (
 		<div>
 			<ExamplesNavbar {...props} />

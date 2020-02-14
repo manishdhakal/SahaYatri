@@ -96,9 +96,9 @@ const LandingMap = (props)=>  {
                       </a>
 					  <h5>Companion</h5>
                       <br />
-                      <h5 className='text-info font-weight-bold'>{sathi.price}</h5>
+                      <h5 className='text-info font-weight-bold'>{sathi.duration} hrs</h5>
                       <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
-                        {sathi.description}
+                        {sathi.description.slice(0,50)}
                       </p>
                     </CardBody>
                   </Card>
@@ -132,9 +132,8 @@ const LandingMap = (props)=>  {
                       </a>
 					  <h5>Companion</h5>
                       <br />
-                      <h5 className='text-info font-weight-bold'>{food.price}</h5>
                       <p className="card-description text-center" style={{color:'#000', fontSize:13}}>
-                        {food.description}
+                        {food.description.slice(0,50)}
                       </p>
                     </CardBody>
                   </Card>
@@ -169,7 +168,7 @@ const LandingMap = (props)=>  {
 						<br />
 						<h5 className='text-info font-weight-bold'>{event.price}</h5>
 						<p className="card-description text-center" style={{color:'#000', fontSize:13}}>
-						{event.description}
+						{event.description.slice(0,50)}
 						</p>
 					</CardBody>
 					</Card>

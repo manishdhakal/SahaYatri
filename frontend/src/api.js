@@ -1,6 +1,6 @@
 import { client } from "Route"
 
-const uri = 'http://localhost:8000'
+const uri = 'http://10.100.51.139:8000'
 
 const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
@@ -10,6 +10,7 @@ const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
         lat
         lon
         price
+        duration
         photos {
             image
             id
@@ -21,6 +22,7 @@ const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
 const get_sathi = (id) => client.request(`
     query {
         sathi(id:${id}) {
+        approved
         id
         name
         languages
@@ -105,6 +107,10 @@ const get_all_sathis = () => client.request(`
       id
       description
       price
+      booktime {
+        date
+    	  id
+    	}
       photos {
         id
         image
