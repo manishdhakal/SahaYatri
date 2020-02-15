@@ -73,6 +73,7 @@ function ExamplesNavbar(props) {
               />
           </NavbarBrand>
           <button
+            style={{marginRight:20}}
             aria-expanded={navbarCollapse}
             className={classnames("navbar-toggler navbar-toggler", {
               toggled: navbarCollapse

@@ -96,6 +96,13 @@ function ProfilePage(props) {
                     </tr>
                     
                   }
+                  {profile.price &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Price</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">Nrs. {profile.price}</th>
+                    </tr>
+                    
+                  }
                   {/* { profile.booktime.length > 0 &&
                     <tr>
                       <td style={{fontSize:18,fontFamily:'Arial',}}>Date</td>

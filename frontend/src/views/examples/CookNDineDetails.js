@@ -27,8 +27,8 @@ import ProfilePageHeader from "components/Headers/ProfilePageHeader";
 function CookNDine(props) {
   const id = props.match.params.id
   const [viewport, setViewport] = useState({
-		center : [27.684624, 85.333711],
-		zoom: 16,
+		center : [27.694483, 85.311253],
+		zoom: 13,
 	  });
   useEffect(() =>{
     get_food(id)
@@ -113,6 +113,13 @@ function CookNDine(props) {
                     <tr>
                       <td style={{fontSize:18,fontFamily:'Arial',}} >Location</td>
                       <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">{cook.location}</th>
+                    </tr>
+                    
+                  }
+                  {cook.price &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Price</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row"> Nrs. {cook.price}</th>
                     </tr>
                     
                   }

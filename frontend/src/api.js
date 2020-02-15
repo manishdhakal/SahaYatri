@@ -1,6 +1,6 @@
 import { client } from "Route"
 
-const uri = 'http://localhost:8000'
+const uri = 'http://10.100.56.166:8000'
 
 const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {
@@ -101,23 +101,27 @@ const get_event = (id) => client.request(`query{
 }`)
 
 const get_all_sathis = () => client.request(`
-  query {
-      allSathis{
-      name
+query {
+  allSathis{
+    name
+    id
+    description
+    price
+    location
+    lat
+    lon
+    duration
+    booktime {
+      date
       id
-      description
-      price
-      booktime {
-        date
-    	  id
-    	}
-      photos {
-        id
-        image
-      }
-      
     }
+    photos {
+      id
+      image
+    }
+  
   }
+}
   `)
 
 const get_all_events = () => client.request(`

@@ -30,8 +30,8 @@ function EventDetails(props) {
   const {user, setUser} = useContext(Context)
   const id = props.match.params.id
   const [viewport, setViewport] = useState({
-		center : [27.684624, 85.333711],
-		zoom: 16,
+		center : [27.694483, 85.311253],
+		zoom: 13,
 	  });
   useEffect(() =>{
     get_event(id)
@@ -85,8 +85,8 @@ function EventDetails(props) {
             </div>
             <Row>
               <Col className="ml-auto mr-auto text-center text-dark" md="6">
-                <h6 className="description text-dark">Description</h6>
-                <p>
+                {/* <h6 className="description text-dark">Description</h6> */}
+                <p style={{fontSize:15,fontFamily:'Sans'}}>
                   {event.description}
                 </p>
                 <br />
@@ -108,6 +108,13 @@ function EventDetails(props) {
                     <tr>
                       <td style={{fontSize:18,fontFamily:'Arial',}} >Location</td>
                       <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">{event.location}</th>
+                    </tr>
+                    
+                  }
+                  {event.price &&
+                    <tr>
+                      <td style={{fontSize:18,fontFamily:'Arial',}} >Price</td>
+                      <th style={{fontSize:18,fontFamily:'Arial'}} scope="row">Nrs .{event.price}</th>
                     </tr>
                     
                   }

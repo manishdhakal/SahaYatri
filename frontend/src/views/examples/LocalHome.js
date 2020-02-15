@@ -163,7 +163,7 @@ const Offers =  (props) => {
 								toggle()
 							}}
 						>
-							<p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
+							<p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Proceed</p>
 						</Button>
 					</Container>
 				</ModalFooter>
@@ -222,50 +222,52 @@ const Offers =  (props) => {
             <br />
             <Container  style={{color:'#000'}} >
             <h3 className="title font-weight-bold">Similar Offers</h3>
-            <Row>
-              {offers.map( (sathi, index) => 
-              <Col md="4" >
-                <Col md='12' className=' rounded border shadow' style={{marginBottom:10}}>
-                  <Card className="card-plain">
-                  
-                    <CardBody>
-                        <div className="author">
-                          <CardTitle tag="h4" className='font-weight-bold' >
-                            {sathi.name}
-                          </CardTitle>
-                        </div>
-                      <br />
-                      <h4 className='text-info font-weight-bold'>Nrs. {sathi.price}</h4>
-                      <h5 style={{fontFamily:'serif'}}>{sathi.date}</h5>
-                      <h5 style={{fontFamily:'serif'}}>{sathi.time} hrs.</h5>
-                      {/* <Button
-                        className=""
-                        style={{margin:10}}
-                        color="danger"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        Decline
-                      </Button> */}
-                      <Button
-                        className=""
-                        color="success"
-                        href="#pablo"
-                        style={{margin:10}}
-                        onClick={() => {
-                          setOffers(offers.filter((val, i) => i !== index))
-                          toggle()
-                          
-                        } }
-                      >
-                        Accept  
-                      </Button>
-                    </CardBody>
-                  </Card>
+            {sathis.length > 0 &&
+              <Row>  
+                {offers.map( (sathi, index) => 
+                <Col md="4" >
+                  <Col md='12' className=' rounded border shadow' style={{marginBottom:10}}>
+                    <Card className="card-plain">
+                    
+                      <CardBody>
+                          <div className="author">
+                            <CardTitle tag="h4" className='font-weight-bold' >
+                              {sathi.name}
+                            </CardTitle>
+                          </div>
+                        <br />
+                        <h4 className='text-info font-weight-bold'>Nrs. {sathi.price}</h4>
+                        <h5 style={{fontFamily:'serif'}}>{sathi.date}</h5>
+                        <h5 style={{fontFamily:'serif'}}>{sathi.time} hrs.</h5>
+                        {/* <Button
+                          className=""
+                          style={{margin:10}}
+                          color="danger"
+                          href="#pablo"
+                          onClick={e => e.preventDefault()}
+                        >
+                          Decline
+                        </Button> */}
+                        <Button
+                          className=""
+                          color="success"
+                          href="#pablo"
+                          style={{margin:10}}
+                          onClick={() => {
+                            setOffers(offers.filter((val, i) => i !== index))
+                            toggle()
+                            
+                          } }
+                        >
+                          Accept  
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  </Col>
                 </Col>
-              </Col>
-              )}
-            </Row>
+                )}
+              </Row>
+            }
             </Container>
         </div>
         </div>  
@@ -283,11 +285,11 @@ const AddFood = (props) => {
   };
 
   const [viewport, setViewport] = useState({
-  center : [27.684624, 85.333711],
+  center : [27.694483, 85.311253],
   zoom: 16,
   });
 
-// const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
+// const [myLoc, setMyLoc] = useState([27.694483, 85.311253])
   console.log(formData)
 useEffect(()=>{
   // axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data)
@@ -326,9 +328,10 @@ useEffect(()=>{
           color="primary"
           onClick={() => {
             props.history.push("/local");
+            setModal(false)
           }}
         >
-          <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
+          <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Proceed</p>
         </Button>
       </Container>
     </ModalFooter>

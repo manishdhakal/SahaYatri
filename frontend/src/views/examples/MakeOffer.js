@@ -68,7 +68,7 @@ export default function MakeOffer(props) {
 				<Form >
 					<FormGroup>
 						<Label for="docID" className='text-dark font-weight-bold h5'> Date</Label>
-                        <Calendar className='shadow' minDate={new Date()} onChange={(e) => setFormData({date: e, ...formData})}/>
+                        <Calendar className='shadow my-calendar' minDate={new Date()} onChange={(e) => setFormData({date: e, ...formData})}/>
 					</FormGroup>
 					<FormGroup>
 						<Label for="Document" className=' font-weight-bold h5 text-dark'>Duration (in hrs.)</Label>

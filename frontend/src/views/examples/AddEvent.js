@@ -14,11 +14,11 @@ const AddEvent = (props) => {
     };
 
     const [viewport, setViewport] = useState({
-		center : [27.684624, 85.333711],
+		center : [27.694483, 85.311253],
 		zoom: 16,
 	  });
 
-	// const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
+	// const [myLoc, setMyLoc] = useState([27.694483, 85.311253])
 	
 	useEffect(()=>{
 		// axios.get(url+'/api/sathi/').then(resp => setSathis(resp.data)
@@ -57,9 +57,10 @@ const AddEvent = (props) => {
             color="primary"
             onClick={() => {
               props.history.push("/local");
+              setModal(false)
             }}
           >
-            <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Goto homepage</p>
+            <p style={{ textAlign: "center", textTransform:'uppercase', fontWeight:'bold' }}>Proceed</p>
           </Button>
         </Container>
       </ModalFooter>

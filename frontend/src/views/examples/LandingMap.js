@@ -5,13 +5,14 @@ import { Link, } from "react-router-dom";
 
 import  {Icon} from 'leaflet'
 import Context from 'context/context';
-import 'leaflet-routing-machine'
 import {Card,  CardBody,  CardTitle, Input, Row, Col, } from 'reactstrap'
 import ExamplesNavbar from 'components/Navbars/ExamplesNavbar';
 import { get_nearby_sathis } from 'api';
 import { resource_url } from 'api';
 import { get_all_foods } from 'api';
 import { get_all_events } from 'api';
+import DemoFooter from 'components/Footers/DemoFooter';
+import { get_all_sathis } from 'api';
 
 
 const customIcon = (imgUrl) => new Icon({
@@ -25,44 +26,61 @@ const customIcon = (imgUrl) => new Icon({
 
 const LandingMap = (props)=>  {
 
-	const [show, setShow] = useState('all')
+	const [show, setShow] = useState('sathi')
 	const [viewport, setViewport] = useState({
-		center : [27.684624, 85.333711],
-		zoom: 14,
+		center : [27.694483, 85.311253],
+		zoom: 12,
 	  });
 
-	const [myLoc, setMyLoc] = useState([27.684624, 85.333711])
+	const [myLoc, setMyLoc] = useState([27.694483, 85.311253])
 	const [sathis, setSathis] = useState([])
 	const [foods, setFoods] = useState([])
 	const [events, setEvents] = useState([])
     
     const {user, setUser} = useContext(Context)
-	
-	useEffect(()=>{
+	console.log(sathis,foods, events)
+	const get_all_data = () =>{
 		get_nearby_sathis(viewport.center[0], viewport.center[1])
-		.then(res => setSathis(res.nearbySathis))
+		.then(res => {
+			setSathis(res.nearbySathis)
+		})
 		.catch(err => setSathis([]))
 
-		if (!navigator.geolocation) {
-			alert('Geolocation is not supported by your browser');
-		} else {
+		// get_all_sathis()
+		// .then(res => {
+		// 		// setSathis(res.allSathis)
+		// 		setSathis(res.allSathis)
+		// 	})
+		// 	.catch(err => setSathis([]))
+		
+		get_all_foods()
+		.then(res => setFoods(res.allFoods))
+		.catch(err => console.log(err))
+
+		get_all_events()
+		.then(res => setEvents(res.allEvents))
+		.catch(err => console.log(err))
+		
+		console.log("viewport")
+	}
+	useEffect(()=>{
+		
+		get_all_data()
+		// if (!navigator.geolocation) {
+		// 	alert('Geolocation is not supported by your browser');
+		// } else {
 			
-			navigator.geolocation.getCurrentPosition((pos)=>{
-				setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
-				setMyLoc([pos.coords.latitude, pos.coords.longitude])
+		// 	navigator.geolocation.getCurrentPosition((pos)=>{
+		// 		setViewport({...viewport, center:[pos.coords.latitude, pos.coords.longitude]})
+		// 		setMyLoc([pos.coords.latitude, pos.coords.longitude])
 				
-				get_nearby_sathis(pos.coords.latitude, pos.coords.longitude)
-				.then(res => setSathis(res.nearbySathis))
-				.catch(err => setSathis([]))
+		// 		get_nearby_sathis(pos.coords.latitude, pos.coords.longitude)
+		// 		.then(res => setSathis(res.nearbySathis))
+		// 		.catch(err => setSathis([]))
 
-				get_all_foods()
-				.then(res => setFoods(res.allFoods))
-				.catch(err => console.log(err))
-
-				get_all_events()
-				.then(res => setEvents(res.allEvents))
-			});
-		}
+				
+		// 	});
+		// }
 
 	},[])
 	const filteredEvents = events.filter(val => val.photos.length > 0)
@@ -180,6 +198,9 @@ const LandingMap = (props)=>  {
 		<div>
 			<ExamplesNavbar {...props}/>
 			<Map zIndex center={viewport.center} zoom={viewport.zoom}  style={{marginTop:50, }}
+				// onViewportChange ={() => console.log(sathis, events, foods)}
+				// onviewreset= {() => get}
+				// onzoomlevelschange ={ () => get_all_data()}
 				onclick={(e)=> {
 					setUser({...user,location : [e.latlng.lat, e.latlng.lng]})
 					setViewport({zoom: e.target._animateToZoom, center: [e.latlng.lat, e.latlng.lng]})
@@ -194,7 +215,6 @@ const LandingMap = (props)=>  {
 				{show === 'sathi' && sathiMarkers}
 				{show === 'food' && foodMarkers}
 				{show === 'event' && eventMarkers}
-				{show === 'all' && <> {sathiMarkers} {foodMarkers} {eventMarkers} </>}
 				<CircleMarker center={{lat:myLoc[0], lng:myLoc[1]}} radius={20} >
 				{/* <Popup>
 					You Are Here.
@@ -210,7 +230,6 @@ const LandingMap = (props)=>  {
 				<Col xs='6' >
 					<label className='text-dark font-weight-bold'>Filter</label>
 					<Input type="select" name="select" id="exampleSelect" onChange={e => setShow(e.target.value)}>
-						<option value='all'>All</option>
 						<option value='sathi'>Companion</option>
 						<option value='event'>Events</option>
 						<option value='food'>Cook {'&'} Dine</option>
@@ -224,6 +243,7 @@ const LandingMap = (props)=>  {
 				</InputGroup>
 				</Col> */}
 			</Row>
+			<DemoFooter {...props} />
 		</div>
 	)
 }
