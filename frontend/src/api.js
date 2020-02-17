@@ -1,6 +1,6 @@
 import { client } from "Route"
 
-const uri = 'http://10.100.56.166:8000'
+const uri = 'http://localhost:8000'
 
 const get_nearby_sathis =  (lat, lng, limit=50) => client.request(`query {
     nearbySathis(lat:${lat}, lon:${lng}, limit:${limit} ) {

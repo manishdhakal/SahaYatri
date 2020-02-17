@@ -1,20 +1,19 @@
 import React,{useState, useMemo, useEffect} from "react";
 import { BrowserRouter, Route,} from "react-router-dom";
 
-import ProfilePage from "views/examples/ProfilePage.js";
-import RegisterLocal from "views/examples/RegisterLocal.js";
-import EventDetails from "views/examples/EventDetails";
-import CookNDine from "views/examples/CookNDineDetails";
+import ProfilePage from "views/ProfilePage.js";
+import RegisterLocal from "views/RegisterLocal.js";
+import EventDetails from "views/EventDetails";
+import CookNDine from "views/CookNDineDetails";
 import CheckoutPage from "views/CheckoutPage";
 import Context from "context/context";
-import LandingMap from "views/examples/LandingMap";
+import LandingMap from "views/LandingMap";
 import {ScaleLoader} from 'react-spinners'
-import LocalHome from "views/examples/LocalHome";
-import LocalRoute from "views/examples/LocalRoute";
-import Register from "views/examples/Register";
-import MakeOffer from 'views/examples/MakeOffer'
-import MyBookings from "views/examples/MyBookings";
-import MyOffers from "views/examples/MyOffers";
+import LocalHome from "views/LocalHome";
+import Register from "views/Register";
+import MakeOffer from 'views/MakeOffer'
+import MyBookings from "views/MyBookings";
+import MyOffers from "views/MyOffers";
 import cookie from 'react-cookies'
 import { check_session } from "api";
 import { uri } from "api";
@@ -46,7 +45,6 @@ const MyRoute = ()=>{
 	useEffect(() => {
 
 		if( token !== undefined) {
-			// my_sathis().then(res => console.log('res'))
 			check_session(token).then(res => {
 				console.log(res)
 				if (res.verifyToken.payload){
@@ -120,10 +118,6 @@ const MyRoute = ()=>{
 				<Route
 					path="/local"
 					component={LocalHome}
-				/>
-				<Route
-					path="/deadend"
-					component={LocalRoute}
 				/>
 		</BrowserRouter>
 		</Context.Provider>
