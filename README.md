@@ -1,4 +1,4 @@
-# HACK-A-WEEK
+# HACK-A-WEEK/Spirathon
 
 ## Django Rest API with Reactjs
 
