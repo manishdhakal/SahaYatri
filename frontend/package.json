@@ -23,7 +23,7 @@
     "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
     "react-spinners": "^0.8.0",
-    "reactstrap": "8.0.0",
+    "reactstrap": "8.10.1",
     "recompose": "^0.30.0"
   },
   "scripts": {
