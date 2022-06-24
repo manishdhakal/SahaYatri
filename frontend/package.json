@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.3",
     "classnames": "2.2.6",
-    "graphql-request": "^1.8.2",
+    "graphql-request": "^2.0.0",
     "leaflet": "^1.6.0",
-    "node-sass": "4.12.0",
+    "node-sass": "7.0.1",
     "nouislider": "13.1.5",
     "prop-types": "^15.6.0",
     "react": "16.8.6",
@@ -21,7 +21,7 @@
     "react-photo-gallery": "^8.0.0",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.0",
     "react-spinners": "^0.8.0",
     "reactstrap": "8.0.0",
     "recompose": "^0.30.0"
