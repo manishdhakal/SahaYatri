@@ -1,6 +1,6 @@
 aniso8601==7.0.0
 asgiref==3.2.3
-Django==3.0.2
+Django==3.2.23
 django-cors-headers==3.2.1
 django-graphql-jwt==0.3.0
 djangorestframework==3.11.0
@@ -11,7 +11,7 @@ graphene-django==2.8.0
 graphene-file-upload==1.2.2
 graphql-core==2.3.1
 graphql-relay==2.0.1
-Pillow==7.0.0
+Pillow==10.0.0
 promise==2.3
 PyJWT==1.7.1
 pytz==2019.3
