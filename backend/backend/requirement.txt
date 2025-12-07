@@ -1,6 +1,6 @@
 aniso8601==7.0.0
 asgiref==3.2.3
-Django==3.0.2
+Django==4.2.27
 django-cors-headers==3.2.1
 django-graphql-jwt==0.3.0
 djangorestframework==3.11.0
@@ -19,4 +19,4 @@ Rx==1.6.1
 singledispatch==3.4.0.3
 six==1.14.0
 small==0.1.0
-sqlparse==0.3.0
+sqlparse==0.5.4
